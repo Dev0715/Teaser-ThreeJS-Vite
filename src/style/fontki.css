@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'Ki';
+  font-style: normal;
+  font-weight: 600;
+  src: url(./fonts/Ki/Ki-Bold.otf);
+}
+
+@font-face {
+  font-family: 'Ki';
+  font-style: normal;
+  font-weight: 500;
+  src: url(./fonts/Ki/Ki-Medium.otf);
+}
+
+@font-face {
+  font-family: 'Ki';
+  font-style: normal;
+  font-weight: 300;
+  src: url(./fonts/Ki/Ki-Light.otf);
+}
+
+@font-face {
+  font-family: 'Ki';
+  font-style: normal;
+  font-weight: 200;
+  src: url(./fonts/Ki/Ki-ExtraLight.otf);
+}
