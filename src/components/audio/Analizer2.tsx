@@ -70,7 +70,8 @@ function Track({
       barsRef.current.setMatrixAt(i, obj2.matrix);
     }
 
-    backgroundRef.current.material.color = new THREE.Color('#474747');
+    // backgroundRef.current.material.color = new THREE.Color('#474747');
+    backgroundRef.current.material.color = new THREE.Color('#0000ff');
     backgroundRef.current.instanceMatrix.needsUpdate = true;
     barsRef.current.material.color = new THREE.Color('#3ECEE5');
     barsRef.current.instanceMatrix.needsUpdate = true;

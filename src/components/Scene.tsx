@@ -4,7 +4,9 @@ import { OrbitControls, Environment } from '@react-three/drei';
 import Aurora from './canvas/Aurora';
 import Logo from './canvas/Logo';
 import Explorer from './canvas/Explorer';
-import RollingClouds from './canvas/RollingClouds';
+// import RollingClouds from './canvas/RollingClouds';
+// import RollingClouds from './canvas/RollingClouds_v2';
+import RollingClouds from './canvas/RollingClouds_v3';
 import Lights from './canvas/Lights';
 
 function Scene() {
@@ -19,7 +21,7 @@ function Scene() {
       }}
     >
       {/* Clouds effect: includes procedural clouds; disabled for now */}
-      {/* <RollingClouds /> */}
+      <RollingClouds />
       {/* Aurora effect: includes background, video texture clouds, colored fog */}
       <Aurora />
       {/* Logo: loads model and animates it */}

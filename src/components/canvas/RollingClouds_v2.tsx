@@ -4,7 +4,7 @@ import { shaderMaterial, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
 import { vertexShader } from '../../shaders/vertexShader';
-import { fragmentShader } from '../../shaders/clouds/fragmentShader';
+import { fragmentShader } from '../../shaders/clouds/fragmentShader_v2';
 
 const Clouds = () => {
   const mesh = useRef();
@@ -15,18 +15,16 @@ const Clouds = () => {
   useFrame((state) => {
     let time = state.clock.getElapsedTime();
 
-    mesh.current.material.uniforms.iTime.value = time;
+    mesh.current.material.uniforms.u_time.value = time;
   });
 
   const { size } = useThree();
 
   const CloudsMaterial = shaderMaterial(
     {
-      iTime: 1.0,
-      iFrame: 1.0,
-      iResolution: new THREE.Vector2(size.width, size.height),
-      iMouse: new THREE.Vector4(),
-      iChannel0: texture1,
+      u_time: 1.0,
+      u_resolution: new THREE.Vector2(size.width, size.height),
+      u_mouse: new THREE.Vector4(),
     },
     vertexShader,
     fragmentShader
@@ -43,14 +41,14 @@ const Clouds = () => {
     <mesh
       ref={mesh}
       scale={[dimensions.width, dimensions.height, 1]}
-      position={[0, -0.1, 2.3]}
+      position={[0, -0.1, 0.3]}
     >
       <planeGeometry />
       <cloudsMaterial
         side={THREE.DoubleSide}
         ref={lightsMaterial}
         attach="material"
-        opacity={[0.5]}
+        // opacity={[0.1]}
         transparent
       />
     </mesh>
