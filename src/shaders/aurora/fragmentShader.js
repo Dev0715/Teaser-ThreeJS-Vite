@@ -16,7 +16,7 @@ export const fragmentShader = `
 
   varying vec2 vUv;
 
-  #define time iTime * 1.
+  #define time iTime * 7.
   #define ITR 10
   #define FAR 30.
   #define M_PI 3.1415926535897932384626433832795
@@ -147,27 +147,27 @@ export const fragmentShader = `
     vec2 uv = guv * R;
 
     p.xy = uv;
-    // vec2 fv = fract(vec2(p.x + sin(iTime * .02) * 1.0, p.y + cos(iTime * .02) * 1.0) * .6);
-    vec2 fv = fract(vec2(p.x + sin(iTime * .01) * 0.2, p.y + cos(iTime * .01) * 0.2) * .8);
+    vec2 fv = fract(vec2(p.x + sin(iTime * .02) * 1.0, p.y + cos(iTime * .02) * 1.0) * .6);
+    // vec2 fv = fract(vec2(p.x + sin(iTime * .01) * 0.2, p.y + cos(iTime * .01) * 0.2) * .8);
     p.xy = fv;
     
     vec3 c = vec3(0.);
-    // float res = iResolution.x * 1.;
-    float res = min(iResolution.x, iResolution.y) * 1.;
+    float res = iResolution.x * 1.;
+    // float res = min(iResolution.x, iResolution.y) * 1.;
       
     for (float i = 0.; i < 4.; i++) {
       vec3 q = fract(p * (.15 * res)) - 0.5;
       vec3 id = floor(p * (.15 * res));
       vec2 rn = nmzHash33(id).xy;
       float c2 = 1. - smoothstep(0., .6, length(q));
-      // c2 *= step(rn.x, .0005 + i * i * 0.001);
-      c2 *= step(rn.x, .00025 + i * i * 0.0005);
+      c2 *= step(rn.x, .0005 + i * i * 0.001);
+      // c2 *= step(rn.x, .00025 + i * i * 0.0005);
       c += c2 * (mix(vec3(1.0, 0.49, 0.1), vec3(0.75, 0.9, 1.), rn.y) * 0.1 + 0.9);
       p *= 1.3;
     }
 
-    // return c * c * 0.8;
-    return c * c * 1.1;
+    return c * c * 0.8;
+    // return c * c * 1.1;
   }
 
   vec3 bg(in vec3 rd) {
@@ -462,8 +462,8 @@ export const fragmentShader = `
     }
     
     // Clouds ====================================================
-    // vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
-    // col += diffuseClouds.xyz * 0.7 ;
+    vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
+    col += diffuseClouds.xyz * 0.7 ;
 
     // Colored fog ================================================
     float rz = march(ro, rd);

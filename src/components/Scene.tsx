@@ -21,7 +21,7 @@ function Scene() {
       }}
     >
       {/* Clouds effect: includes procedural clouds; disabled for now */}
-      <RollingClouds />
+      {/* <RollingClouds /> */}
       {/* Aurora effect: includes background, video texture clouds, colored fog */}
       <Aurora />
       {/* Logo: loads model and animates it */}
