@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
+import { Perf } from 'r3f-perf'
 
 import Aurora from './canvas/Aurora';
 import Logo from './canvas/Logo';
@@ -30,6 +31,9 @@ function Scene() {
       {/* <Lights /> */}
       {/* Explorer effect: includes the silhouette of a man */}
       <Explorer />
+
+      {/* Performance monitor */}
+      <Perf position="top-left" />
 
       <ambientLight intensity={1} />
       <Environment files="./environmentMaps/HDRI_Ultimate_Skies_4k_0048.hdr" />

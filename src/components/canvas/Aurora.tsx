@@ -6,7 +6,7 @@ import { Perf } from 'r3f-perf';
 import * as THREE from 'three';
 
 import { vertexShader } from '../../shaders/vertexShader';
-import { fragmentShader } from '../../shaders/aurora/fragmentShader';
+import { fragmentShader } from '../../shaders/aurora/fragmentShader_checked';
 
 const Aurora = () => {
   const mesh = useRef();
