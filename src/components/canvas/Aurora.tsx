@@ -21,7 +21,7 @@ const Aurora = () => {
   useFrame((state) => {
     let time = state.clock.getElapsedTime();
 
-    mesh.current.material.uniforms.iTime.value = time * 1.;
+    mesh.current.material.uniforms.iTime.value = time;
   });
 
   const controls = {

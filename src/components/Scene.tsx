@@ -5,9 +5,7 @@ import { Perf } from 'r3f-perf'
 import Aurora from './canvas/Aurora';
 import Logo from './canvas/Logo';
 import Explorer from './canvas/Explorer';
-// import RollingClouds from './canvas/RollingClouds';
-// import RollingClouds from './canvas/RollingClouds_v2';
-import RollingClouds from './canvas/RollingClouds_v3';
+import RollingClouds from './canvas/RollingClouds';
 import Lights from './canvas/Lights';
 
 function Scene() {

@@ -211,35 +211,6 @@ export const fragmentShader = `
     return res;
   }  
 
-  vec3 sundir = vec3(-1.0,0.0,0.0);
-
-  // ---------- No Effect ----------
-  // vec4 raymarch( in vec3 ro, in vec3 rd ) {
-  //   vec4 sum = vec4(0, 0, 0, 0);
-  //   float t = 0.0;
-  //   for(int i=0; i<64; i++) {
-  //     if( sum.a > 0.99 ) continue;
-  //     vec3 pos = ro + t*rd;
-  //     vec4 col = map( pos );
-  //     #if 1
-  //       float dif =  clamp((col.w - map(pos+0.3*sundir).w)/0.6, 0.0, 1.0 );
-  //       vec3 lin = vec3(0.65,0.68,0.7)*1.35 + 0.45*vec3(0.7, 0.5, 0.3)*dif;
-  //       col.xyz *= lin;
-  //     #endif    
-  //     col.a *= 0.35;
-  //     col.rgb *= col.a;
-  //     sum = sum + col*(1.0 - sum.a);   
-  //     #if 0
-  //       t += 0.1;
-  //     #else
-  //       t += max(0.1,0.025*t);
-  //     #endif
-  //   }
-  //   sum.xyz /= (0.001+sum.w);
-  //   return clamp( sum, 0.0, 1.0 );
-  // }
-  // ---------- No Effect ----------
-
   float random(float p) {
     return fract(sin(p)*10000.0);
   }
@@ -247,12 +218,6 @@ export const fragmentShader = `
   float noise(vec2 p) {
     return random(p.x + p.y*10000.0);
   }
-
-  // ---------- No Effect ----------
-  // float stepNoise(vec2 p) {
-  //   return noise(floor(p));
-  // }
-  // ---------- No Effect ----------
 
   vec2 sw(vec2 p) { return vec2( floor(p.x), floor(p.y) ); }
   vec2 se(vec2 p) { return vec2( ceil(p.x), floor(p.y) ); }
@@ -266,23 +231,6 @@ export const fragmentShader = `
     return mix(s, n, inter.y);
     return noise(nw(p));
   }
-
-  // ---------- No Effect ----------
-  // float fractalNoise(vec2 p) {
-  //   float total = 0.0;
-  //   total += smoothNoise(p);
-  //   total += smoothNoise(p*2.) / 2.;
-  //   total += smoothNoise(p*4.) / 4.;
-  //   total += smoothNoise(p*8.) / 8.;
-  //   total += smoothNoise(p*16.) / 16.;
-  //   total /= 1. + 1./2. + 1./4. + 1./8. + 1./16.;
-  //   return total;
-  // }
-
-  // float normalizedSin(float x) {
-  //   return abs(sin(x));
-  // }
-  // ---------- No Effect ----------
 
   float n21 (vec3 uvw) {
     return fract(sin(uvw.x*23.35661 + uvw.y*6560.65 + uvw.z*4624.165)*2459.452);
@@ -308,33 +256,10 @@ export const fragmentShader = `
                 blend.z);
   }
 
-  // ---------- No Effect ----------
-  // float perlinNoise (vec3 uvw) {
-  //     float blended = smoothNoise(uvw*4.0);
-  //     blended += smoothNoise(uvw*8.0)*0.5;
-  //     blended += smoothNoise(uvw*16.0)*0.25;
-  //     blended += smoothNoise(uvw*32.0)*0.125;
-  //     blended += smoothNoise(uvw*64.0)*0.0625;
-      
-  //     blended /= 2.0;
-  //     //blended = fract(blended*2.0)*0.5+0.5;
-  //     blended *= pow(0.8-abs(uvw.y),2.0);
-  //     return blended;
-  // }
-  // ---------- No Effect ----------
-
   float height(in vec2 p) {
       p *= 0.2;
       return sin(p.y)*0.4 + sin(p.x)*0.4;
   }
-
-  // ---------- No Effect ----------
-  // smooth min (https://iquilezles.org/articles/smin)
-  // float smin( float a, float b) {
-  //   float h = clamp(0.5 + 0.5*(b-a)/0.7, 0.0, 1.0);
-  //   return mix(b, a, h) - 0.7*h*(1.0-h);
-  // }
-  // ---------- No Effect ----------
 
   vec2 nmzHash22(vec2 q) {
     uvec2 p = uvec2(ivec2(q));
@@ -416,6 +341,91 @@ export const fragmentShader = `
     return col;
   }
 
+  //-------------------Rolling Clouds--------------------------
+  // https://www.shadertoy.com/view/4tdSWr
+  // const float cloudscale = 1.4;
+  const float cloudscale = 1.;
+  // const float cloudspeed = -0.07;
+  const float cloudspeed = -0.05;
+  const float clouddark = 0.05;
+  const float cloudlight = 0.25;
+  const float cloudcover = 0.3;
+  const float cloudalpha = 8.0;
+  const float skytint = 0.5;
+  const vec3 skycolour = vec3(0., 0., 0.);
+  
+  const mat2 cloudm = mat2( 1.6,  1.2, -1.2,  1.6 );
+  
+  vec2 cloudHash( vec2 p ) {
+    p = vec2(dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)));
+    return -1.0 + 2.0*fract(sin(p)*43758.5453123);
+  }
+  
+  float cloudNoise( in vec2 p ) {
+      const float K1 = 0.366025404; // (sqrt(3)-1)/2;
+      const float K2 = 0.211324865; // (3-sqrt(3))/6;
+    vec2 i = floor(p + (p.x+p.y)*K1);	
+      vec2 a = p - i + (i.x+i.y)*K2;
+      vec2 o = (a.x>a.y) ? vec2(1.0,0.0) : vec2(0.0,1.0); //vec2 of = 0.5 + 0.5*vec2(sign(a.x-a.y), sign(a.y-a.x));
+      vec2 b = a - o + K2;
+    vec2 c = a - 1.0 + 2.0*K2;
+      vec3 h = max(0.5-vec3(dot(a,a), dot(b,b), dot(c,c) ), 0.0 );
+    vec3 n = h*h*h*h*vec3( dot(a,cloudHash(i+0.0)), dot(b,cloudHash(i+o)), dot(c,cloudHash(i+1.0)));
+      return dot(n, vec3(70.0));	
+  }
+  
+  float cloudfbm(vec2 n) {
+    float total = 0.0, amplitude = 0.1;
+    for (int i = 0; i < 7; i++) {
+      total += cloudNoise(n) * amplitude;
+      n = cloudm * n;
+      amplitude *= 0.4;
+    }
+    return total;
+  }
+
+  vec3 clouds(in vec3 p) {
+    vec2 fragCoord = vUv * iResolution;
+    // vec2 p = fragCoord.xy / iResolution.xy;
+	  vec2 uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);    
+    float cloudtime = iTime * cloudspeed;
+    float cloudq = cloudfbm(uv * cloudscale * 0.5);
+    
+    // noise
+    float cloudr = 0.0; // ridged noise shape
+    float cloudf = 0.0; // noise shape
+    float cloudc = 0.0; // noise colour
+    float time_c = iTime * cloudspeed * 2.0;
+    uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);
+	  uv *= cloudscale;
+	  vec2 uv_c = uv;
+	  uv_c *= cloudscale * 2.0;
+    uv -= cloudq - cloudtime;
+    uv_c -= cloudq - cloudtime;
+    float weight_r = 0.8;
+    float weight_f = 0.7;
+    float weight_c = 0.4;
+    for (int i=0; i<8; i++){
+		cloudr += abs(weight_r * cloudNoise(uv));
+        cloudf += weight_f * cloudNoise(uv);
+        cloudc += weight_c * cloudNoise(uv_c);
+        uv = cloudm*uv + cloudtime;
+        uv_c = cloudm*uv_c + time_c;
+		weight_r *= 0.7;
+		weight_f *= 0.6;
+		weight_c *= 0.6;
+    }
+
+    cloudf *= cloudr + cloudf;
+    vec3 cloudcolour = vec3(1.1, 1.1, 0.9) * clamp((clouddark + cloudlight*cloudc), 0.0, 1.0);
+    cloudf = cloudcover + cloudalpha*cloudf*cloudr;
+    vec3 result = mix(skycolour, clamp(skytint * skycolour + cloudcolour, 0.0, 1.0), clamp(cloudf + cloudc, 0.0, 1.0));
+    
+    return result;
+  }
+  
+  //-----------------------------------------------------------
+
   void main() {
 
     vec2 fragCoord = vUv * iResolution;
@@ -444,23 +454,6 @@ export const fragmentShader = `
     // Background ================================================
     vec4 diffuseBackground = texture2D(iChannel0, vec2(vUv.x, vUv.y * 1.2));
     col += diffuseBackground.xyz * 1.5;
-    
-    // Rolling Clouds ====================================================
-    // if (rd.y > -0.05) {
-    //   vec3 ro2 = 9.0 * normalize(vec3(cos(0.75-1.0*mo.x), -0.7+(mo.y+1.0), -sin(0.75-3.0*mo.x)));
-    //   vec3 ta = vec3(0.0, 1.0, 0.0);
-    //   vec3 ww = normalize( ta - ro2);
-    //   vec3 uu = normalize(cross( vec3(0.0,1.0,0.0), ww ));
-    //   vec3 vv = normalize(cross(ww,uu));
-    //   rd = normalize( p.x*uu + p.y*vv + 1.5*ww );
-    //   vec4 res = raymarch( ro2, rd );
-    //   float sun = clamp( dot(sundir,rd), 0.0, 1.0 );
-    //   col += vec3(0.6,0.71,0.75) - rd.y*0.2*vec3(1.0,0.5,1.0) + 0.15*0.5;
-    //   col += 0.2*vec3(1.0,.6,0.1)*pow( sun, 8.0 );
-    //   col *= 0.95;
-    //   col = mix( col, res.xyz, res.w );
-    //   col += 0.1*vec3(1.0,0.4,0.2)*pow( sun, 3.0 );
-    // }
 
     // Aurora ======================================================
     if (rd.y > -0.1) {
@@ -473,8 +466,13 @@ export const fragmentShader = `
     }
     
     // Clouds ====================================================
-    vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
-    col += diffuseClouds.xyz * 0.7 ;
+    // vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
+    // col += diffuseClouds.xyz * 0.7 ;
+
+    // New Clouds =================================================
+    if (rd.y > -0.05) {
+      col += clouds(rd);
+    }
 
     // Colored fog ================================================
     float rz = march(ro, rd);
