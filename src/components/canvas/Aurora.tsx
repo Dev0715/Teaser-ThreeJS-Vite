@@ -5,8 +5,8 @@ import { useControls } from 'leva';
 import { Perf } from 'r3f-perf';
 import * as THREE from 'three';
 
-import { vertexShader } from '../../shaders/vertexShader';
-import { fragmentShader } from '../../shaders/aurora/fragmentShader_checked';
+import auroraVertexShader from '../../shaders/vertex.glsl';
+import auroraFragmentShader from '../../shaders/aurora/fragment.glsl';
 
 const Aurora = () => {
   const mesh = useRef();
@@ -52,8 +52,27 @@ const Aurora = () => {
     },
     iIntensity: {
       min: 0,
+      max: 3,
+      value: 0.8,
+      step: 0.01,
+    },
+    iVerticalOffset: {
+      min: 0.1,
+      max: 0.5,
+      value: 0.2,
+      step: 0.01,
+    },
+    iHorizontalOffset: {
+      min: 0,
+      max: 5,
+      value: 1.0,
+      step: 0.01,
+    },
+    iSpeed: {
+      min: 0,
       max: 10,
-      value: 0.6,
+      value: 7.0,
+      step: 0.01,
     },
   };
 
@@ -72,14 +91,17 @@ const Aurora = () => {
       iColorShift: controls.iColorShift.value,
       iRepeatStripeAt: controls.iRepeatStripeAt.value,
       iIntensity: controls.iIntensity.value,
+      iVerticalOffset: controls.iVerticalOffset.value,
+      iHorizontalOffset: controls.iHorizontalOffset.value,
+      iSpeed: controls.iSpeed.value,
       iChannel0: texture1,
       iChannel1: vTexture,
       iChannel2: texture2,
       iChannelResolution0: new THREE.Vector2(236, 121),
       iChannelResolution1: new THREE.Vector2(236, 124),
     },
-    vertexShader,
-    fragmentShader
+    auroraVertexShader,
+    auroraFragmentShader
   );
 
   extend({ AuroraMaterial });
@@ -93,7 +115,7 @@ const Aurora = () => {
     perfVisible: false,
   });
 
-  return (
+  return <>
     <mesh ref={mesh} scale={[dimensions.width, dimensions.height, 1]}>
       {perfVisible && <Perf position="top-left" />}
 
@@ -110,7 +132,7 @@ const Aurora = () => {
         transparent
       />
     </mesh>
-  );
+  </>
 };
 
 export default Aurora;

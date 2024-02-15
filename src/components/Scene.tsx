@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import { Perf } from 'r3f-perf'
+import { Leva } from 'leva'
 
 import Aurora from './canvas/Aurora';
 import Logo from './canvas/Logo';
@@ -9,7 +10,9 @@ import RollingClouds from './canvas/RollingClouds';
 import Lights from './canvas/Lights';
 
 function Scene() {
-  return (
+  return <>
+    {/* Debug panel */}
+    <Leva collapsed />
     <Canvas
       className="webgl"
       camera={{
@@ -30,15 +33,12 @@ function Scene() {
       {/* Explorer effect: includes the silhouette of a man */}
       <Explorer />
 
-      {/* Performance monitor */}
-      <Perf position="top-left" />
-
       <ambientLight intensity={1} />
       <Environment files="./environmentMaps/HDRI_Ultimate_Skies_4k_0048.hdr" />
       {/* Comment out to navigate into the scene */}
       {/* <OrbitControls makeDefault /> */}
     </Canvas>
-  );
+  </>
 }
 
 export default Scene;
