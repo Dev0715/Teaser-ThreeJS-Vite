@@ -3,8 +3,10 @@ import { useFrame, extend, useThree } from '@react-three/fiber';
 import { shaderMaterial, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { vertexShader } from '../../shaders/vertexShader';
-import { fragmentShader } from '../../shaders/clouds/fragmentShader';
+// import { vertexShader } from '../../shaders/vertexShader';
+import cloudsVertexShader from '../../shaders/vertex.glsl';
+// import { fragmentShader } from '../../shaders/clouds/fragmentShader';
+import cloudsFragmentShader from '../../shaders/clouds/fragment.glsl';
 
 const Clouds = () => {
   const mesh = useRef();
@@ -28,8 +30,8 @@ const Clouds = () => {
       iMouse: new THREE.Vector4(),
       iChannel0: texture1,
     },
-    vertexShader,
-    fragmentShader
+    cloudsVertexShader,
+    cloudsFragmentShader
   );
 
   extend({ CloudsMaterial });

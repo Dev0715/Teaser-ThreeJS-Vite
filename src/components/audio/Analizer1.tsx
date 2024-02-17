@@ -6,8 +6,8 @@ import { useControls } from 'leva';
 import * as THREE from 'three';
 
 import createAudio from '@/lib/createAudio';
-import { vertexShader } from '../../shaders/vertexShader';
-import { fragmentShader } from '../../shaders/audio/fragmentShader';
+import audioVertexShader from '../../shaders/vertex.glsl';
+import audioFragmentShader from '../../shaders/audio/fragment.glsl';
 
 const Analizer1 = () => {
   return (
@@ -16,8 +16,8 @@ const Analizer1 = () => {
         <Track
           position-z={0}
           url="/audio/Return_2A_Soundtrack_2024-01-10.wav"
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
+          vertexShader={audioVertexShader}
+          fragmentShader={audioFragmentShader}
         />
       </Suspense>
     </>

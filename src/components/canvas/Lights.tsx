@@ -3,8 +3,8 @@ import { useFrame, extend, useThree } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { vertexShader } from '../../shaders/vertexShader';
-import { fragmentShader } from '../../shaders/lights/fragmentShader';
+import lightsVertexShader from '../../shaders/vertex.glsl';
+import lightsFragmentShader from '../../shaders/lights/fragment.glsl';
 
 const Lights = () => {
   const mesh = useRef();
@@ -25,8 +25,8 @@ const Lights = () => {
       iResolution: new THREE.Vector2(size.width, size.height),
       iMouse: new THREE.Vector4(),
     },
-    vertexShader,
-    fragmentShader
+    lightsVertexShader,
+    lightsFragmentShader
   );
 
   extend({ LightsMaterial });

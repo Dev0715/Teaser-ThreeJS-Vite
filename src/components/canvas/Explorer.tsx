@@ -3,8 +3,8 @@ import { useFrame, extend, useThree } from '@react-three/fiber';
 import { shaderMaterial, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { vertexShader } from '../../shaders/vertexShader';
-import { fragmentShader } from '../../shaders/explorer/fragmentShader';
+import explorerVertexShader from '../../shaders/vertex.glsl';
+import explorerFragmentShader from '../../shaders/explorer/fragment.glsl';
 
 const Explorer = () => {
   const mesh = useRef();
@@ -28,8 +28,8 @@ const Explorer = () => {
       iMouse: new THREE.Vector4(),
       iChannel0: texture1,
     },
-    vertexShader,
-    fragmentShader
+    explorerVertexShader,
+    explorerFragmentShader
   );
 
   extend({ ExplorerMaterial });

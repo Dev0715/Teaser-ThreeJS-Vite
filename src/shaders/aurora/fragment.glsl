@@ -432,60 +432,61 @@ return result;
 
 void main() {
 
-vec2 fragCoord = vUv * iResolution;
-vec2 p = fragCoord.xy / iResolution.xy - 0.5;
-p.x *= iResolution.x/iResolution.y;
+    vec2 fragCoord = vUv * iResolution;
+    vec2 p = fragCoord.xy / iResolution.xy - 0.5;
+    p.x *= iResolution.x/iResolution.y;
 
-vec3 ro = vec3(0, 0, -6.7);
-vec3 rd = normalize(vec3(p, 1.3));
-vec2 mo = iMouse.xy / iResolution.xy - .5;
-mo = (mo == vec2(-0.5)) ? mo = vec2(-0.1, 0.1) : mo;
-mo.x *= iResolution.x / iResolution.y;
-rd.yz *= mm2(mo.y);
+    vec3 ro = vec3(0, 0, -6.7);
+    vec3 rd = normalize(vec3(p, 1.3));
+    vec2 mo = iMouse.xy / iResolution.xy - .5;
+    mo = (mo == vec2(-0.5)) ? mo = vec2(-0.1, 0.1) : mo;
+    mo.x *= iResolution.x / iResolution.y;
+    rd.yz *= mm2(mo.y);
 
-vec3 col = vec3(0.);
-vec3 brd = rd;
-float fade = smoothstep(0., 0.01, abs(brd.y)) * 0.1 + 0.9;
+    vec3 col = vec3(0.);
+    vec3 brd = rd;
+    float fade = smoothstep(0., 0.01, abs(brd.y)) * 0.1 + 0.9;
 
-col = bg(rd) * fade;
-bool overlay = false;
+    col = bg(rd) * fade;
+    bool overlay = false;
 
-// Stars ================================================
-// if (rd.y > -0.05) {
-//     col += stars(rd);
-// }
+    // Stars ================================================
+    if (rd.y > -0.05) {
+        col += stars(rd);
+    }
 
-// Background ================================================
-// vec4 diffuseBackground = texture2D(iChannel0, vec2(vUv.x, vUv.y * 1.2));
-// col += diffuseBackground.xyz * 1.5;
+    // Background ================================================
+    vec4 diffuseBackground = texture2D(iChannel0, vec2(vUv.x, vUv.y * 1.2));
+    col += diffuseBackground.xyz * 1.5;
 
-// Aurora ======================================================
-if (rd.y > -0.1) {
-    vec4 aur = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
-    col = col * (1. - aur.a) + aur.rgb;
-    // glowing stripes
-    overlay = true;
-    vec4 aur2 = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
-    col = col * (1. - aur2.a) + aur2.rgb * 0.5;
-}
+    // Aurora ======================================================
+    if (rd.y > -0.1) {
+        vec4 aur = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
+        col = col * (1. - aur.a) + aur.rgb;
+        // glowing stripes
+        overlay = true;
+        vec4 aur2 = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
+        col = col * (1. - aur2.a) + aur2.rgb * 0.5;
+    }
 
-// Clouds ====================================================
-// vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
-// col += diffuseClouds.xyz * 0.7 ;
+    // Clouds ====================================================
+    vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
+    col += diffuseClouds.xyz * 0.7 ;
 
-// New Clouds =================================================
-// if (rd.y > -0.05) {
-//     col += clouds(rd);
-// }
+    // New Clouds =================================================
+    // if (rd.y > -0.05) {
+    //     col += clouds(rd);
+    // }
 
-// Colored fog ================================================
-// float rz = march(ro, rd);
-// col = fog(col, ro, rd, rz);
-// post
-col = pow(col, vec3(1.1));
-col *= 1. - smoothstep(0.1, 2., length(p));
+    // Colored fog ================================================
+    float rz = march(ro, rd);
+    col = fog(col, ro, rd, rz);
+    // post
+    col = pow(col, vec3(1.1));
+    col *= 1. - smoothstep(0.1, 2., length(p));
 
-gl_FragColor.xyz = col;
-gl_FragColor.w =1.;
+    gl_FragColor.xyz = col;
+    gl_FragColor.w =1.;
+    
 }
 
