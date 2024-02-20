@@ -16,6 +16,8 @@ uniform float iVerticalOffset;
 uniform float iHorizontalOffset;
 uniform float iSpeed;
 uniform float iRotation;
+uniform float iCloudsIntensity;
+uniform float iCloudsEdge;
 
 varying vec2 vUv;
 
@@ -101,6 +103,7 @@ vec4 aurora(vec3 ro, vec3 rd, bool overlay) {
     for (float i = 0.; i < 50.; i++) {
         float of = 0.006 * hash21(gl_FragCoord.xy) * smoothstep(0., 15., i);
         // float pt = ((0.8 + pow(i, 1.4) * .002) - ro.y) / (rd.y * 2. + 0.4);
+        // float pt = ((0.8 + pow(i, 1.4) * .002) - ro.y) / (rd.y * 6.0 + iVerticalOffset);
         float pt = ((0.8 + pow(i, 1.4) * .002) - ro.y) / (rd.y * 6.0 + iVerticalOffset);
         pt -= of;
         vec3 bpos = ro + pt * rd;
@@ -368,64 +371,64 @@ return -1.0 + 2.0*fract(sin(p)*43758.5453123);
 float cloudNoise( in vec2 p ) {
     const float K1 = 0.366025404; // (sqrt(3)-1)/2;
     const float K2 = 0.211324865; // (3-sqrt(3))/6;
-vec2 i = floor(p + (p.x+p.y)*K1);	
+    vec2 i = floor(p + (p.x+p.y)*K1);	
     vec2 a = p - i + (i.x+i.y)*K2;
     vec2 o = (a.x>a.y) ? vec2(1.0,0.0) : vec2(0.0,1.0); //vec2 of = 0.5 + 0.5*vec2(sign(a.x-a.y), sign(a.y-a.x));
     vec2 b = a - o + K2;
-vec2 c = a - 1.0 + 2.0*K2;
+    vec2 c = a - 1.0 + 2.0*K2;
     vec3 h = max(0.5-vec3(dot(a,a), dot(b,b), dot(c,c) ), 0.0 );
-vec3 n = h*h*h*h*vec3( dot(a,cloudHash(i+0.0)), dot(b,cloudHash(i+o)), dot(c,cloudHash(i+1.0)));
+    vec3 n = h*h*h*h*vec3( dot(a,cloudHash(i+0.0)), dot(b,cloudHash(i+o)), dot(c,cloudHash(i+1.0)));
     return dot(n, vec3(70.0));	
 }
 
 float cloudfbm(vec2 n) {
-float total = 0.0, amplitude = 0.1;
-for (int i = 0; i < 7; i++) {
-    total += cloudNoise(n) * amplitude;
-    n = cloudm * n;
-    amplitude *= 0.4;
-}
-return total;
+    float total = 0.0, amplitude = 0.1;
+    for (int i = 0; i < 7; i++) {
+        total += cloudNoise(n) * amplitude;
+        n = cloudm * n;
+        amplitude *= 0.4;
+    }
+    return total;
 }
 
-vec3 clouds(in vec3 p) {
-vec2 fragCoord = vUv * iResolution;
-// vec2 p = fragCoord.xy / iResolution.xy;
-    vec2 uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);    
-float cloudtime = iTime * cloudspeed;
-float cloudq = cloudfbm(uv * cloudscale * 0.5);
+vec3 clouds(vec3 p) {
+    vec2 fragCoord = vUv * iResolution;
+    // vec2 p = fragCoord.xy / iResolution.xy;
+    vec2 uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);   
+    float cloudtime = iTime * cloudspeed;
+    float cloudq = cloudfbm(uv * cloudscale * 0.5); 
 
-// noise
-float cloudr = 0.0; // ridged noise shape
-float cloudf = 0.0; // noise shape
-float cloudc = 0.0; // noise colour
-float time_c = iTime * cloudspeed * 2.0;
-uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);
+    // noise
+    float cloudr = 0.0; // ridged noise shape
+    float cloudf = 0.0; // noise shape
+    float cloudc = 0.0; // noise colour
+    float time_c = iTime * cloudspeed * 2.0;
+    uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);
     uv *= cloudscale;
     vec2 uv_c = uv;
     uv_c *= cloudscale * 2.0;
-uv -= cloudq - cloudtime;
-uv_c -= cloudq - cloudtime;
-float weight_r = 0.8;
-float weight_f = 0.7;
-float weight_c = 0.4;
-for (int i=0; i<8; i++){
-    cloudr += abs(weight_r * cloudNoise(uv));
-    cloudf += weight_f * cloudNoise(uv);
-    cloudc += weight_c * cloudNoise(uv_c);
-    uv = cloudm*uv + cloudtime;
-    uv_c = cloudm*uv_c + time_c;
-    weight_r *= 0.7;
-    weight_f *= 0.6;
-    weight_c *= 0.6;
-}
+    uv -= cloudq - cloudtime;
+    uv_c -= cloudq - cloudtime;
+    float weight_r = 0.8;
+    float weight_f = 0.7;
+    float weight_c = 0.4;
+    for (int i=0; i<8; i++){
+        cloudr += abs(weight_r * cloudNoise(uv));
+        cloudf += weight_f * cloudNoise(uv);
+        cloudc += weight_c * cloudNoise(uv_c);
+        uv = cloudm*uv + cloudtime;
+        uv_c = cloudm*uv_c + time_c;
+        weight_r *= 0.7;
+        weight_f *= 0.6;
+        weight_c *= 0.6;
+    }
 
-cloudf *= cloudr + cloudf;
-vec3 cloudcolour = vec3(1.1, 1.1, 0.9) * clamp((clouddark + cloudlight*cloudc), 0.0, 1.0);
-cloudf = cloudcover + cloudalpha*cloudf*cloudr;
-vec3 result = mix(skycolour, clamp(skytint * skycolour + cloudcolour, 0.0, 1.0), clamp(cloudf + cloudc, 0.0, 1.0));
+    cloudf *= cloudr + cloudf;
+    vec3 cloudcolour = vec3(1.1, 1.1, 0.9) * clamp((clouddark + cloudlight*cloudc), 0.0, 1.0);
+    cloudf = cloudcover + cloudalpha*cloudf*cloudr;
+    vec3 result = mix(skycolour, clamp(skytint * skycolour + cloudcolour, 0.0, 1.0), clamp(cloudf + cloudc, 0.0, 1.0));
 
-return result;
+    return result;
 }
 
 //-----------------------------------------------------------
@@ -470,13 +473,17 @@ void main() {
     }
 
     // Clouds ====================================================
-    vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
-    col += diffuseClouds.xyz * 0.7 ;
+    // vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
+    // col += diffuseClouds.xyz * 0.7 ;
 
     // New Clouds =================================================
-    // if (rd.y > -0.05) {
-    //     col += clouds(rd);
-    // }
+    if (rd.y > iCloudsEdge) {
+        float edgeFade = clamp(pow(1.0 - (rd.y - 0.05), 20.0), 0.0, 2.0); 
+        edgeFade *= pow((rd.y - iCloudsEdge) * 5.0, 4.0);
+        vec3 clouds = clouds(rd).xyz;
+        clouds *= edgeFade;
+        col += clouds * iCloudsIntensity;
+    }
 
     // Colored fog ================================================
     float rz = march(ro, rd);

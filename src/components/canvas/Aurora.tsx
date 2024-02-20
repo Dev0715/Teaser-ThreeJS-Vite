@@ -74,6 +74,18 @@ const Aurora = () => {
       value: 7.0,
       step: 0.01,
     },
+    iCloudsIntensity: {
+      min: 0,
+      max: 20,
+      value: 7.0,
+      step: 0.01,
+    },
+    iCloudsEdge: {
+      min: -0.5,
+      max: 0.5,
+      value: -0.1,
+      step: 0.01,
+    },
   };
 
   const materialProps = useControls('shader', controls);
@@ -94,6 +106,8 @@ const Aurora = () => {
       iVerticalOffset: controls.iVerticalOffset.value,
       iHorizontalOffset: controls.iHorizontalOffset.value,
       iSpeed: controls.iSpeed.value,
+      iCloudsIntensity: controls.iCloudsIntensity.value,
+      iCloudsEdge: controls.iCloudsEdge.value,
       iChannel0: texture1,
       iChannel1: vTexture,
       iChannel2: texture2,
