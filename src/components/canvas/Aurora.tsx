@@ -14,6 +14,8 @@ const Aurora = () => {
 
   let counter = 0;
 
+  const { size } = useThree();
+
   const texture1 = useTexture('/textures/Background.jpg');
   const texture2 = useTexture('/textures/Explorer.png');
   const vTexture = useVideoTexture('./textures/Clouds.mp4');
@@ -22,6 +24,7 @@ const Aurora = () => {
     let time = state.clock.getElapsedTime();
 
     mesh.current.material.uniforms.iTime.value = time;
+    mesh.current.material.uniforms.iResolution.value = new THREE.Vector2(size.width, size.height);
   });
 
   const controls = {
@@ -305,8 +308,6 @@ const Aurora = () => {
   };
 
   const materialProps = useControls('shader', controls);
-
-  const { size } = useThree();
 
   const AuroraMaterial = shaderMaterial(
     {
