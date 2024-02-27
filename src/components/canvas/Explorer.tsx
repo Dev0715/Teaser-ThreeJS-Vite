@@ -10,23 +10,11 @@ const Explorer = () => {
   const mesh = useRef();
   const lightsMaterial = useRef();
 
+  // Shader Material
   const texture1 = useTexture('/textures/Explorer.png');
-
-  useFrame((state) => {
-    let time = state.clock.getElapsedTime();
-
-    mesh.current.material.uniforms.iTime.value = time;
-  });
-
-  const { size } = useThree();
-
   const ExplorerMaterial = shaderMaterial(
-    {
-      iTime: 1.0,
-      iFrame: 1.0,
-      iResolution: new THREE.Vector2(size.width, size.height),
-      iMouse: new THREE.Vector4(),
-      iChannel0: texture1,
+    { 
+      iChannel0: texture1
     },
     explorerVertexShader,
     explorerFragmentShader
@@ -36,7 +24,7 @@ const Explorer = () => {
 
   // Fit mesh to viewport
   const { viewport, camera } = useThree();
-  //(target coordinates as second parameter)
+  // (target coordinates as second parameter)
   const dimensions = viewport.getCurrentViewport(camera, [0, 0, 0]);
 
   return (
