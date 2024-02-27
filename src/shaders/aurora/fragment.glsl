@@ -7,10 +7,7 @@ uniform float iTime;
 uniform vec4 iMouse;
 
 uniform float iSaturation;
-uniform float iAnotherSaturation;
-uniform float iHowMuchGreen;
 uniform float iColorShift;
-uniform float iRepeatStripeAt;
 uniform float iIntensity;
 uniform float iVerticalOffset;
 uniform float iHorizontalOffset;
@@ -110,10 +107,10 @@ vec4 aurora(vec3 ro, vec3 rd, bool overlay) {
         vec4 col2 = vec4(0, 0, 0, rzt);
 
         float saturation = iSaturation;
-        float anotherSaturation = iAnotherSaturation;
-        float howMuchGreen = iHowMuchGreen;
+        float anotherSaturation = 1.2;
+        float howMuchGreen = 1.8;
         float colorShift = iColorShift;
-        float repeatStripeAt = iRepeatStripeAt;
+        float repeatStripeAt = 0.07;
         float intensity = iIntensity;
         
         if (overlay == true) {
@@ -135,93 +132,93 @@ vec4 aurora(vec3 ro, vec3 rd, bool overlay) {
 //-------------------Background and Stars--------------------
 
 vec3 nmzHash33(vec3 q) {
-uvec3 p = uvec3(ivec3(q));
-p = p * uvec3(374761393U, 1103515245U, 668265263U) + p.zxy + p.yzx;
-p = p.yzx * (p.zxy ^ (p >> 3U));
+    uvec3 p = uvec3(ivec3(q));
+    p = p * uvec3(374761393U, 1103515245U, 668265263U) + p.zxy + p.yzx;
+    p = p.yzx * (p.zxy ^ (p >> 3U));
 
-return vec3(p ^ (p >> 16U)) * (1.0 / vec3(0xffffffffU));
+    return vec3(p ^ (p >> 16U)) * (1.0 / vec3(0xffffffffU));
 }
 
 vec3 stars(in vec3 p) {
-vec2 fragCoord = vUv * iResolution;
-const float rotation = M_PI /2.;
-    
-// 2D rotation matrix 
-const mat2 R = mat2(cos(rotation), -sin(rotation), -sin(rotation), -cos(rotation));
-float resScale = min(iResolution.x, iResolution.y);
-vec2 guv = fragCoord / vec2(resScale);
-vec2 uv = guv * R;
+    vec2 fragCoord = vUv * iResolution;
+    const float rotation = M_PI /2.;
+        
+    // 2D rotation matrix 
+    const mat2 R = mat2(cos(rotation), -sin(rotation), -sin(rotation), -cos(rotation));
+    float resScale = min(iResolution.x, iResolution.y);
+    vec2 guv = fragCoord / vec2(resScale);
+    vec2 uv = guv * R;
 
-p.xy = uv;
-vec2 fv = fract(vec2(p.x + sin(iTime * .02) * 1.0, p.y + cos(iTime * .02) * 1.0) * .6);
-// vec2 fv = fract(vec2(p.x + sin(iTime * .01) * 0.2, p.y + cos(iTime * .01) * 0.2) * .8);
-p.xy = fv;
+    p.xy = uv;
+    vec2 fv = fract(vec2(p.x + sin(iTime * .02) * 1.0, p.y + cos(iTime * .02) * 1.0) * .6);
+    // vec2 fv = fract(vec2(p.x + sin(iTime * .01) * 0.2, p.y + cos(iTime * .01) * 0.2) * .8);
+    p.xy = fv;
 
-vec3 c = vec3(0.);
-float res = iResolution.x * 1.;
-// float res = min(iResolution.x, iResolution.y) * 1.;
-    
-for (float i = 0.; i < 4.; i++) {
-    vec3 q = fract(p * (.15 * res)) - 0.5;
-    vec3 id = floor(p * (.15 * res));
-    vec2 rn = nmzHash33(id).xy;
-    float c2 = 1. - smoothstep(0., .6, length(q));
-    c2 *= step(rn.x, .0005 + i * i * 0.001);
-    // c2 *= step(rn.x, .00025 + i * i * 0.0005);
-    c += c2 * (mix(vec3(1.0, 0.49, 0.1), vec3(0.75, 0.9, 1.), rn.y) * 0.1 + 0.9);
-    p *= 1.3;
-}
+    vec3 c = vec3(0.);
+    float res = iResolution.x * 1.;
+    // float res = min(iResolution.x, iResolution.y) * 1.;
+        
+    for (float i = 0.; i < 4.; i++) {
+        vec3 q = fract(p * (.15 * res)) - 0.5;
+        vec3 id = floor(p * (.15 * res));
+        vec2 rn = nmzHash33(id).xy;
+        float c2 = 1. - smoothstep(0., .6, length(q));
+        c2 *= step(rn.x, .0005 + i * i * 0.001);
+        // c2 *= step(rn.x, .00025 + i * i * 0.0005);
+        c += c2 * (mix(vec3(1.0, 0.49, 0.1), vec3(0.75, 0.9, 1.), rn.y) * 0.1 + 0.9);
+        p *= 1.3;
+    }
 
-return c * c * 0.8;
-// return c * c * 1.1;
+    return c * c * 0.8;
+    // return c * c * 1.1;
 }
 
 vec3 bg(in vec3 rd) {
-float sd = dot(normalize(vec3(-0.5, -0.6, 0.9)), rd) * 0.5 + 0.5;
-sd = pow(sd, 5.);
-vec3 col = mix(vec3(0.05, 0.1, 0.2), vec3(0.1, 0.05, 0.2), sd);
+    float sd = dot(normalize(vec3(-0.5, -0.6, 0.9)), rd) * 0.5 + 0.5;
+    sd = pow(sd, 5.);
+    vec3 col = mix(vec3(0.05, 0.1, 0.2), vec3(0.1, 0.05, 0.2), sd);
 
-return col*.63;
+    return col*.63;
 }
 //-----------------------------------------------------------
 
 
 float hash( float n ) {
-return fract(sin(n)*43758.5453);
+    return fract(sin(n)*43758.5453);
 }
 
 float noise( in vec3 x ) {
-vec3 p = floor(x);
-vec3 f = fract(x);
-f = f*f*(3.0-2.0*f);
-float n = p.x + p.y*57.0 + 113.0*p.z;
-return mix(mix(mix( hash(n+  0.0), hash(n+  1.0),f.x),
-    mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y),
-    mix(mix( hash(n+113.0), hash(n+114.0),f.x),
-    mix( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
+    vec3 p = floor(x);
+    vec3 f = fract(x);
+    f = f*f*(3.0-2.0*f);
+    float n = p.x + p.y*57.0 + 113.0*p.z;
+    return mix(mix(mix( hash(n+  0.0), hash(n+  1.0),f.x),
+        mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y),
+        mix(mix( hash(n+113.0), hash(n+114.0),f.x),
+        mix( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
 }
 
 vec4 map( in vec3 p ) {
-float d = 0.2 - p.y;
-vec3 q = p - vec3(1.0,0.1,0.0)*iTime;
-float f;
-f  = 0.5000*noise( q ); q = q*2.02;
-f += 0.2500*noise( q ); q = q*2.03;
-f += 0.1250*noise( q ); q = q*2.01;
-f += 0.0625*noise( q );
-d += 3.0 * f;
-d = clamp( d, 0.0, 1.0 );
-vec4 res = vec4( d );
-res.xyz = mix( 1.15*vec3(1.0,0.95,0.8), vec3(0.7,0.7,0.7), res.x );
-return res;
+    float d = 0.2 - p.y;
+    vec3 q = p - vec3(1.0,0.1,0.0)*iTime;
+    float f;
+    f  = 0.5000*noise( q ); q = q*2.02;
+    f += 0.2500*noise( q ); q = q*2.03;
+    f += 0.1250*noise( q ); q = q*2.01;
+    f += 0.0625*noise( q );
+    d += 3.0 * f;
+    d = clamp( d, 0.0, 1.0 );
+    vec4 res = vec4( d );
+    res.xyz = mix( 1.15*vec3(1.0,0.95,0.8), vec3(0.7,0.7,0.7), res.x );
+    return res;
 }  
 
 float random(float p) {
-return fract(sin(p)*10000.0);
+    return fract(sin(p)*10000.0);
 }
 
 float noise(vec2 p) {
-return random(p.x + p.y*10000.0);
+    return random(p.x + p.y*10000.0);
 }
 
 vec2 sw(vec2 p) { return vec2( floor(p.x), floor(p.y) ); }
@@ -230,35 +227,34 @@ vec2 nw(vec2 p) { return vec2( floor(p.x), ceil(p.y) ); }
 vec2 ne(vec2 p) { return vec2( ceil(p.x), ceil(p.y) ); }
 
 float smoothNoise(vec2 p) {
-vec2 inter = smoothstep(0., 1., fract(p));
-float s = mix(noise(sw(p)), noise(se(p)), inter.x);
-float n = mix(noise(nw(p)), noise(ne(p)), inter.x);
-return mix(s, n, inter.y);
-return noise(nw(p));
+    vec2 inter = smoothstep(0., 1., fract(p));
+    float s = mix(noise(sw(p)), noise(se(p)), inter.x);
+    float n = mix(noise(nw(p)), noise(ne(p)), inter.x);
+    return mix(s, n, inter.y);
+    return noise(nw(p));
 }
 
 float n21 (vec3 uvw) {
-return fract(sin(uvw.x*23.35661 + uvw.y*6560.65 + uvw.z*4624.165)*2459.452);
+    return fract(sin(uvw.x*23.35661 + uvw.y*6560.65 + uvw.z*4624.165)*2459.452);
 }
 
 float smoothNoise (vec3 uvw) {
-float fbl = n21(floor(uvw));
-float fbr = n21(vec3(1.0,0.0,0.0)+floor(uvw));
-float ful = n21(vec3(0.0,1.0,0.0)+floor(uvw));
-float fur = n21(vec3(1.0,1.0,0.0)+floor(uvw));
+    float fbl = n21(floor(uvw));
+    float fbr = n21(vec3(1.0,0.0,0.0)+floor(uvw));
+    float ful = n21(vec3(0.0,1.0,0.0)+floor(uvw));
+    float fur = n21(vec3(1.0,1.0,0.0)+floor(uvw));
 
-float bbl = n21(vec3(0.0,0.0,1.0)+floor(uvw));
-float bbr = n21(vec3(1.0,0.0,1.0)+floor(uvw));
-float bul = n21(vec3(0.0,1.0,1.0)+floor(uvw));
-float bur = n21(vec3(1.0,1.0,1.0)+floor(uvw));
+    float bbl = n21(vec3(0.0,0.0,1.0)+floor(uvw));
+    float bbr = n21(vec3(1.0,0.0,1.0)+floor(uvw));
+    float bul = n21(vec3(0.0,1.0,1.0)+floor(uvw));
+    float bur = n21(vec3(1.0,1.0,1.0)+floor(uvw));
 
-uvw = fract(uvw);
-vec3 blend = uvw;
-blend = (blend*blend*(3.0 -2.0*blend)); // cheap smoothstep
+    uvw = fract(uvw);
+    vec3 blend = uvw;
+    blend = (blend*blend*(3.0 -2.0*blend)); // cheap smoothstep
 
-return mix(	mix(mix(fbl, fbr, blend.x), mix(ful, fur, blend.x), blend.y),
-        mix(mix(bbl, bbr, blend.x), mix(bul, bur, blend.x), blend.y),
-            blend.z);
+    return mix(	mix(mix(fbl, fbr, blend.x), mix(ful, fur, blend.x), blend.y),
+            mix(mix(bbl, bbr, blend.x), mix(bul, bur, blend.x), blend.y), blend.z);
 }
 
 float height(in vec2 p) {
@@ -348,44 +344,13 @@ return col;
 
 //-------------------Rolling Clouds--------------------------
 
-uniform float ibcIntensity;
-uniform float ibcEdge;
-uniform float ibcScale;
-uniform float ibcSpeed;
-uniform float ibcLayerSpeedScale;
-uniform float ibcDark;
-uniform float ibcLight;
-uniform float ibcCover;
-uniform float ibcAlpha;
-uniform float ibcColorScale;
-uniform float ibcNormalize;
-uniform float ibcCenter;
-uniform float ibcWR;
-uniform float ibcWF;
-uniform float ibcWC;
-uniform float ibcWRMultiplier;
-uniform float ibcWFMultiplier;
-uniform float ibcWCMultiplier;
-uniform float ibcAmplitudeMultiplier;
-uniform float ifcIntensity;
-uniform float ifcEdge;
-uniform float ifcScale;
-uniform float ifcSpeed;
-uniform float ifcLayerSpeedScale;
-uniform float ifcDark;
-uniform float ifcLight;
-uniform float ifcCover;
-uniform float ifcAlpha;
-uniform float ifcColorScale;
-uniform float ifcNormalize;
-uniform float ifcCenter;
-uniform float ifcWR;
-uniform float ifcWF;
-uniform float ifcWC;
-uniform float ifcWRMultiplier;
-uniform float ifcWFMultiplier;
-uniform float ifcWCMultiplier;
-uniform float ifcAmplitudeMultiplier;
+uniform float icIntensity;
+uniform float icTop;
+uniform float icBottom;
+uniform float icScale;
+uniform float icSpeed;
+uniform float icDirection;
+uniform float icCover;
 
 // https://www.shadertoy.com/view/4tdSWr
 // const float skytint = 0.5;
@@ -424,56 +389,44 @@ float cloudfbm(vec2 n, float amplitudeMultiplier) {
 vec3 clouds(vec3 p,
             float scale,
             float speed,
-            float layerSpeedScale,
-            float dark,
-            float light,
-            float cover,
-            float alpha,
-            float colourScale,
-            float weightR,
-            float weightF,
-            float weightC,
-            float weightRMultiplier,
-            float weightFMultiplier,
-            float weightCMultiplier,
-            float amplitudeMultiplier
-            ) {
+            float direction,
+            float cover ) {
     vec2 fragCoord = vUv * iResolution;
     // vec2 p = fragCoord.xy / iResolution.xy;
     // vec2 uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);   
     vec2 uv = p.xy;   
     float cloudtime = iTime * speed;
-    float cloudq = cloudfbm(uv * scale, amplitudeMultiplier); 
+    float cloudq = cloudfbm(uv * scale, 0.12); 
     // float cloudq = 0.0;
 
     // noise
     float cloudr = 0.0; // ridged noise shape
     float cloudf = 0.0; // noise shape
     float cloudc = 0.0; // noise colour
-    float time_c = iTime * speed * layerSpeedScale;
+    float time_c = iTime * speed * direction;
+    // float time_c = iTime * direction;
     uv *= scale;
     vec2 uv_c = uv;
-    uv_c *= scale * colourScale;
+    uv_c *= scale * 1.39;
     uv -= cloudq - cloudtime;
     uv_c -= cloudq - cloudtime;
-    float weight_r = weightR;
-    float weight_f = weightF;
-    float weight_c = weightC;
+    float weight_r = - 0.88;
+    float weight_f = 2.0;
+    float weight_c = - 1.1;
     for (int i=0; i<8; i++){
         cloudr += abs(weight_r * cloudNoise(uv));
         cloudf += weight_f * cloudNoise(uv);
         cloudc += weight_c * cloudNoise(uv_c);
         uv = cloudm*uv + cloudtime;
         uv_c = cloudm*uv_c + time_c;
-        weight_r *= weightRMultiplier;
-        weight_f *= weightFMultiplier;
-        weight_c *= weightCMultiplier;
+        weight_r *= - 0.25;
+        weight_f *= 0.23;
+        weight_c *= 0.56;
     }
 
     cloudf *= cloudr + cloudf;
-    vec3 cloudcolour = vec3(1.1, 1.1, 0.9) * clamp((dark + light*cloudc), 0.0, 1.0);
-    cloudf = cover + alpha*cloudf*cloudr;
-    // vec3 result = mix(skycolour, clamp(iCloudsTint * skycolour + cloudcolour, 0.0, 1.0), clamp(cloudf + cloudc, 0.0, 1.0));
+    vec3 cloudcolour = vec3(1.1, 1.1, 0.9) * clamp((0.22 + 0.24*cloudc), 0.0, 1.0);
+    cloudf = cover + 4.07*cloudf*cloudr;
     vec3 result = mix(skycolour, clamp(cloudcolour, 0.0, 1.0), clamp(cloudf + cloudc, 0.0, 1.0));
 
     return result;
@@ -527,59 +480,19 @@ void main() {
     // New Clouds =================================================
 
     vec3 cloudsLayer = vec3(0.0);
-    vec3 cloudsrd = normalize(vec3(p, ibcNormalize));
-    if (cloudsrd.y > ibcEdge) {
-        float edgeFade = clamp(pow(1.0 - (cloudsrd.y - ibcCenter), 20.0), 0.0, 1.0); 
-        edgeFade *= clamp((cloudsrd.y - ibcEdge) * 20.0, 0.0, 1.0);
+    vec3 cloudsrd = normalize(vec3(p, 1.81));
+    if (cloudsrd.y > icBottom) {
+        float edgeFade = clamp(pow(1.0 - (cloudsrd.y - icTop), 20.0), 0.0, 1.0); 
+        edgeFade *= clamp((cloudsrd.y - icBottom) * 20.0, 0.0, 1.0);
         vec3 clouds = clouds(cloudsrd,
-                            ibcScale,
-                            ibcSpeed,
-                            ibcLayerSpeedScale,
-                            ibcDark,
-                            ibcLight,
-                            ibcCover,
-                            ibcAlpha,
-                            ibcColorScale,
-                            ibcWR,
-                            ibcWF,
-                            ibcWC,
-                            ibcWRMultiplier,
-                            ibcWFMultiplier,
-                            ibcWCMultiplier,
-                            ibcAmplitudeMultiplier
-                            ).xyz;
+                            icScale,
+                            icSpeed,
+                            icDirection,
+                            icCover).xyz;
         clouds *= edgeFade;
-        // col += clouds * ibcIntensity;
-        cloudsLayer += clouds * ibcIntensity;
+        cloudsLayer += clouds * icIntensity;
     }
 
-    // vec3 fcloudsrd = normalize(vec3(p, ifcNormalize));
-    // if (fcloudsrd.y > ifcEdge) {
-    //     float edgeFade = clamp(pow(1.0 - (fcloudsrd.y - ifcCenter), 20.0), 0.0, 1.0); 
-    //     edgeFade *= clamp((fcloudsrd.y - ifcEdge) * 20.0, 0.0, 1.0);
-    //     vec3 clouds = clouds(fcloudsrd,
-    //                         ifcScale,
-    //                         ifcSpeed,
-    //                         ifcLayerSpeedScale,
-    //                         ifcDark,
-    //                         ifcLight,
-    //                         ifcCover,
-    //                         ifcAlpha,
-    //                         ifcColorScale,
-    //                         ifcWR,
-    //                         ifcWF,
-    //                         ifcWC,
-    //                         ifcWRMultiplier,
-    //                         ifcWFMultiplier,
-    //                         ifcWCMultiplier,
-    //                         ifcAmplitudeMultiplier
-    //                         ).xyz;
-    //     clouds *= edgeFade;
-    //     // col += clouds * ifcIntensity;
-    //     cloudsLayer += clouds * ifcIntensity;
-    // }
-
-    cloudsLayer = 0.0 + 0.6 * (cloudsLayer - 0.0) / (1.0 - 0.0);
     col += cloudsLayer;
 
     // Colored fog ================================================

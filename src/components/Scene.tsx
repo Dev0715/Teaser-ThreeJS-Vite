@@ -7,7 +7,6 @@ import Aurora from './canvas/Aurora';
 import Explorer from './canvas/Explorer';
 import Lights from './canvas/Lights';
 import Logo from './canvas/Logo';
-import RollingClouds from './canvas/RollingClouds';
 import React from 'react';
 
 function Scene() {
@@ -23,9 +22,7 @@ function Scene() {
         position: [0, 0, 6.5],
       }}
     >
-      {/* Clouds effect: includes procedural clouds; disabled for now */}
-      {/* <RollingClouds /> */}
-      {/* Aurora effect: includes background, video texture clouds, colored fog */}
+      {/* Aurora effect: includes background, clouds, colored fog */}
       <Aurora />
       {/* Logo: loads model and animates it */}
       <Logo />
