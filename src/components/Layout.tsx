@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
-  const container = useRef();
+  const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Play music and start freq visualizer
@@ -15,21 +15,22 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
     });
   }, []);
 
-  // useGSAP(
-  //   () => {
-  //     // Animate text
-  //     const timeline1 = new TimelineMax({ repeat: -1, yoyo: true });
-  //     timeline1
-  //       .fromTo('.inset-center-text1', 6, { opacity: 0.8 }, { opacity: 0.5 })
-  //       .fromTo('.inset-center-text1', 8, { opacity: 0.8 }, { opacity: 0 });
-
-  //     const timeline2 = new TimelineMax({ repeat: -1, yoyo: true });
-  //     timeline2
-  //       .fromTo('.inset-center-text2', 6, { opacity: 0 }, { opacity: 0.01 })
-  //       .fromTo('.inset-center-text2', 8, { opacity: 0 }, { opacity: 0.8 });
-  //   },
-  //   { scope: container }
-  // );
+  useGSAP(
+    () => {
+      // Animate text
+      const timeline1 = gsap.timeline({ repeat: -1, yoyo: true });
+      //const timeline1 = new TimelineMax({ repeat: -1, yoyo: true });
+      timeline1
+        .fromTo('.inset-center-text1', 6, { opacity: 0.8 }, { opacity: 0.5 })
+        .fromTo('.inset-center-text1', 8, { opacity: 0.8 }, { opacity: 0 });
+      const timeline2 = gsap.timeline({ repeat: -1, yoyo: true });
+      // const timeline2 = new TimelineMax({ repeat: -1, yoyo: true });
+      timeline2
+        .fromTo('.inset-center-text2', 6, { opacity: 0 }, { opacity: 0.01 })
+        .fromTo('.inset-center-text2', 8, { opacity: 0 }, { opacity: 0.8 });
+    },
+    { scope: container }
+  );
 
   return (
     <>
