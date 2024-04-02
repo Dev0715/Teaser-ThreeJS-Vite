@@ -19,12 +19,10 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
     () => {
       // Animate text
       const timeline1 = gsap.timeline({ repeat: -1, yoyo: true });
-      //const timeline1 = new TimelineMax({ repeat: -1, yoyo: true });
       timeline1
         .fromTo('.inset-center-text1', 6, { opacity: 0.8 }, { opacity: 0.5 })
         .fromTo('.inset-center-text1', 8, { opacity: 0.8 }, { opacity: 0 });
       const timeline2 = gsap.timeline({ repeat: -1, yoyo: true });
-      // const timeline2 = new TimelineMax({ repeat: -1, yoyo: true });
       timeline2
         .fromTo('.inset-center-text2', 6, { opacity: 0 }, { opacity: 0.01 })
         .fromTo('.inset-center-text2', 8, { opacity: 0 }, { opacity: 0.8 });
@@ -72,17 +70,16 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
         className="inset-center visible z-50 select-none w-[90vw] sm:w-[700px] grid"
       >
         <div className="inset-center-text1 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0.8]">
-          <div>R</div>
           <div> </div>
+          <div> </div>
+          <div>R</div>
           <div>E</div>
-          <div> </div>
           <div>T</div>
-          <div> </div>
           <div>U</div>
-          <div> </div>
           <div>R</div>
-          <div> </div>
           <div>N</div>
+          <div>S</div>
+          <div> </div>
         </div>
         <div className="inset-center-text2 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0]">
           <div> </div>
