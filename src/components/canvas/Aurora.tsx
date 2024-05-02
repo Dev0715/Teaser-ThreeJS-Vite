@@ -7,6 +7,7 @@ import * as THREE from 'three';
 
 import auroraVertexShader from '../../shaders/vertex.glsl';
 import auroraFragmentShader from '../../shaders/aurora/fragment.glsl';
+import React from 'react';
 
 const Aurora = () => {
   const mesh = useRef();
@@ -23,8 +24,10 @@ const Aurora = () => {
   useFrame((state) => {
     let time = state.clock.getElapsedTime();
 
-    mesh.current.material.uniforms.iTime.value = time;
-    mesh.current.material.uniforms.iResolution.value = new THREE.Vector2(size.width, size.height);
+    if (mesh.current) {
+      (mesh.current as any).material.uniforms.iTime.value = time;
+      (mesh.current as any).material.uniforms.iResolution.value = new THREE.Vector2(size.width, size.height);
+    }
   });
 
   const auroraControls = {

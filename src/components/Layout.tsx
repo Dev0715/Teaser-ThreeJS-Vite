@@ -69,19 +69,19 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
         ref={container}
         className="inset-center visible z-50 select-none w-[90vw] sm:w-[700px] grid"
       >
-        <div className="inset-center-text1 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0.8]">
+        <div className="inset-center-text1 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0.8] pt-48">
           <div> </div>
           <div> </div>
           <div>R</div>
           <div>E</div>
+          <div>:</div>
           <div>T</div>
           <div>U</div>
           <div>R</div>
           <div>N</div>
-          <div>S</div>
           <div> </div>
         </div>
-        <div className="inset-center-text2 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0]">
+        <div className="inset-center-text2 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0] pt-48">
           <div> </div>
           <div>2</div>
           <div>A</div>
@@ -107,7 +107,7 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
         </div>
         <div className="footer-userdata">
           <div className="mt-2 grid gap-x-5 gap-y-8 grid-cols-6">
-            <div className="col-span-3 w-[245px]">
+            <div className="col-span-3 w-[290px]">
               <div className="mt-2">
                 <input
                   type="text"
@@ -119,7 +119,7 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
                 />
               </div>
             </div>
-            <div className="col-span-3 w-[245px]">
+            <div className="col-span-3 w-[290px]">
               <div className="mt-2">
                 <input
                   type="text"

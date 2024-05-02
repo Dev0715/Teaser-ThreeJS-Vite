@@ -32,7 +32,7 @@ function Scene() {
       <Explorer />
 
       <ambientLight intensity={1} />
-      <Environment files="./environmentMaps/HDRI_Ultimate_Skies_4k_0048.hdr" />
+      <Environment files="./environmentMaps/Ultimate_Skies_1920_0048.hdr" />
       {/* Comment out to navigate into the scene */}
       {/* <OrbitControls makeDefault /> */}
     </Canvas>
