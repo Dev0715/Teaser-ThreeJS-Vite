@@ -463,15 +463,15 @@ void main() {
     vec4 diffuseBackground = texture2D(iChannel0, vec2(vUv.x, vUv.y * 1.2));
     col += diffuseBackground.xyz * 1.5;
 
-    // // Aurora ======================================================
-    // if (rd.y > -0.1) {
-    //     vec4 aur = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
-    //     col = col * (1. - aur.a) + aur.rgb;
-    //     // glowing stripes
-    //     overlay = true;
-    //     vec4 aur2 = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
-    //     col = col * (1. - aur2.a) + aur2.rgb * 0.5;
-    // }
+    // Aurora ======================================================
+    if (rd.y > -0.1) {
+        vec4 aur = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
+        col = col * (1. - aur.a) + aur.rgb;
+        // glowing stripes
+        overlay = true;
+        vec4 aur2 = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
+        col = col * (1. - aur2.a) + aur2.rgb * 0.5;
+    }
 
     // // Clouds =================================================
 
