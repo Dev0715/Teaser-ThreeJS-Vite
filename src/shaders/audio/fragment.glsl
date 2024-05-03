@@ -60,7 +60,7 @@ float evaluateFunction(float x) {
 
 float plotFunction(vec2 p, float px, float curTime) {
     float result = 100000.0;
-    
+
     for (float i = -2.0; i < 2.0; i += 1.0) {
     vec2 c1 = p + vec2(px * i, 0.0);
     vec2 c2 = p + vec2(px * (i + 1.0), 0.0);

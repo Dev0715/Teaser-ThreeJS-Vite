@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Scene from './Scene';
-import Scene2 from './Scene1';
-import Scene3 from './Scene2';
+import Scene1 from './Scene1';
+import Scene2 from './Scene2';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -47,7 +47,7 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
         <div className="freq-line flex flex-row w-[34vw] ml-5 2xl:ml-12 xl:ml-9">
           <div className="freq-line-svg mr-1 w-[28vw] h-[16px] bg-no-repeat bg-contain bg-center bg-[url('../img/FreqlineBox.svg')]">
             {/* Scene for line frequncy animation */}
-            <Scene2 play={play} />
+            <Scene1 play={play} />
           </div>
           <div className="freq-line-text text-[13px] 2xl:ml-0 ml-1">432 Hz</div>
         </div>
@@ -79,6 +79,7 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
           <div>U</div>
           <div>R</div>
           <div>N</div>
+          <div> </div>
           <div> </div>
         </div>
         <div className="inset-center-text2 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0] pt-48">
@@ -172,7 +173,7 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
             </div> */}
             <div className="footer-right-svg1 z-50 select-none w-[170px] h-[19px] grid bg-chartBack ml-1">
               {/* Scene for bars frequncy animation */}
-              <Scene3 play={play} />
+              <Scene2 play={play} />
             </div>
           </div>
         </div>

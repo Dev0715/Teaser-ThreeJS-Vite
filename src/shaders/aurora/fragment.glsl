@@ -60,11 +60,11 @@ float triNoise2d(in vec2 p, float spd, bool overlay) {
         z2 *= .45;
         z *= .42;
         p1 *= 1.21 + (rz - 1.0) * .02;
-            
+
         rz += tri(p1.x + tri(p1.y)) * z;
         p1 *= -m2*2.;
         }
-        
+
         triRes *= clamp(1./pow(rz * 29., 1.3), 0., .55);
 
     } else {
@@ -77,7 +77,7 @@ float triNoise2d(in vec2 p, float spd, bool overlay) {
         z2 *= .45;
         z *= .42;
         p2 *= 1.21 + (rz - 1.0) * .02;
-            
+
         rz2 += tri(p2.x + tri(p2.y)) * z;
         p2 *= -m2*0.5;
         }
@@ -87,8 +87,8 @@ float triNoise2d(in vec2 p, float spd, bool overlay) {
     return triRes;
 }
 
-float hash21(in vec2 n) { 
-    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453); 
+float hash21(in vec2 n) {
+    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
 }
 
 vec4 aurora(vec3 ro, vec3 rd, bool overlay) {
@@ -112,7 +112,7 @@ vec4 aurora(vec3 ro, vec3 rd, bool overlay) {
         float colorShift = iColorShift;
         float repeatStripeAt = 0.07;
         float intensity = iIntensity;
-        
+
         if (overlay == true) {
             saturation = 0.8;
             anotherSaturation = 0.;
@@ -120,7 +120,7 @@ vec4 aurora(vec3 ro, vec3 rd, bool overlay) {
 
         col2.rgb = (sin(1. - vec3(howMuchGreen, colorShift, anotherSaturation) + i * repeatStripeAt) * saturation + intensity) * rzt; //1
         avgCol =  mix(avgCol, col2, .5);
-        
+
         col += avgCol * exp2(-i * 0.055 - 2.5) * smoothstep(0., 5. , i);
     }
 
@@ -142,7 +142,7 @@ vec3 nmzHash33(vec3 q) {
 vec3 stars(in vec3 p) {
     vec2 fragCoord = vUv * iResolution;
     const float rotation = M_PI /2.;
-        
+
     // 2D rotation matrix 
     const mat2 R = mat2(cos(rotation), -sin(rotation), -sin(rotation), -cos(rotation));
     float resScale = min(iResolution.x, iResolution.y);
@@ -157,7 +157,7 @@ vec3 stars(in vec3 p) {
     vec3 c = vec3(0.);
     float res = iResolution.x * 1.;
     // float res = min(iResolution.x, iResolution.y) * 1.;
-        
+
     for (float i = 0.; i < 4.; i++) {
         vec3 q = fract(p * (.15 * res)) - 0.5;
         vec3 id = floor(p * (.15 * res));
@@ -211,7 +211,7 @@ vec4 map( in vec3 p ) {
     vec4 res = vec4( d );
     res.xyz = mix( 1.15*vec3(1.0,0.95,0.8), vec3(0.7,0.7,0.7), res.x );
     return res;
-}  
+}
 
 float random(float p) {
     return fract(sin(p)*10000.0);
@@ -295,7 +295,7 @@ return d;
 }
 
 vec3 tri3(in vec3 p){return vec3( tri(p.z+tri(p.y*1.)), tri(p.z+tri(p.x*1.)), tri(p.y+tri(p.x*1.)));}
-                                
+
 float triNoise3d(in vec3 p, in float spd) {
 float z=0.5;
 float rz = 0.;
@@ -308,7 +308,7 @@ for (float i=0.; i<=3.; i++ )
     bp *= 0.01;
     z *= 1.5;
     p *= 1.;
-    
+
     rz+= (tri(p.z+tri(p.x+tri(p.y))))/z;
     bp += 4.;
 }
@@ -319,8 +319,8 @@ return rz;
 float fogmap(in vec3 p, in float d) {
     p.x += time * .09;
     p.z += sin(p.x * .5);
-    
-    bool overlay = true;   
+
+    bool overlay = true;
     // return triNoise2d(p.xy * 1.2/(d + 10.), 0.02, overlay) * (1. - smoothstep(0., .7, p.y));
     return triNoise3d(p * 1./(d + 10.), 0.002) * (1. - smoothstep(0., .7, p.y));
 }
@@ -352,7 +352,6 @@ uniform float icSpeed;
 uniform float icDirection;
 uniform float icCover;
 
-// https://www.shadertoy.com/view/4tdSWr
 // const float skytint = 0.5;
 const vec3 skycolour = vec3(0., 0., 0.);
 
@@ -366,9 +365,10 @@ vec2 cloudHash( vec2 p ) {
 float cloudNoise( in vec2 p ) {
     const float K1 = 0.366025404; // (sqrt(3)-1)/2;
     const float K2 = 0.211324865; // (3-sqrt(3))/6;
-    vec2 i = floor(p + (p.x+p.y)*K1);	
+    vec2 i = floor(p + (p.x+p.y)*K1);
     vec2 a = p - i + (i.x+i.y)*K2;
-    vec2 o = (a.x>a.y) ? vec2(1.0,0.0) : vec2(0.0,1.0); //vec2 of = 0.5 + 0.5*vec2(sign(a.x-a.y), sign(a.y-a.x));
+    vec2 o = (a.x>a.y) ? vec2(1.0,0.0) : vec2(0.0,1.0); 
+    //vec2 of = 0.5 + 0.5*vec2(sign(a.x-a.y), sign(a.y-a.x));
     vec2 b = a - o + K2;
     vec2 c = a - 1.0 + 2.0*K2;
     vec3 h = max(0.5-vec3(dot(a,a), dot(b,b), dot(c,c) ), 0.0 );
@@ -393,10 +393,10 @@ vec3 clouds(vec3 p,
             float cover ) {
     vec2 fragCoord = vUv * iResolution;
     // vec2 p = fragCoord.xy / iResolution.xy;
-    // vec2 uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);   
-    vec2 uv = p.xy;   
+    // vec2 uv = p.xy*vec2(iResolution.x/iResolution.y,1.0);
+    vec2 uv = p.xy;
     float cloudtime = iTime * speed;
-    float cloudq = cloudfbm(uv * scale, 0.12); 
+    float cloudq = cloudfbm(uv * scale, 0.12);
     // float cloudq = 0.0;
 
     // noise
@@ -463,37 +463,33 @@ void main() {
     vec4 diffuseBackground = texture2D(iChannel0, vec2(vUv.x, vUv.y * 1.2));
     col += diffuseBackground.xyz * 1.5;
 
-    // Aurora ======================================================
-    if (rd.y > -0.1) {
-        vec4 aur = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
-        col = col * (1. - aur.a) + aur.rgb;
-        // glowing stripes
-        overlay = true;
-        vec4 aur2 = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
-        col = col * (1. - aur2.a) + aur2.rgb * 0.5;
-    }
+    // // Aurora ======================================================
+    // if (rd.y > -0.1) {
+    //     vec4 aur = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
+    //     col = col * (1. - aur.a) + aur.rgb;
+    //     // glowing stripes
+    //     overlay = true;
+    //     vec4 aur2 = smoothstep(0., 1.9, aurora(ro, rd, overlay)) * fade;
+    //     col = col * (1. - aur2.a) + aur2.rgb * 0.5;
+    // }
 
-    // Clouds ====================================================
-    // vec4 diffuseClouds = texture2D(iChannel1, vec2(vUv.x, vUv.y * 1.2));
-    // col += diffuseClouds.xyz * 0.7 ;
+    // // Clouds =================================================
 
-    // New Clouds =================================================
+    // vec3 cloudsLayer = vec3(0.0);
+    // vec3 cloudsrd = normalize(vec3(p, 1.81));
+    // if (cloudsrd.y > icBottom) {
+    //     float edgeFade = clamp(pow(1.0 - (cloudsrd.y - icTop), 20.0), 0.0, 1.0);
+    //     edgeFade *= clamp((cloudsrd.y - icBottom) * 20.0, 0.0, 1.0);
+    //     vec3 clouds = clouds(cloudsrd,
+    //                         icScale,
+    //                         icSpeed,
+    //                         icDirection,
+    //                         icCover).xyz;
+    //     clouds *= edgeFade;
+    //     cloudsLayer += clouds * icIntensity;
+    // }
 
-    vec3 cloudsLayer = vec3(0.0);
-    vec3 cloudsrd = normalize(vec3(p, 1.81));
-    if (cloudsrd.y > icBottom) {
-        float edgeFade = clamp(pow(1.0 - (cloudsrd.y - icTop), 20.0), 0.0, 1.0); 
-        edgeFade *= clamp((cloudsrd.y - icBottom) * 20.0, 0.0, 1.0);
-        vec3 clouds = clouds(cloudsrd,
-                            icScale,
-                            icSpeed,
-                            icDirection,
-                            icCover).xyz;
-        clouds *= edgeFade;
-        cloudsLayer += clouds * icIntensity;
-    }
-
-    col += cloudsLayer;
+    // col += cloudsLayer;
 
     // Colored fog ================================================
     float rz = march(ro, rd);
@@ -504,6 +500,6 @@ void main() {
 
     gl_FragColor.xyz = col;
     gl_FragColor.w =1.;
-    
+
 }
 

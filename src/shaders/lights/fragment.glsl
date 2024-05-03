@@ -22,8 +22,8 @@ mat2 mm2(in float a) {
     return mat2(c, s, -s, c);
 }
 
-float hash21(in vec2 n) { 
-    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453); 
+float hash21(in vec2 n) {
+    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
 }
 
 float random(float p) {
@@ -113,7 +113,7 @@ float triNoise3d(in vec3 p, in float spd) {
         z *= 1.5;
         p *= 1.;
         //p.xz*= m2;
-        
+
         rz+= (tri(p.z+tri(p.x+tri(p.y))))/z;
         bp += 4.;
     }
@@ -124,7 +124,7 @@ float triNoise3d(in vec3 p, in float spd) {
 float fogmap(in vec3 p, in float d) {
     p.x += time * .1;
     p.z += sin(p.x * .5);
-    bool overlay = true;   
+    bool overlay = true;
     return triNoise3d(p * 1./(d + 10.), 0.002) * (1. - smoothstep(0., .7, p.y));
 }
 
@@ -169,5 +169,5 @@ void main() {
 
     gl_FragColor.xyz = col;
     gl_FragColor.w =0.5;
-    
+
 }
