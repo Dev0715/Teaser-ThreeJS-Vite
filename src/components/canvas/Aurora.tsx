@@ -31,50 +31,50 @@ const Aurora = () => {
     }
   });
 
-  // const auroraControls = {
-  //   iSaturation: {
-  //     min: 0,
-  //     max: 10,
-  //     value: 0.2,
-  //     step: 0.01,
-  //     label: 'saturation',
-  //   },
-  //   iColorShift: {
-  //     min: 0,
-  //     max: 10,
-  //     value: -1,
-  //     step: 0.01,
-  //     label: 'color',
-  //   },
-  //   iIntensity: {
-  //     min: 0,
-  //     max: 3,
-  //     value: 0.75,
-  //     step: 0.01,
-  //     label: 'intensity',
-  //   },
-  //   iVerticalOffset: {
-  //     min: 0.1,
-  //     max: 0.5,
-  //     value: 0.2,
-  //     step: 0.01,
-  //     label: 'vertical',
-  //   },
-  //   iHorizontalOffset: {
-  //     min: 0,
-  //     max: 5,
-  //     value: 1.0,
-  //     step: 0.01,
-  //     label: 'horizontal',
-  //   },
-  //   iSpeed: {
-  //     min: 0,
-  //     max: 10,
-  //     value: 7.0,
-  //     step: 0.01,
-  //     label: 'speed',
-  //   },
-  // };
+  const auroraControls = {
+    iSaturation: {
+      min: 0,
+      max: 10,
+      value: 0.2,
+      step: 0.01,
+      label: 'saturation',
+    },
+    iColorShift: {
+      min: 0,
+      max: 10,
+      value: -1,
+      step: 0.01,
+      label: 'color',
+    },
+    iIntensity: {
+      min: 0,
+      max: 3,
+      value: 0.75,
+      step: 0.01,
+      label: 'intensity',
+    },
+    iVerticalOffset: {
+      min: 0.1,
+      max: 0.5,
+      value: 0.2,
+      step: 0.01,
+      label: 'vertical',
+    },
+    iHorizontalOffset: {
+      min: 0,
+      max: 5,
+      value: 1.0,
+      step: 0.01,
+      label: 'horizontal',
+    },
+    iSpeed: {
+      min: 0,
+      max: 10,
+      value: 7.0,
+      step: 0.01,
+      label: 'speed',
+    },
+  };
 
   const cloudsControls = {
     icIntensity: {
@@ -129,7 +129,7 @@ const Aurora = () => {
   };
 
   const materialProps = useControls('sky shader', {
-    // aurora: folder(auroraControls),
+    aurora: folder(auroraControls),
     clouds: folder(cloudsControls),
   });
 
@@ -138,12 +138,12 @@ const Aurora = () => {
       iTime: 1.0,
       iResolution: new THREE.Vector2(size.width, size.height),
       iMouse: new THREE.Vector4(),
-      // iSaturation: auroraControls.iSaturation.value, // Aurora's saturation
-      // iColorShift: auroraControls.iColorShift.value, // Aurora's color changer by one value
-      // iIntensity: auroraControls.iIntensity.value, // Aurora's light intensity
-      // iVerticalOffset: auroraControls.iVerticalOffset.value, // Aurora's vertical shift
-      // iHorizontalOffset: auroraControls.iHorizontalOffset.value, // Aurora's far distance
-      // iSpeed: auroraControls.iSpeed.value, // Aurora's flow speed
+      iSaturation: auroraControls.iSaturation.value, // Aurora's saturation
+      iColorShift: auroraControls.iColorShift.value, // Aurora's color changer by one value
+      iIntensity: auroraControls.iIntensity.value, // Aurora's light intensity
+      iVerticalOffset: auroraControls.iVerticalOffset.value, // Aurora's vertical shift
+      iHorizontalOffset: auroraControls.iHorizontalOffset.value, // Aurora's far distance
+      iSpeed: auroraControls.iSpeed.value, // Aurora's flow speed
       icIntensity: cloudsControls.icIntensity.value, // Clouds' light intensity
       icTop: cloudsControls.icTop.value, // Clouds' top fading edge
       icBottom: cloudsControls.icBottom.value, // Clouds' bottom fading edge

@@ -473,23 +473,23 @@ void main() {
     //     col = col * (1. - aur2.a) + aur2.rgb * 0.5;
     // }
 
-    // Clouds =================================================
+    // // Clouds =================================================
 
-    vec3 cloudsLayer = vec3(0.0);
-    vec3 cloudsrd = normalize(vec3(p, 1.81));
-    if (cloudsrd.y > icBottom) {
-        float edgeFade = clamp(pow(1.0 - (cloudsrd.y - icTop), 20.0), 0.0, 1.0);
-        edgeFade *= clamp((cloudsrd.y - icBottom) * 20.0, 0.0, 1.0);
-        vec3 clouds = clouds(cloudsrd,
-                            icScale,
-                            icSpeed,
-                            icDirection,
-                            icCover).xyz;
-        clouds *= edgeFade;
-        cloudsLayer += clouds * icIntensity;
-    }
+    // vec3 cloudsLayer = vec3(0.0);
+    // vec3 cloudsrd = normalize(vec3(p, 1.81));
+    // if (cloudsrd.y > icBottom) {
+    //     float edgeFade = clamp(pow(1.0 - (cloudsrd.y - icTop), 20.0), 0.0, 1.0);
+    //     edgeFade *= clamp((cloudsrd.y - icBottom) * 20.0, 0.0, 1.0);
+    //     vec3 clouds = clouds(cloudsrd,
+    //                         icScale,
+    //                         icSpeed,
+    //                         icDirection,
+    //                         icCover).xyz;
+    //     clouds *= edgeFade;
+    //     cloudsLayer += clouds * icIntensity;
+    // }
 
-    col += cloudsLayer;
+    // col += cloudsLayer;
 
     // Colored fog ================================================
     float rz = march(ro, rd);
