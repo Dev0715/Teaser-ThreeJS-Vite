@@ -1,4 +1,4 @@
-async function createAudio(url) {
+async function createAudio(url: string) {
   // Fetch audio data and create a buffer source
   const res = await fetch(url);
   const buffer = await res.arrayBuffer();
@@ -6,7 +6,7 @@ async function createAudio(url) {
 
   const source = context.createBufferSource();
   source.buffer = await new Promise((res) =>
-    context.decodeAudioData(buffer, res)
+    context.decodeAudioData(buffer, res),
   );
   source.loop = true;
   source.start(0);
@@ -34,7 +34,7 @@ async function createAudio(url) {
       // Calculate a frequency average
       return (data.avg = data.reduce(
         (prev, cur) => prev + cur / data.length,
-        0
+        0,
       ));
     },
   };

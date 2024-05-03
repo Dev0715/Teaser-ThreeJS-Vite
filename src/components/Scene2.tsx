@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import Analizer2 from './audio/Analizer2';
+import Analyzer2 from './audio/Analyzer2';
 import React from 'react';
 
 interface Scene3Props {
@@ -18,7 +18,7 @@ function Scene3({ play }: Scene3Props) {
       }}
     >
       {/* Music bars effect: includes bars animation */}
-      {play && <Analizer2 />}
+      {play && <Analyzer2 />}
 
       <ambientLight intensity={1} />
     </Canvas>

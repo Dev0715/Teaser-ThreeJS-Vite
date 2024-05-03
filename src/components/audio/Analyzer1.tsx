@@ -1,13 +1,14 @@
 import { Suspense, useEffect, useRef } from 'react';
-import { useFrame, extend } from '@react-three/fiber';
 import { suspend } from 'suspend-react';
+import { useFrame, extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import { useControls } from 'leva';
 import * as THREE from 'three';
+import React from 'react';
+
 import createAudio from '@/lib/createAudio';
 import audioVertexShader from '../../shaders/vertex.glsl';
 import audioFragmentShader from '@/shaders/audio/fragment.glsl';
-import React from 'react';
 
 declare global {
   namespace JSX {
@@ -17,18 +18,16 @@ declare global {
   }
 }
 
-const Analizer1 = () => {
+const Analyzer1 = () => {
   return (
-    <>
-      <Suspense fallback={null}>
-        <Track
-          position-z={0}
-          url="/audio/Return_2A_Soundtrack_2024-01-10.wav"
-          vertexShader={audioVertexShader}
-          fragmentShader={audioFragmentShader}
-        />
-      </Suspense>
-    </>
+    <Suspense fallback={null}>
+      <Track
+        position-z={0}
+        url="/audio/Return_2A_Soundtrack_2024-01-10.wav"
+        vertexShader={audioVertexShader}
+        fragmentShader={audioFragmentShader}
+      />
+    </Suspense>
   );
 };
 
@@ -92,4 +91,4 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
   );
 }
 
-export default Analizer1;
+export default Analyzer1;

@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import Analizer1 from './audio/Analizer1';
+import Analyzer1 from './audio/Analyzer1';
 import React from 'react';
 
 interface Scene1Props {
@@ -18,7 +18,7 @@ function Scene1({ play }: Scene1Props) {
       }}
     >
       {/* Music line effect: includes line animation */}
-      {play && <Analizer1 />}
+      {play && <Analyzer1 />}
 
       <ambientLight intensity={1} />
     </Canvas>

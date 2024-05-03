@@ -4,7 +4,7 @@ import { Leva } from 'leva';
 import Layout from './components/Layout';
 
 export default function App() {
-  const [play, setPlay] = useState(true); // start music
+  const [play, setPlay] = useState(false); // start music
   const [debugValue, setDebug] = useState(true); // show debug panel
 
   const parentCallback = (play: boolean) => {

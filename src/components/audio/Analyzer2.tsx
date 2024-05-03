@@ -5,16 +5,11 @@ import * as THREE from 'three';
 import createAudio from '@/lib/createAudio';
 import React from 'react';
 
-const Analizer2 = () => {
+const Analyzer2 = () => {
   return (
-    <>
-      <Suspense fallback={null}>
-        <Track
-          position-z={0}
-          url="/audio/Return_2A_Soundtrack_2024-01-10.wav"
-        />
-      </Suspense>
-    </>
+    <Suspense fallback={null}>
+      <Track position-z={0} url="/audio/Return_2A_Soundtrack_2024-01-10.wav" />
+    </Suspense>
   );
 };
 
@@ -105,7 +100,7 @@ function Track({
         position={[46, -9, 0]}
         scale={[120, 55, 70]}
         castShadow
-        ref={backgroundRef.current ? backgroundRef.current : null}
+        ref={backgroundRef.current}
         args={[undefined, undefined, data.length]}
         {...props}
       >
@@ -127,4 +122,4 @@ function Track({
   );
 }
 
-export default Analizer2;
+export default Analyzer2;
