@@ -5,7 +5,7 @@ import Scene2 from './Scene2';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
+function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
         .fromTo('.inset-center-text2', 6, { opacity: 0 }, { opacity: 0.01 })
         .fromTo('.inset-center-text2', 8, { opacity: 0 }, { opacity: 0.8 });
     },
-    { scope: container }
+    { scope: container },
   );
 
   return (
@@ -141,14 +141,22 @@ function Layout({ play, parentCallback }: { play: any, parentCallback: any }) {
                 <span className="mr-3 pointer-events-none">AUDITORY</span>
                 <span
                   id="play-off"
-                  className={`${play ? 'bg-primary hover:cursor-pointer px-3 sm:px-[12px] py-0.2 text-black' : 'bg-secondary hover:cursor-pointer px-3 sm:px-[12px] py-0.2 text-white'}`}
+                  className={`${
+                    play
+                      ? 'bg-primary hover:cursor-pointer px-3 sm:px-[12px] py-0.2 text-black'
+                      : 'bg-secondary hover:cursor-pointer px-3 sm:px-[12px] py-0.2 text-white'
+                  }`}
                   onClick={() => parentCallback(play)}
                 >
                   ON
                 </span>
                 <span
                   id="play-on"
-                  className={`${play ? 'bg-secondary hover:cursor-pointer ml-[0.5px] px-1 sm:px-[7px] py-0.2 text-white' : 'bg-primary hover:cursor-pointer ml-[0.5px] px-1 sm:px-[7px] py-0.2 text-black'}`}
+                  className={`${
+                    play
+                      ? 'bg-secondary hover:cursor-pointer ml-[0.5px] px-1 sm:px-[7px] py-0.2 text-white'
+                      : 'bg-primary hover:cursor-pointer ml-[0.5px] px-1 sm:px-[7px] py-0.2 text-black'
+                  }`}
                   onClick={() => parentCallback(play)}
                 >
                   OFF

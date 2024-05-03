@@ -45,7 +45,7 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
 
   const { gain, context, update, data } = suspend(
     () => createAudio(url),
-    [url]
+    [url],
   );
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
       iMouse: new THREE.Vector4(),
     },
     vertexShader,
-    fragmentShader
+    fragmentShader,
   );
 
   extend({ AnalizerMaterial });

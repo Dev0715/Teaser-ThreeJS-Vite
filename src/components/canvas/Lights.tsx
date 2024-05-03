@@ -26,7 +26,7 @@ const Lights = () => {
       iMouse: new THREE.Vector4(),
     },
     lightsVertexShader,
-    lightsFragmentShader
+    lightsFragmentShader,
   );
 
   extend({ LightsMaterial });

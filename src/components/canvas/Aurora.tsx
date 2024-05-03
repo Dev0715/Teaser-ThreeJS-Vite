@@ -26,7 +26,8 @@ const Aurora = () => {
 
     if (mesh.current) {
       (mesh.current as any).material.uniforms.iTime.value = time;
-      (mesh.current as any).material.uniforms.iResolution.value = new THREE.Vector2(size.width, size.height);
+      (mesh.current as any).material.uniforms.iResolution.value =
+        new THREE.Vector2(size.width, size.height);
     }
   });
 
@@ -36,43 +37,43 @@ const Aurora = () => {
       max: 10,
       value: 0.2,
       step: 0.01,
-      label: 'saturation'
+      label: 'saturation',
     },
     iColorShift: {
       min: 0,
       max: 10,
       value: -1,
       step: 0.01,
-      label: 'color'
+      label: 'color',
     },
     iIntensity: {
       min: 0,
       max: 3,
       value: 0.75,
       step: 0.01,
-      label: 'intensity'
+      label: 'intensity',
     },
     iVerticalOffset: {
       min: 0.1,
       max: 0.5,
       value: 0.2,
       step: 0.01,
-      label: 'vertical'
+      label: 'vertical',
     },
     iHorizontalOffset: {
       min: 0,
       max: 5,
       value: 1.0,
       step: 0.01,
-      label: 'horizontal'
+      label: 'horizontal',
     },
     iSpeed: {
       min: 0,
       max: 10,
       value: 7.0,
       step: 0.01,
-      label: 'speed'
-    }
+      label: 'speed',
+    },
   };
 
   const cloudsControls = {
@@ -81,55 +82,55 @@ const Aurora = () => {
       max: 3,
       value: 0.8,
       step: 0.001,
-      label: 'intensity'
+      label: 'intensity',
     },
     icTop: {
       min: -0.5,
       max: 0.5,
       value: -0.02,
       step: 0.01,
-      label: 'top'
+      label: 'top',
     },
     icBottom: {
       min: -0.5,
       max: 0.5,
       value: -0.11,
       step: 0.01,
-      label: 'bottom'
+      label: 'bottom',
     },
     icScale: {
       min: 0.0,
       max: 5.0,
       value: 1.9,
       step: 0.01,
-      label: 'scale'
+      label: 'scale',
     },
     icSpeed: {
       min: -0.5,
       max: 0.5,
       value: -0.04,
       step: 0.001,
-      label: 'speed'
+      label: 'speed',
     },
     icDirection: {
       min: -1.0,
       max: 1.0,
       value: -0.23,
       step: 0.01,
-      label: 'direction'
+      label: 'direction',
     },
     icCover: {
       min: 0.0,
       max: 2.0,
       value: 0.27,
       step: 0.001,
-      label: 'cover'
-    }
+      label: 'cover',
+    },
   };
 
-  const materialProps = useControls('sky shader', { 
+  const materialProps = useControls('sky shader', {
     aurora: folder(auroraControls),
-    clouds: folder(cloudsControls) 
+    clouds: folder(cloudsControls),
   });
 
   const AuroraMaterial = shaderMaterial(
@@ -157,7 +158,7 @@ const Aurora = () => {
       iChannelResolution1: new THREE.Vector2(236, 124),
     },
     auroraVertexShader,
-    auroraFragmentShader
+    auroraFragmentShader,
   );
 
   extend({ AuroraMaterial });
@@ -171,24 +172,26 @@ const Aurora = () => {
     perfVisible: false,
   });
 
-  return <>
-    <mesh ref={mesh} scale={[dimensions.width, dimensions.height, 1]}>
-      {perfVisible && <Perf position="top-left" />}
+  return (
+    <>
+      <mesh ref={mesh} scale={[dimensions.width, dimensions.height, 1]}>
+        {perfVisible && <Perf position="top-left" />}
 
-      <planeGeometry
-      // args={[2,2]}
-      // args={[15, 8, 50, 50]}
-      />
-      <auroraMaterial
-        side={THREE.DoubleSide}
-        ref={auroraMaterial}
-        {...materialProps}
-        attach="material"
-        opacity={0.5}
-        transparent
-      />
-    </mesh>
-  </>
+        <planeGeometry
+        // args={[2,2]}
+        // args={[15, 8, 50, 50]}
+        />
+        <auroraMaterial
+          side={THREE.DoubleSide}
+          ref={auroraMaterial}
+          {...materialProps}
+          attach="material"
+          opacity={0.5}
+          transparent
+        />
+      </mesh>
+    </>
+  );
 };
 
 export default Aurora;

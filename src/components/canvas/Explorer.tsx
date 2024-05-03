@@ -13,11 +13,11 @@ const Explorer = () => {
   // Shader Material
   const texture1 = useTexture('/textures/Explorer.png');
   const ExplorerMaterial = shaderMaterial(
-    { 
-      iChannel0: texture1
+    {
+      iChannel0: texture1,
     },
     explorerVertexShader,
-    explorerFragmentShader
+    explorerFragmentShader,
   );
 
   extend({ ExplorerMaterial });

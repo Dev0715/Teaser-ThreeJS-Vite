@@ -10,7 +10,7 @@ const Logo = () => {
   const group = useRef();
 
   const { nodes, materials, animations, scene } = useGLTF(
-    './models/2ALogoAnimation.gltf'
+    './models/2ALogoAnimation.gltf',
   );
   const glass = materials['PBR'];
   glass.transparent = true;
@@ -88,7 +88,7 @@ const Logo = () => {
       dependencies: [animationName],
       scope: group,
       revertOnUpdate: true,
-    }
+    },
   );
 
   const { envMapIntensity } = useControls('environment map', {

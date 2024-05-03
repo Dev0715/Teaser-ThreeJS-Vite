@@ -28,23 +28,23 @@ function Track({
   obj2 = new THREE.Object3D(),
   ...props
 }: {
-  url: string,
-  y?: number,
-  space?: number,
-  width?: number,
-  height?: number,
-  obj?: THREE.Object3D,
-  obj2?: THREE.Object3D,
-  props?: any
+  url: string;
+  y?: number;
+  space?: number;
+  width?: number;
+  height?: number;
+  obj?: THREE.Object3D;
+  obj2?: THREE.Object3D;
+  props?: any;
 }) {
-  const barsRef = useRef();
-  const backgroundRef = useRef();
+  const barsRef = useRef<THREE.InstancedMesh | undefined>();
+  const backgroundRef = useRef<THREE.InstancedMesh | undefined>();
 
   // Get data from the audio analyzer
   // suspend-react is the library that r3f uses internally for useLoader
   const { gain, context, update, data } = suspend(
     () => createAudio(url),
-    [url]
+    [url],
   );
 
   useEffect(() => {
@@ -63,13 +63,9 @@ function Track({
       obj.position.set(
         i * width * space - data.length * width * space,
         0.18,
-        0
+        0,
       );
-      const backgroundRef = useRef<THREE.InstancedMesh | undefined>();
-
       obj.scale.set(1, 1, 1);
-      const barsRef = useRef<THREE.InstancedMesh | undefined>();
-
       obj.updateMatrix();
       if (backgroundRef.current) {
         backgroundRef.current.setMatrixAt(i, obj.matrix);
@@ -78,7 +74,7 @@ function Track({
       obj2.position.set(
         i * width * space - data.length * width * space,
         0.1 + data[i] / y / 2,
-        0
+        0,
       );
       obj2.scale.set(1, (data[i] / y) * 10, 1);
       obj2.updateMatrix();
@@ -87,14 +83,17 @@ function Track({
       }
     }
 
-    const barsRef = useRef<THREE.InstancedMesh | undefined>();
-    const backgroundRef = useRef<THREE.InstancedMesh | undefined>();
-
-    if (backgroundRef.current && backgroundRef.current.material instanceof THREE.MeshBasicMaterial) {
+    if (
+      backgroundRef.current &&
+      backgroundRef.current.material instanceof THREE.MeshBasicMaterial
+    ) {
       backgroundRef.current.material.color = new THREE.Color('#474747');
       backgroundRef.current.instanceMatrix.needsUpdate = true;
     }
-    if (barsRef.current && barsRef.current.material instanceof THREE.MeshBasicMaterial) {
+    if (
+      barsRef.current &&
+      barsRef.current.material instanceof THREE.MeshBasicMaterial
+    ) {
       barsRef.current.material.color = new THREE.Color('#3ECEE5');
       barsRef.current.instanceMatrix.needsUpdate = true;
     }

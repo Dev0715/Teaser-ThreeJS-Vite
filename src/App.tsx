@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Layout from './components/Layout';
 import { Leva } from 'leva';
 
+import Layout from './components/Layout';
+
 export default function App() {
-  const [play, setPlay] = useState(false); // start music
+  const [play, setPlay] = useState(true); // start music
   const [debugValue, setDebug] = useState(true); // show debug panel
 
   const parentCallback = (play: boolean) => {
@@ -19,7 +20,7 @@ export default function App() {
     } else {
       setDebug(true);
     }
-  });
+  }, [window.location.search]);
 
   return (
     <>
