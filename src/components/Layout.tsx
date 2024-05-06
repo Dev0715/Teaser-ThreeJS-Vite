@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Scene from './Scene';
 import Scene1 from './Scene1';
 import Scene2 from './Scene2';
@@ -7,6 +7,9 @@ import { useGSAP } from '@gsap/react';
 
 function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   const container = useRef<HTMLDivElement>(null);
+
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
   useEffect(() => {
     // Play music and start freq visualizer
@@ -29,6 +32,11 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
     },
     { scope: container },
   );
+
+  const onSubmit = () => {
+    console.log(username);
+    console.log(email);
+  };
 
   return (
     <>
@@ -117,6 +125,8 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
                   id="first-name"
                   autoComplete="given-name"
                   className="block bg-black bg-opacity-[0.1] w-full border border-custom py-1 px-[15px] placeholder:text-[12px] placeholder:text-secondary border-opacity-30 tracking-wider"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -129,6 +139,8 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
                   id="last-name"
                   autoComplete="family-name"
                   className="block bg-black bg-opacity-[0.1] w-full border border-custom py-1 px-[15px] placeholder:text-[12px] placeholder:text-secondary border-opacity-30 tracking-wider"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -169,6 +181,7 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
             <button
               type="button"
               className="bg-primary w-[160px] h-[32px] py-1.6 text-[13px] font-bold uppercase leading-normal text-black hover:cursor-pointer z-50 tracking-widest"
+              onClick={onSubmit}
             >
               SUBMIT
             </button>
