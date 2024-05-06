@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import React from 'react';
 
 import createAudio from '@/lib/createAudio';
-import audioVertexShader from '../../shaders/vertex.glsl';
+import audioVertexShader from '@/shaders/vertex.glsl';
 import audioFragmentShader from '@/shaders/audio/fragment.glsl';
 
 declare global {

@@ -10,13 +10,13 @@ uniform vec4 iMouse;
 
 varying vec2 vUv;
 
-vec3 CYAN = vec3(0.243,0.808,0.898);
+vec3 CYAN = vec3(0.243, 0.808, 0.898);
 
 // https://www.shadertoy.com/view/lsf3WH
 // replace this by something better
 float Math_Random(vec2 p) {
-    p  = 50.0*fract( p*0.3183099 + vec2(0.71,0.113));
-    return -1.0+2.0*fract( p.x*p.y*(p.x+p.y) );
+    p = 50.0 * fract(p * 0.3183099 + vec2(0.71, 0.113));
+    return -1.0 + 2.0 * fract(p.x * p.y * (p.x + p.y));
 }
 
 float noise(vec2 coords) {
@@ -61,28 +61,27 @@ float evaluateFunction(float x) {
 float plotFunction(vec2 p, float px, float curTime) {
     float result = 100000.0;
 
-    for (float i = -2.0; i < 2.0; i += 1.0) {
-    vec2 c1 = p + vec2(px * i, 0.0);
-    vec2 c2 = p + vec2(px * (i + 1.0), 0.0);
+    for(float i = -2.0; i < 2.0; i += 1.0) {
+        vec2 c1 = p + vec2(px * i, 0.0);
+        vec2 c2 = p + vec2(px * (i + 1.0), 0.0);
 
-    vec2 a = vec2(c1.x, evaluateFunction(c1.x + curTime));
-    vec2 b = vec2(c2.x, evaluateFunction(c2.x + curTime));
-    result = min(result, sdfLine(p, a, b));
+        vec2 a = vec2(c1.x, evaluateFunction(c1.x + curTime));
+        vec2 b = vec2(c2.x, evaluateFunction(c2.x + curTime));
+        result = min(result, sdfLine(p, a, b));
     }
 
     return result;
 }
 
-
 void main() {
 
-    vec2 pixelCoords = (vUv - 0.5) / 2.* iResolution;
+    vec2 pixelCoords = (vUv - 0.5) / 2. * iResolution;
 
     vec3 colour = vec3(0.0);
 
     // Draw graph of our function
     float distToFunction = plotFunction(pixelCoords, 2.0, iTime * 96.0);
-    vec3 lineColour = CYAN * mix(1.0, 0.25, smoothstep(0.0, 3.0, iFrequency*0.01));
+    vec3 lineColour = CYAN * mix(1.0, 0.25, smoothstep(0.0, 3.0, iFrequency * 0.01));
     float lineBorder = smoothstep(4.0, 6.0, distToFunction);
 
     colour = mix(lineColour, colour, lineBorder);

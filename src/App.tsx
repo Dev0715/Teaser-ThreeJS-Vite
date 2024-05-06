@@ -24,7 +24,7 @@ export default function App() {
 
   return (
     <>
-      {/* Debug pannel */}
+      {/* Debug panel */}
       <Leva hidden={debugValue} />
       {/* Multiple scenes plus overlay */}
       <Layout play={play} parentCallback={parentCallback} />

@@ -46,7 +46,7 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
         </div>
         <div className="freq-line flex flex-row w-[34vw] ml-5 2xl:ml-12 xl:ml-9">
           <div className="freq-line-svg mr-1 w-[28vw] h-[16px] bg-no-repeat bg-contain bg-center bg-[url('../img/FreqlineBox.svg')]">
-            {/* Scene for line frequncy animation */}
+            {/* Scene for line frequency animation */}
             <Scene1 play={play} />
           </div>
           <div className="freq-line-text text-[13px] 2xl:ml-0 ml-1">432 Hz</div>
@@ -180,7 +180,7 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
               <Scene2 play={play} />
             </div> */}
             <div className="footer-right-svg1 z-50 select-none w-[170px] h-[19px] grid bg-chartBack ml-1">
-              {/* Scene for bars frequncy animation */}
+              {/* Scene for bars frequency animation */}
               <Scene2 play={play} />
             </div>
           </div>
