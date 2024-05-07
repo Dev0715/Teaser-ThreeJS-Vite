@@ -187,7 +187,7 @@ function Layout({ play, onPlay }: LayoutProps) {
 
       {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
 
-      {isUnsub && <UnsubDialog />}
+      {isUnsub && <UnsubDialog email={email} />}
     </>
   );
 }
