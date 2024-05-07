@@ -1,9 +1,9 @@
-import { Suspense, useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import React, { Suspense, useEffect, useRef } from 'react';
 import { suspend } from 'suspend-react';
 import * as THREE from 'three';
+
 import createAudio from '@/lib/createAudio';
-import React from 'react';
 
 const Analyzer2 = () => {
   return (
@@ -32,8 +32,8 @@ function Track({
   obj2?: THREE.Object3D;
   props?: any;
 }) {
-  const barsRef = useRef<THREE.InstancedMesh | undefined>();
-  const backgroundRef = useRef<THREE.InstancedMesh | undefined>();
+  const barsRef = useRef<THREE.InstancedMesh>(null);
+  const backgroundRef = useRef<THREE.InstancedMesh>(null);
 
   // Get data from the audio analyzer
   // suspend-react is the library that r3f uses internally for useLoader
@@ -78,17 +78,11 @@ function Track({
       }
     }
 
-    if (
-      backgroundRef.current &&
-      backgroundRef.current.material instanceof THREE.MeshBasicMaterial
-    ) {
+    if (backgroundRef.current?.material instanceof THREE.MeshBasicMaterial) {
       backgroundRef.current.material.color = new THREE.Color('#474747');
       backgroundRef.current.instanceMatrix.needsUpdate = true;
     }
-    if (
-      barsRef.current &&
-      barsRef.current.material instanceof THREE.MeshBasicMaterial
-    ) {
+    if (barsRef.current?.material instanceof THREE.MeshBasicMaterial) {
       barsRef.current.material.color = new THREE.Color('#3ECEE5');
       barsRef.current.instanceMatrix.needsUpdate = true;
     }
@@ -97,10 +91,10 @@ function Track({
   return (
     <group>
       <instancedMesh
+        ref={backgroundRef}
         position={[46, -9, 0]}
         scale={[120, 55, 70]}
         castShadow
-        ref={backgroundRef.current}
         args={[undefined, undefined, data.length]}
         {...props}
       >
@@ -108,10 +102,10 @@ function Track({
         <meshBasicMaterial toneMapped={false} />
       </instancedMesh>
       <instancedMesh
+        ref={barsRef}
         position={[46, -9, 0]}
         scale={[120, 55, 70]}
         castShadow
-        ref={barsRef.current ? barsRef.current : null}
         args={[undefined, undefined, data.length]}
         {...props}
       >
