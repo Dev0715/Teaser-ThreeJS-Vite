@@ -1,7 +1,23 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 
-const UnsubDialog = () => {
-  const onOK = () => {};
+const UnsubDialog = ({
+  email,
+  onCancel,
+}: {
+  email: string;
+  onCancel: () => void;
+}) => {
+  const [otp, setOtp] = useState<string>('');
+
+  const onOK = () => {
+    const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
+    const url = base_url + '/subscriber/unsub/' + email;
+
+    axios.post(url).then((res) => {
+      console.log(res);
+    });
+  };
 
   return (
     <div
@@ -18,11 +34,11 @@ const UnsubDialog = () => {
             className="px-2 border border-gray-500 hover:drop-shadow rounded-sm"
             onClick={onOK}
           >
-            OK
+            Unsubscribe
           </button>
           <button
             className="px-2 border border-gray-500 hover:drop-shadow rounded-sm"
-            onClick={onOK}
+            onClick={onCancel}
           >
             CANCEL
           </button>
