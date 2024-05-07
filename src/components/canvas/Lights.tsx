@@ -1,19 +1,19 @@
-import { useRef } from 'react';
-import { useFrame, extend, useThree } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
+import { useFrame, extend, useThree } from '@react-three/fiber';
+import React from 'react';
 import * as THREE from 'three';
 
-import lightsVertexShader from '../../shaders/vertex.glsl';
-import lightsFragmentShader from '../../shaders/lights/fragment.glsl';
+import lightsVertexShader from '@/shaders/vertex.glsl';
+import lightsFragmentShader from '@/shaders/lights/fragment.glsl';
 
 const Lights = () => {
-  const mesh = useRef();
-  const lightsMaterial = useRef();
+  const mesh = React.useRef();
+  const lightsMaterial = React.useRef();
 
   useFrame((state) => {
     let time = state.clock.getElapsedTime();
 
-    mesh.current.material.uniforms.iTime.value = time;
+    if (mesh.current) mesh.current.material.uniforms.iTime.value = time;
   });
 
   const { size } = useThree();

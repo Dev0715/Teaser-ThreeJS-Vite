@@ -1,19 +1,16 @@
-import { useRef } from 'react';
 import { useFrame, extend, useThree } from '@react-three/fiber';
 import { shaderMaterial, useTexture, useVideoTexture } from '@react-three/drei';
 import { folder, useControls } from 'leva';
+import React from 'react';
 import { Perf } from 'r3f-perf';
 import * as THREE from 'three';
 
-import auroraVertexShader from '../../shaders/vertex.glsl';
-import auroraFragmentShader from '../../shaders/aurora/fragment.glsl';
-import React from 'react';
+import auroraVertexShader from '@/shaders/vertex.glsl';
+import auroraFragmentShader from '@/shaders/aurora/fragment.glsl';
 
 const Aurora = () => {
-  const mesh = useRef();
-  const auroraMaterial = useRef();
-
-  let counter = 0;
+  const mesh = React.useRef();
+  const auroraMaterial = React.useRef();
 
   const { size } = useThree();
 

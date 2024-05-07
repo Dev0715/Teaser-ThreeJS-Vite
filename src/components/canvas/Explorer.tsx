@@ -1,14 +1,14 @@
-import { useRef } from 'react';
 import { useFrame, extend, useThree } from '@react-three/fiber';
 import { shaderMaterial, useTexture } from '@react-three/drei';
+import React from 'react';
 import * as THREE from 'three';
 
-import explorerVertexShader from '../../shaders/vertex.glsl';
-import explorerFragmentShader from '../../shaders/explorer/fragment.glsl';
+import explorerVertexShader from '@/shaders/vertex.glsl';
+import explorerFragmentShader from '@/shaders/explorer/fragment.glsl';
 
 const Explorer = () => {
-  const mesh = useRef();
-  const lightsMaterial = useRef();
+  const mesh = React.useRef();
+  const lightsMaterial = React.useRef();
 
   // Shader Material
   const texture1 = useTexture('/textures/Explorer.png');

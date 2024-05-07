@@ -1,13 +1,12 @@
-import { useRef, useState } from 'react';
+import { useGSAP } from '@gsap/react';
 import { useGLTF, useAnimations } from '@react-three/drei';
 import { useControls } from 'leva';
 import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import React from 'react';
 import * as THREE from 'three';
 
 const Logo = () => {
-  const group = useRef();
+  const group = React.useRef();
 
   const { nodes, materials, animations, scene } = useGLTF(
     './models/2ALogoAnimation.gltf',
