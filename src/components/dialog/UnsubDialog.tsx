@@ -50,20 +50,40 @@ const UnsubDialog = ({
       className="absolute top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-700/50 z-50 rounded-lg"
       role="alert"
     >
-      <div className="w-[480px] flex flex-col gap-y-4 px-6 py-4 bg-white rounded-xl">
-        <div className="flex flex-col gap-y-2">
-          <p className="text-xl font-bold">Unsubscription</p>
-          <p>Are you sure to unsubscribe from this site?</p>
+      <div className="w-[480px] flex flex-col gap-y-8 px-6 py-6 bg-white rounded-xl">
+        <div className="flex flex-col gap-y-4">
+          <p className="text-xl text-black font-bold">Unsubscription</p>
+          <div className="flex flex-col gap-y-0">
+            <p>{LINE1_TEXT[step]}</p>
+            <p>{LINE2_TEXT[step]}</p>
+          </div>
         </div>
+        {step === STEP_OTP && (
+          <div className="flex items-center gap-x-4">
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                value={digit}
+                maxLength={1}
+                className={`border w-12 h-auto text-black p-3 rounded-md block bg-white focus:border-2 focus:outline-none appearance-none`}
+                onChange={(e) => handleChange(e.target.value, index)}
+                onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
+                ref={(reference) => (optRef.current[index] = reference)}
+              />
+            ))}
+          </div>
+        )}
         <div className="flex gap-x-8 self-center">
           <button
-            className="px-2 border border-gray-500 hover:drop-shadow rounded-sm"
+            disabled={isPending}
+            className="px-4 py-1 border border-gray-500 rounded-sm text-black hover:drop-shadow disabled:text-gray-500"
             onClick={onOK}
           >
-            Unsubscribe
+            {BUTTON_TEXT[Number(isPending)][step]}
           </button>
           <button
-            className="px-2 border border-gray-500 hover:drop-shadow rounded-sm"
+            disabled={isPending}
+            className="px-4 py-1 border border-gray-500 rounded-sm text-black hover:drop-shadow disabled:text-gray-500"
             onClick={onCancel}
           >
             CANCEL
