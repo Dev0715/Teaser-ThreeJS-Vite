@@ -65,7 +65,7 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
     const data = {
       ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
       firstName: username.split(' ')[0],
-      lastName: username.split('')[1],
+      lastName: username.split(' ')[1],
       subscriberEmail: email,
     };
 
