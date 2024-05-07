@@ -20,5 +20,5 @@ root.render(
         <App />
       </ThemeProvider>
     </ErrorBoundary>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

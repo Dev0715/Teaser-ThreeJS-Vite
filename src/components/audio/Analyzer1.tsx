@@ -1,44 +1,34 @@
-import { Suspense, useEffect, useRef } from 'react';
-import { suspend } from 'suspend-react';
 import { useFrame, extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
-import * as THREE from 'three';
 import React from 'react';
+import { suspend } from 'suspend-react';
+import * as THREE from 'three';
 
 import createAudio from '@/lib/createAudio';
 import audioVertexShader from '@/shaders/vertex.glsl';
 import audioFragmentShader from '@/shaders/audio/fragment.glsl';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      analizerMaterial: any;
-    }
-  }
-}
-
 const Analyzer1 = () => {
   return (
-    <Suspense fallback={null}>
+    <React.Suspense fallback={null}>
       <Track
         position-z={0}
         url="/audio/Return_2A_Soundtrack_2024-01-10.wav"
         vertexShader={audioVertexShader}
         fragmentShader={audioFragmentShader}
       />
-    </Suspense>
+    </React.Suspense>
   );
 };
 
 interface TrackProps {
   url: string;
-  vertexShader: any;
-  fragmentShader: any;
+  vertexShader: string;
+  fragmentShader: string;
 }
 
 function Track({ url, vertexShader, fragmentShader }: TrackProps) {
-  const mesh = useRef<THREE.Mesh>(null);
-  const portalMaterial = useRef();
+  const mesh = React.useRef<THREE.Mesh>(null);
   let counter = 0;
 
   const { gain, context, update, data } = suspend(
@@ -46,7 +36,7 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
     [url],
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     gain.connect(context.destination);
     return () => gain.disconnect();
   }, [gain, context]);
@@ -64,7 +54,7 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
     }
   });
 
-  const AnalizerMaterial = shaderMaterial(
+  const AnalyzerMaterial = shaderMaterial(
     {
       iTime: 1.0,
       iFrame: 1.0,
@@ -76,16 +66,12 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
     fragmentShader,
   );
 
-  extend({ AnalizerMaterial });
+  extend({ AnalyzerMaterial });
 
   return (
     <mesh ref={mesh} scale={[230, 8, 0]} position={[0, 0, 0]}>
       <planeGeometry />
-      <analizerMaterial
-        side={THREE.DoubleSide}
-        ref={portalMaterial}
-        attach="material"
-      />
+      <analyzerMaterial side={THREE.DoubleSide} attach="material" />
     </mesh>
   );
 }

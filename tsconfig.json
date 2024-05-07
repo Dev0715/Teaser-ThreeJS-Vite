@@ -19,15 +19,15 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
-    "types": ["node", "jest", "vite-plugin-glsl/ext"],
+    "types": ["node", "jest", "vite-plugin-glsl/ext"]
   },
   "include": ["src/**/*", "src", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.cjs"],
   "exclude": ["node_modules", "dist", "scratch"],
   "references": [
     {
-      "path": "./tsconfig.node.json",
-    },
-  ],
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
