@@ -53,6 +53,8 @@ function Layout({ play, onPlay }: LayoutProps) {
     if (data.error) {
       setMessage(data.error);
       return;
+    } else if (data.existingSubscriber) {
+      setMessage('Email already exists. Do you want to unsubscribe?');
     }
   };
 
