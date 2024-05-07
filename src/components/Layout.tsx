@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+
 import Scene from './Scene';
 import Scene1 from './Scene1';
 import Scene2 from './Scene2';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import PositionMarker from './PositionMarker';
 
 function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   const container = useRef<HTMLDivElement>(null);
@@ -67,11 +69,6 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
           </div>
         </div>
       </div>
-      {/* Left */}
-      <div className="left-node absolute flex flex-row left-10 top-[48%] z-50">
-        <div className="left-node-svg w-[87px] h-[65px] bg-no-repeat bg-center pt-5 mr-5 bg-[url('../img/LeftNode.png')]"></div>
-        <div className="left-node-text"></div>
-      </div>
       {/* Center */}
       <div
         ref={container}
@@ -103,11 +100,6 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
           <div>D</div>
           <div> </div>
         </div>
-      </div>
-      {/* Right */}
-      <div className="right-node absolute flex flex-row right-10 top-[48%] z-50">
-        <div className="right-node-text"></div>
-        <div className="right-node-svg w-[93px] h-[65px] bg-no-repeat bg-center pt-5 mr-5 bg-[url('../img/RightNode.png')]"></div>
       </div>
       {/* Footer */}
       <div className="footer absolute max-w-full bottom-[22px] px-[22px] inset-x-0 flex flex-col justify-between items-center tracking-wider z-50">
@@ -199,6 +191,8 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
           </div>
         </div>
       </div>
+
+      <PositionMarker />
     </>
   );
 }
