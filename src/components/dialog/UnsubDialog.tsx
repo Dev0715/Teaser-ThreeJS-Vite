@@ -6,7 +6,7 @@ const UnsubDialog = ({
   onCancel,
 }: {
   email: string;
-  onCancel: () => void;
+  onCancel?: () => void;
 }) => {
   const [otp, setOtp] = useState<string>('');
 

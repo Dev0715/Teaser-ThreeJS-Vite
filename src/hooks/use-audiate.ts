@@ -14,7 +14,7 @@ export const useAudiate = (): [AudioContextState, boolean] => {
     _isAudioContextSupported(),
   );
 
-  const checkInterval = useRef<number>();
+  const checkInterval = useRef<NodeJS.Timeout>();
 
   const handleUnlock = useCallback((): void => {
     setAudioContextState(check());

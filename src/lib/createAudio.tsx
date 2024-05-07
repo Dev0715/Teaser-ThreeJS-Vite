@@ -32,10 +32,7 @@ async function createAudio(url: string) {
       }
 
       // Calculate a frequency average
-      return (data.avg = data.reduce(
-        (prev, cur) => prev + cur / data.length,
-        0,
-      ));
+      return data.reduce((prev, cur) => prev + cur / data.length, 0);
     },
   };
 }
