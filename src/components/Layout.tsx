@@ -50,8 +50,12 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
     return true;
   };
 
-  const handleResponse = (respone: AxiosResponse<any, any>) => {
-    console.log(respone);
+  const handleResponse = (response: AxiosResponse<any, any>) => {
+    const data = response.data;
+    if (data.error) {
+      setMessage(data.error);
+      return;
+    }
   };
 
   const onSubmit = () => {
@@ -68,8 +72,6 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
       lastName: username.split(' ')[1],
       subscriberEmail: email,
     };
-
-    console.log(data);
 
     axios
       .post(url, { ...data })
