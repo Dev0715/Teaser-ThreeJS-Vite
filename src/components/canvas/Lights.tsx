@@ -7,16 +7,19 @@ import lightsVertexShader from '@/shaders/vertex.glsl';
 import lightsFragmentShader from '@/shaders/lights/fragment.glsl';
 
 const Lights = () => {
-  const mesh = React.useRef();
-  const lightsMaterial = React.useRef();
+  const mesh = React.useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
-    let time = state.clock.getElapsedTime();
+    const time = state.clock.getElapsedTime();
 
-    if (mesh.current) mesh.current.material.uniforms.iTime.value = time;
+    if (mesh.current?.material instanceof THREE.ShaderMaterial)
+      mesh.current.material.uniforms.iTime.value = time;
   });
 
-  const { size } = useThree();
+  // Fit mesh to viewport
+  const { viewport, camera, size } = useThree();
+  //(target coordinates as second parameter)
+  const dimensions = viewport.getCurrentViewport(camera, [0, 0, 0]);
 
   const LightsMaterial = shaderMaterial(
     {
@@ -31,11 +34,6 @@ const Lights = () => {
 
   extend({ LightsMaterial });
 
-  // Fit mesh to viewport
-  const { viewport, camera } = useThree();
-  //(target coordinates as second parameter)
-  const dimensions = viewport.getCurrentViewport(camera, [0, 0, 0]);
-
   return (
     <mesh
       ref={mesh}
@@ -45,7 +43,6 @@ const Lights = () => {
       <planeGeometry />
       <lightsMaterial
         side={THREE.DoubleSide}
-        ref={lightsMaterial}
         attach="material"
         opacity={0.01}
         transparent

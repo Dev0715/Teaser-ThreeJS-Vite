@@ -1,4 +1,4 @@
-import { useFrame, extend, useThree } from '@react-three/fiber';
+import { extend, useThree } from '@react-three/fiber';
 import { shaderMaterial, useTexture } from '@react-three/drei';
 import React from 'react';
 import * as THREE from 'three';
@@ -7,11 +7,11 @@ import explorerVertexShader from '@/shaders/vertex.glsl';
 import explorerFragmentShader from '@/shaders/explorer/fragment.glsl';
 
 const Explorer = () => {
-  const mesh = React.useRef();
-  const lightsMaterial = React.useRef();
+  const mesh = React.useRef<THREE.Mesh>(null);
 
   // Shader Material
   const texture1 = useTexture('/textures/Explorer.png');
+
   const ExplorerMaterial = shaderMaterial(
     {
       iChannel0: texture1,
@@ -36,7 +36,6 @@ const Explorer = () => {
       <planeGeometry />
       <explorerMaterial
         side={THREE.DoubleSide}
-        ref={lightsMaterial}
         attach="material"
         opacity={0.5}
         transparent

@@ -46,11 +46,10 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
 
     let time = state.clock.getElapsedTime();
 
-    if (mesh.current && mesh.current.material) {
-      const material = mesh.current.material as THREE.ShaderMaterial;
-      material.uniforms.iTime.value = time;
-      material.uniforms.iFrequency.value = avg;
-      material.uniforms.iFrame.value = counter++;
+    if (mesh.current?.material instanceof THREE.ShaderMaterial) {
+      mesh.current.material.uniforms.iTime.value = time;
+      mesh.current.material.uniforms.iFrequency.value = avg;
+      mesh.current.material.uniforms.iFrame.value = counter++;
     }
   });
 

@@ -9,10 +9,12 @@ import auroraVertexShader from '@/shaders/vertex.glsl';
 import auroraFragmentShader from '@/shaders/aurora/fragment.glsl';
 
 const Aurora = () => {
-  const mesh = React.useRef();
-  const auroraMaterial = React.useRef();
+  const mesh = React.useRef<THREE.Mesh>(null);
 
-  const { size } = useThree();
+  // Fit mesh to viewport
+  const { viewport, camera, size } = useThree();
+  //(target coordinates as second parameter)
+  const dimensions = viewport.getCurrentViewport(camera, [0, 0, 0]);
 
   const texture1 = useTexture('/textures/Background.jpg');
   const texture2 = useTexture('/textures/Explorer.png');
@@ -21,10 +23,12 @@ const Aurora = () => {
   useFrame((state) => {
     let time = state.clock.getElapsedTime();
 
-    if (mesh.current) {
-      (mesh.current as any).material.uniforms.iTime.value = time;
-      (mesh.current as any).material.uniforms.iResolution.value =
-        new THREE.Vector2(size.width, size.height);
+    if (mesh.current?.material instanceof THREE.ShaderMaterial) {
+      mesh.current.material.uniforms.iTime.value = time;
+      mesh.current.material.uniforms.iResolution.value = new THREE.Vector2(
+        size.width,
+        size.height,
+      );
     }
   });
 
@@ -160,14 +164,7 @@ const Aurora = () => {
 
   extend({ AuroraMaterial });
 
-  // Fit mesh to viewport
-  const { viewport, camera } = useThree();
-  //(target coordinates as second parameter)
-  const dimensions = viewport.getCurrentViewport(camera, [0, 0, 0]);
-
-  const { perfVisible } = useControls('debug', {
-    perfVisible: false,
-  });
+  const { perfVisible } = useControls('debug', { perfVisible: false });
 
   return (
     <>
@@ -180,7 +177,6 @@ const Aurora = () => {
         />
         <auroraMaterial
           side={THREE.DoubleSide}
-          ref={auroraMaterial}
           {...materialProps}
           attach="material"
           opacity={0.5}

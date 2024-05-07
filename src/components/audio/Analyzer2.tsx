@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { Suspense, useEffect, useRef } from 'react';
+import React from 'react';
 import { suspend } from 'suspend-react';
 import * as THREE from 'three';
 
@@ -7,9 +7,9 @@ import createAudio from '@/lib/createAudio';
 
 const Analyzer2 = () => {
   return (
-    <Suspense fallback={null}>
+    <React.Suspense fallback={null}>
       <Track position-z={0} url="/audio/Return_2A_Soundtrack_2024-01-10.wav" />
-    </Suspense>
+    </React.Suspense>
   );
 };
 
@@ -32,8 +32,8 @@ function Track({
   obj2?: THREE.Object3D;
   props?: any;
 }) {
-  const barsRef = useRef<THREE.InstancedMesh>(null);
-  const backgroundRef = useRef<THREE.InstancedMesh>(null);
+  const barsRef = React.useRef<THREE.InstancedMesh>(null);
+  const backgroundRef = React.useRef<THREE.InstancedMesh>(null);
 
   // Get data from the audio analyzer
   // suspend-react is the library that r3f uses internally for useLoader
@@ -42,7 +42,7 @@ function Track({
     [url],
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Connect the gain node, which plays the audio
     gain.connect(context.destination);
     // Disconnect it on unmount
