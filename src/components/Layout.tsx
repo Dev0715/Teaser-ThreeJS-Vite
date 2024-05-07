@@ -1,14 +1,10 @@
-import axios, { AxiosResponse } from 'axios';
 import React, { useState } from 'react';
-
 import Scene from './Scene';
 import Scene1 from './Scene1';
 import Scene2 from './Scene2';
 import PositionMarker from './PositionMarker';
-import WarningAlert from './dialog/WarningAlert';
-import { validateEmail } from '@/lib/validateEmail';
 import FadeText from './FadeText';
-import UnsubDialog from './dialog/UnsubDialog';
+import Subscription from './Subscription';
 
 type LayoutProps = {
   play: boolean;
@@ -18,55 +14,6 @@ type LayoutProps = {
 function Layout({ play, onPlay }: LayoutProps) {
   const [username, setUsername] = useState<string>('Jack Smith');
   const [email, setEmail] = useState<string>('jacksmith@gmail.com');
-  const [errMsg, setErrMsg] = useState<string>('');
-  const [isUnsub, setUnsub] = useState<boolean>(false);
-
-  const checkFormData = () => {
-    if (username.split(' ').length !== 2) {
-      setErrMsg('Username should be First name and Last name.');
-      return false;
-    } else if (!validateEmail(email)) {
-      setErrMsg('Email you input is incorrect.');
-      return false;
-    }
-    return true;
-  };
-
-  const handleResponse = (response: AxiosResponse<any, any>) => {
-    const data = response.data;
-    if (data.error) {
-      setErrMsg(data.error);
-      return;
-    } else if (data.existingSubscriber) {
-      setUnsub(true);
-    }
-  };
-
-  const onSubmit = () => {
-    if (!checkFormData()) {
-      return;
-    }
-
-    const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
-    const url = base_url + '/subscriber/new';
-
-    const data = {
-      ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
-      firstName: username.split(' ')[0],
-      lastName: username.split(' ')[1],
-      subscriberEmail: email,
-    };
-
-    axios
-      .post(url, { ...data })
-      .then((res) => {
-        handleResponse(res);
-      })
-      .catch((error) => {
-        console.error(error);
-        setErrMsg('Internal Server Error!');
-      });
-  };
 
   return (
     <>
@@ -164,15 +111,9 @@ function Layout({ play, onPlay }: LayoutProps) {
             </div>
             <div className="footer-left-svg bg-no-repeat bg-center pt-5 w-1 2xl:mr-5 2xl:w-[calc((100vw-170px)/2-210px)] sm:mr-8 sm:w-[calc((100vw-170px)/2-190px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
           </div>
-          <div className="footer-center flex flex-col items-center justify-center w-[150px]">
-            <button
-              type="button"
-              className="bg-primary w-[160px] h-[32px] py-1.6 text-[13px] font-bold uppercase leading-normal text-black hover:cursor-pointer z-50 tracking-widest"
-              onClick={onSubmit}
-            >
-              SUBMIT
-            </button>
-          </div>
+
+          <Subscription username={username} email={email} />
+
           <div className="footer-right flex justify-between w-[calc((100vw-170px)/2)]">
             <div className="footer-right-svg bg-no-repeat bg-center pt-5 w-1 2xl:ml-6 2xl:w-[calc((100vw-170px)/2-210px)] sm:ml-8 sm:w-[calc((100vw-170px)/2-190px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
             <div className="footer-right-svg1 z-50 select-none w-[170px] h-[19px] grid bg-chartBack ml-1">
@@ -184,10 +125,6 @@ function Layout({ play, onPlay }: LayoutProps) {
       </div>
 
       <PositionMarker />
-
-      {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
-
-      {isUnsub && <UnsubDialog email={email} />}
     </>
   );
 }
