@@ -1,5 +1,31 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+
+const STEP_UNSUBCRIBE = 'step_unsubscribe';
+const STEP_OTP = 'step_otp';
+
+const LINE1_TEXT: Record<string, string> = {
+  [STEP_UNSUBCRIBE]: 'Email already exists.',
+  [STEP_OTP]: 'OTP sent to your email.',
+};
+
+const LINE2_TEXT: Record<string, string> = {
+  [STEP_UNSUBCRIBE]: 'Do you want to unsubscribe from this site?',
+  [STEP_OTP]: 'Please input OTP to unsubscribe successfully.',
+};
+
+const BUTTON_TEXT: Record<string, string>[] = [
+  {
+    [STEP_UNSUBCRIBE]: 'Unsubscribe',
+    [STEP_OTP]: 'Confirm',
+  },
+  {
+    [STEP_UNSUBCRIBE]: 'Unsubscribing...',
+    [STEP_OTP]: 'Confirmimg...',
+  },
+];
+
+const NUMBER_OF_DIGIT = 6;
 
 const UnsubDialog = ({
   email,
