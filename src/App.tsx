@@ -11,27 +11,24 @@ export default function App() {
 
   console.log(audioContextState, isEnabled);
 
-  const parentCallback = (play: boolean) => {
-    setPlay(!play);
+  const handlePlay = (play: boolean) => {
+    setPlay(play);
   };
 
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
     const debugParam = queryParameters.get('showGUI');
 
-    if (debugParam === 'true') {
-      setDebug(false);
-    } else {
-      setDebug(true);
-    }
+    setDebug(!(debugParam === 'true'));
   }, [window.location.search]);
 
   return (
     <>
       {/* Debug panel */}
       <Leva hidden={debugValue} />
+
       {/* Multiple scenes plus overlay */}
-      <Layout play={play} parentCallback={parentCallback} />
+      <Layout play={play} onPlay={handlePlay} />
     </>
   );
 }

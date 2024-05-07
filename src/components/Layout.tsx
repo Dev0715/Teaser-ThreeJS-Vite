@@ -10,19 +10,17 @@ import axios, { AxiosResponse } from 'axios';
 import WarningAlert from './dialog/WarningAlert';
 import { validateEmail } from '@/lib/validateEmail';
 
-function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
+type LayoutProps = {
+  play: boolean;
+  onPlay: (play: boolean) => void;
+};
+
+function Layout({ play, onPlay }: LayoutProps) {
   const container = useRef<HTMLDivElement>(null);
 
   const [username, setUsername] = useState<string>('Jack Smith');
   const [email, setEmail] = useState<string>('jacksmith@gmail.com');
   const [message, setMessage] = useState<string>('');
-
-  useEffect(() => {
-    // Play music and start freq visualizer
-    document.querySelector('#id-play')?.addEventListener('click', () => {
-      parentCallback(play);
-    });
-  }, []);
 
   useGSAP(
     () => {
@@ -188,24 +186,20 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
               <div className="footer-left-text text-[12px]">
                 <span className="mr-3 pointer-events-none">AUDITORY</span>
                 <span
-                  id="play-off"
-                  className={`${
-                    play
-                      ? 'bg-primary hover:cursor-pointer px-3 sm:px-[12px] py-0.2 text-black'
-                      : 'bg-secondary hover:cursor-pointer px-3 sm:px-[12px] py-0.2 text-white'
+                  id="play-on"
+                  className={`px-3 sm:px-[12px] py-0.2 hover:cursor-pointer ${
+                    play ? 'bg-primary text-black' : 'bg-secondary text-white'
                   }`}
-                  onClick={() => parentCallback(play)}
+                  onClick={() => onPlay(!play)}
                 >
                   ON
                 </span>
                 <span
-                  id="play-on"
-                  className={`${
-                    play
-                      ? 'bg-secondary hover:cursor-pointer ml-[0.5px] px-1 sm:px-[7px] py-0.2 text-white'
-                      : 'bg-primary hover:cursor-pointer ml-[0.5px] px-1 sm:px-[7px] py-0.2 text-black'
+                  id="play-off"
+                  className={`ml-[0.5px] px-1 sm:px-[7px] py-0.2 hover:cursor-pointer ${
+                    play ? 'bg-secondary text-white' : 'bg-primary text-black'
                   }`}
-                  onClick={() => parentCallback(play)}
+                  onClick={() => onPlay(!play)}
                 >
                   OFF
                 </span>
