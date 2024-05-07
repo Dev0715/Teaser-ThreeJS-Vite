@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -9,6 +9,7 @@ import PositionMarker from './PositionMarker';
 import axios, { AxiosResponse } from 'axios';
 import WarningAlert from './dialog/WarningAlert';
 import { validateEmail } from '@/lib/validateEmail';
+import UnsubDialog from './dialog/UnsubDialog';
 
 type LayoutProps = {
   play: boolean;
@@ -20,7 +21,8 @@ function Layout({ play, onPlay }: LayoutProps) {
 
   const [username, setUsername] = useState<string>('Jack Smith');
   const [email, setEmail] = useState<string>('jacksmith@gmail.com');
-  const [message, setMessage] = useState<string>('');
+  const [errMsg, setErrMsg] = useState<string>('');
+  const [isUnsub, setUnsub] = useState<boolean>(false);
 
   useGSAP(
     () => {
@@ -39,10 +41,10 @@ function Layout({ play, onPlay }: LayoutProps) {
 
   const checkFormData = () => {
     if (username.split(' ').length !== 2) {
-      setMessage('Username should be First name and Last name.');
+      setErrMsg('Username should be First name and Last name.');
       return false;
     } else if (!validateEmail(email)) {
-      setMessage('Email you input is incorrect.');
+      setErrMsg('Email you input is incorrect.');
       return false;
     }
     return true;
@@ -51,10 +53,10 @@ function Layout({ play, onPlay }: LayoutProps) {
   const handleResponse = (response: AxiosResponse<any, any>) => {
     const data = response.data;
     if (data.error) {
-      setMessage(data.error);
+      setErrMsg(data.error);
       return;
     } else if (data.existingSubscriber) {
-      setMessage('Email already exists. Do you want to unsubscribe?');
+      setUnsub(true);
     }
   };
 
@@ -80,7 +82,7 @@ function Layout({ play, onPlay }: LayoutProps) {
       })
       .catch((error) => {
         console.error(error);
-        setMessage('Internal Server Error!');
+        setErrMsg('Internal Server Error!');
       });
   };
 
@@ -230,7 +232,9 @@ function Layout({ play, onPlay }: LayoutProps) {
 
       <PositionMarker />
 
-      {message && <WarningAlert message={message} setMessage={setMessage} />}
+      {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
+
+      {isUnsub && <UnsubDialog />}
     </>
   );
 }
