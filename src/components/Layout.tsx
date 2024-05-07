@@ -14,6 +14,7 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
 
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     // Play music and start freq visualizer
@@ -37,9 +38,17 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
     { scope: container },
   );
 
+  const checkFormData = () => {
+    if (username.split(' ').length !== 2) {
+      setMessage('Username should be consisted of First name and Last name');
+    }
+  };
+
   const onSubmit = () => {
     const base_url = 'http://localhost:3000/api';
     const url = base_url + '/subscriber/new';
+
+    checkFormData();
 
     const data = {
       ownerEmail: '',
@@ -212,7 +221,7 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
 
       <PositionMarker />
 
-      <WarningAlert message="" />
+      {message && <WarningAlert message={message} setMessage={setMessage} />}
     </>
   );
 }
