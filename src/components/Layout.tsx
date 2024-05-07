@@ -6,8 +6,9 @@ import Scene from './Scene';
 import Scene1 from './Scene1';
 import Scene2 from './Scene2';
 import PositionMarker from './PositionMarker';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import WarningAlert from './dialog/WarningAlert';
+import { validateEmail } from '@/lib/validateEmail';
 
 function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   const container = useRef<HTMLDivElement>(null);
@@ -40,30 +41,40 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
 
   const checkFormData = () => {
     if (username.split(' ').length !== 2) {
-      setMessage('Username should be consisted of First name and Last name');
+      setMessage('Username should be First name and Last name.');
+      return false;
+    } else if (!validateEmail(email)) {
+      setMessage('Email you input is incorrect.');
+      return false;
     }
+    return true;
   };
 
+  const handleResponse = (respone: AxiosResponse<any, any>) => {};
+
   const onSubmit = () => {
+    if (!checkFormData()) {
+      return;
+    }
+
     const base_url = 'http://localhost:3000/api';
     const url = base_url + '/subscriber/new';
 
-    checkFormData();
-
     const data = {
       ownerEmail: '',
-      firstName: '',
-      lastName: '',
+      firstName: username.split(' ')[0],
+      lastName: username.split('')[1],
       subscriberEmail: email,
     };
 
     axios
       .post(url, { ...data })
       .then((res) => {
-        console.log(res);
+        handleResponse(res);
       })
       .catch((error) => {
         console.error(error);
+        setMessage('Internal Server Error!');
       });
   };
 
