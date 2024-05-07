@@ -224,10 +224,6 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
           </div>
           <div className="footer-right flex justify-between w-[calc((100vw-170px)/2)]">
             <div className="footer-right-svg bg-no-repeat bg-center pt-5 w-1 2xl:ml-6 2xl:w-[calc((100vw-170px)/2-210px)] sm:ml-8 sm:w-[calc((100vw-170px)/2-190px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
-            {/* <div className="footer-right-svg1 bg-no-repeat bg-center pt-5 w-[170px] h-[24px] bg-contain bg-[url('../img/AudioMeter.svg')]"></div>
-            <div className="footer-right-svg1 pt-5 w-[170px] h-[34px]">
-              <Scene2 play={play} />
-            </div> */}
             <div className="footer-right-svg1 z-50 select-none w-[170px] h-[19px] grid bg-chartBack ml-1">
               {/* Scene for bars frequency animation */}
               <Scene2 play={play} />

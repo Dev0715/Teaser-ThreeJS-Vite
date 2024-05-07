@@ -2,7 +2,6 @@ import { Suspense, useEffect, useRef } from 'react';
 import { suspend } from 'suspend-react';
 import { useFrame, extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
-import { useControls } from 'leva';
 import * as THREE from 'three';
 import React from 'react';
 

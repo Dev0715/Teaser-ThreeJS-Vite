@@ -86,5 +86,6 @@ void main() {
 
     colour = mix(lineColour, colour, lineBorder);
     gl_FragColor.xyz = colour;
+    gl_FragColor.w = 1.;
 
 }
