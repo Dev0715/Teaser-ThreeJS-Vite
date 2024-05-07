@@ -13,8 +13,8 @@ import { validateEmail } from '@/lib/validateEmail';
 function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   const container = useRef<HTMLDivElement>(null);
 
-  const [username, setUsername] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('Jack Smith');
+  const [email, setEmail] = useState<string>('jacksmith@gmail.com');
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
@@ -50,22 +50,26 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
     return true;
   };
 
-  const handleResponse = (respone: AxiosResponse<any, any>) => {};
+  const handleResponse = (respone: AxiosResponse<any, any>) => {
+    console.log(respone);
+  };
 
   const onSubmit = () => {
     if (!checkFormData()) {
       return;
     }
 
-    const base_url = 'http://localhost:3000/api';
+    const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
     const url = base_url + '/subscriber/new';
 
     const data = {
-      ownerEmail: '',
+      ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
       firstName: username.split(' ')[0],
       lastName: username.split('')[1],
       subscriberEmail: email,
     };
+
+    console.log(data);
 
     axios
       .post(url, { ...data })
