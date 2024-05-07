@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+}
+
+.loader-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+
+  visibility: visible;
+  opacity: 1;
+}
+
+.loader-container.hide {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1s, opacity 1s ease-out;
+}
+
+.loader-wrapper {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loader-wrapper path {
+  fill: #bcbbb9;
+  opacity: 0;
+  animation: 20s opacity 1;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  3% {
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+}
+
+.loader-wrapper .part2 {
+  animation-delay: 0.5s;
+}
+
+.loader-wrapper .part3 {
+  animation-delay: 0.8s;
+}
