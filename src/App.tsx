@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Leva } from 'leva';
 
 import Layout from './components/Layout';
-import { useAudiate } from './lib/use-audiate';
+import { useAudiate } from './hooks/use-audiate';
 
 export default function App() {
   const [audioContextState, isEnabled] = useAudiate();
