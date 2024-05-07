@@ -7,6 +7,7 @@ import Scene1 from './Scene1';
 import Scene2 from './Scene2';
 import PositionMarker from './PositionMarker';
 import axios from 'axios';
+import WarningAlert from './dialog/WarningAlert';
 
 function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   const container = useRef<HTMLDivElement>(null);
@@ -210,6 +211,8 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
       </div>
 
       <PositionMarker />
+
+      <WarningAlert message="" />
     </>
   );
 }
