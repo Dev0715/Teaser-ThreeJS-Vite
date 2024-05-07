@@ -6,6 +6,7 @@ import Scene from './Scene';
 import Scene1 from './Scene1';
 import Scene2 from './Scene2';
 import PositionMarker from './PositionMarker';
+import axios from 'axios';
 
 function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   const container = useRef<HTMLDivElement>(null);
@@ -36,8 +37,24 @@ function Layout({ play, parentCallback }: { play: any; parentCallback: any }) {
   );
 
   const onSubmit = () => {
-    console.log(username);
-    console.log(email);
+    const base_url = 'http://localhost:3000/api';
+    const url = base_url + '/subscriber/new';
+
+    const data = {
+      ownerEmail: '',
+      firstName: '',
+      lastName: '',
+      subscriberEmail: email,
+    };
+
+    axios
+      .post(url, { ...data })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
