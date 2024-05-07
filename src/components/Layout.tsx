@@ -1,14 +1,13 @@
-import React, { useRef, useState } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import axios, { AxiosResponse } from 'axios';
+import React, { useState } from 'react';
 
 import Scene from './Scene';
 import Scene1 from './Scene1';
 import Scene2 from './Scene2';
 import PositionMarker from './PositionMarker';
-import axios, { AxiosResponse } from 'axios';
 import WarningAlert from './dialog/WarningAlert';
 import { validateEmail } from '@/lib/validateEmail';
+import FadeText from './FadeText';
 import UnsubDialog from './dialog/UnsubDialog';
 
 type LayoutProps = {
@@ -17,27 +16,10 @@ type LayoutProps = {
 };
 
 function Layout({ play, onPlay }: LayoutProps) {
-  const container = useRef<HTMLDivElement>(null);
-
   const [username, setUsername] = useState<string>('Jack Smith');
   const [email, setEmail] = useState<string>('jacksmith@gmail.com');
   const [errMsg, setErrMsg] = useState<string>('');
   const [isUnsub, setUnsub] = useState<boolean>(false);
-
-  useGSAP(
-    () => {
-      // Animate text
-      const timeline1 = gsap.timeline({ repeat: -1, yoyo: true });
-      timeline1
-        .fromTo('.inset-center-text1', 6, { opacity: 0.8 }, { opacity: 0.5 })
-        .fromTo('.inset-center-text1', 8, { opacity: 0.8 }, { opacity: 0 });
-      const timeline2 = gsap.timeline({ repeat: -1, yoyo: true });
-      timeline2
-        .fromTo('.inset-center-text2', 6, { opacity: 0 }, { opacity: 0.01 })
-        .fromTo('.inset-center-text2', 8, { opacity: 0 }, { opacity: 0.8 });
-    },
-    { scope: container },
-  );
 
   const checkFormData = () => {
     if (username.split(' ').length !== 2) {
@@ -116,37 +98,8 @@ function Layout({ play, onPlay }: LayoutProps) {
         </div>
       </div>
       {/* Center */}
-      <div
-        ref={container}
-        className="inset-center visible z-50 select-none w-[90vw] sm:w-[700px] grid"
-      >
-        <div className="inset-center-text1 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0.8] pt-48">
-          <div> </div>
-          <div> </div>
-          <div>R</div>
-          <div>E</div>
-          <div>:</div>
-          <div>T</div>
-          <div>U</div>
-          <div>R</div>
-          <div>N</div>
-          <div> </div>
-          <div> </div>
-        </div>
-        <div className="inset-center-text2 w-full text-center uppercase font-extralight text-[60px] justify-center align-center animate-[colors_1s_ease-in-out_infinite_alternate] grid grid-cols-11 gap-4 text-custom col-start-1 row-start-1 opacity-[0] pt-48">
-          <div> </div>
-          <div>2</div>
-          <div>A</div>
-          <div>D</div>
-          <div>V</div>
-          <div>A</div>
-          <div>N</div>
-          <div>C</div>
-          <div>E</div>
-          <div>D</div>
-          <div> </div>
-        </div>
-      </div>
+      <FadeText />
+
       {/* Footer */}
       <div className="footer absolute max-w-full bottom-[22px] px-[22px] inset-x-0 flex flex-col justify-between items-center tracking-wider z-50">
         <div className="footer-receive flex justify-center w-full font-bold text-white text-[13px] tracking-widest select-none pointer-events-none">

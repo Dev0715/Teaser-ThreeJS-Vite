@@ -1,7 +1,6 @@
-import { OrbitControls, Environment } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Leva } from 'leva';
-import { Perf } from 'r3f-perf';
 
 import Aurora from './canvas/Aurora';
 import Explorer from './canvas/Explorer';

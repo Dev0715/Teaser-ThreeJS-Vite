@@ -1,12 +1,13 @@
 import { Canvas } from '@react-three/fiber';
-import Analyzer2 from './audio/Analyzer2';
 import React from 'react';
 
-interface Scene3Props {
+import Analyzer2 from './audio/Analyzer2';
+
+interface Scene2Props {
   play: boolean;
 }
 
-function Scene3({ play }: Scene3Props) {
+function Scene2({ play }: Scene2Props) {
   return (
     <Canvas
       className="webgl2"
@@ -25,4 +26,4 @@ function Scene3({ play }: Scene3Props) {
   );
 }
 
-export default Scene3;
+export default Scene2;

@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
-import Analyzer1 from './audio/Analyzer1';
 import React from 'react';
+
+import Analyzer1 from './audio/Analyzer1';
 
 interface Scene1Props {
   play: boolean;
