@@ -25,27 +25,33 @@ const BUTTON_TEXT: Record<string, string>[] = [
   },
 ];
 
-const NUMBER_OF_DIGIT = 6;
+const NUMBER_OF_OTP_DIGIT = 6;
+
+export type UnsubCancelParam = {
+  error?: string;
+};
 
 const UnsubDialog = ({
   email,
   onCancel,
 }: {
   email: string;
-  onCancel?: () => void;
+  onCancel: (params: UnsubCancelParam) => void;
 }) => {
   const [isPending, setPending] = useState<boolean>(false);
   const [step, setStep] = useState<string>(STEP_UNSUBCRIBE);
 
-  const [otp, setOtp] = useState<string[]>(new Array(NUMBER_OF_DIGIT).fill(''));
-  const optRef = useRef(new Array(NUMBER_OF_DIGIT).fill(HTMLInputElement));
+  const [otp, setOtp] = useState<string[]>(
+    new Array(NUMBER_OF_OTP_DIGIT).fill(''),
+  );
+  const optRef = useRef(new Array(NUMBER_OF_OTP_DIGIT).fill(HTMLInputElement));
 
   function handleChange(value: string, index: number) {
     let newArr = [...otp];
     newArr[index] = value;
     setOtp(newArr);
 
-    if (value && index < NUMBER_OF_DIGIT - 1) {
+    if (value && index < NUMBER_OF_OTP_DIGIT - 1) {
       optRef.current[index + 1].focus();
     }
   }
@@ -60,7 +66,7 @@ const UnsubDialog = ({
     if (
       e.key === 'Enter' &&
       e.currentTarget.value &&
-      index < NUMBER_OF_DIGIT - 1
+      index < NUMBER_OF_OTP_DIGIT - 1
     ) {
       optRef.current[index + 1].focus();
     }
@@ -82,7 +88,9 @@ const UnsubDialog = ({
       })
       .catch((error) => {
         console.error(error);
-        onCancel();
+        onCancel({
+          error: 'Internal Server Error!',
+        });
       });
   };
 
@@ -102,7 +110,9 @@ const UnsubDialog = ({
       .then((res) => {})
       .catch((error) => {
         console.error(error);
-        onCancel();
+        onCancel({
+          error: 'Internal Server Error!',
+        });
       });
   };
 
@@ -153,7 +163,7 @@ const UnsubDialog = ({
           <button
             disabled={isPending}
             className="px-4 py-1 border border-gray-500 rounded-sm text-black hover:drop-shadow disabled:text-gray-500"
-            onClick={onCancel}
+            onClick={() => onCancel({})}
           >
             CANCEL
           </button>
