@@ -71,11 +71,11 @@ function Subscription({ username, email }: SubscriptionProps) {
         SUBMIT
       </button>
 
-      {/* {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
+      {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
 
       {isUnsub && (
         <UnsubDialog email={email} onCancel={() => setUnsub(false)} />
-      )} */}
+      )}
     </div>
   );
 }
