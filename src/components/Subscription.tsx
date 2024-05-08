@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { validateEmail } from '@/lib/validateEmail';
 import WarningAlert from './dialog/WarningAlert';
-import UnsubDialog, { UnsubCancelParam } from './dialog/UnsubDialog';
+import UnsubDialog from './dialog/UnsubDialog';
+import ValidationDialog from './dialog/ValidationDialog';
+
+export type DialogCancelParam = {
+  error?: string;
+  success?: string;
+};
 
 type SubscriptionProps = {
   username: string;
@@ -11,7 +17,9 @@ type SubscriptionProps = {
 
 function Subscription({ username, email }: SubscriptionProps) {
   const [errMsg, setErrMsg] = useState<string>('');
-  const [isUnsub, setUnsub] = useState<boolean>(false);
+  const [isPending, setPending] = useState<boolean>(false);
+  const [isUnsubDlg, setUnsubDlg] = useState<boolean>(false);
+  const [isValidationDlg, setValidationDlg] = useState<boolean>(true);
 
   const checkFormData = () => {
     if (username.split(' ').length !== 2) {
@@ -41,7 +49,7 @@ function Subscription({ username, email }: SubscriptionProps) {
     }
 
     const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
-    const url = base_url + '/subscriber/new';
+    const url_new = base_url + '/subscriber/new';
 
     const data = {
       ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
