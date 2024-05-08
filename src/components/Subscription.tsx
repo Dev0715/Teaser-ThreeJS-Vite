@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { validateEmail } from '@/lib/validateEmail';
 import WarningAlert from './dialog/WarningAlert';
-import UnsubDialog from './dialog/UnsubDialog';
+import UnsubDialog, { UnsubCancelParam } from './dialog/UnsubDialog';
 
 type SubscriptionProps = {
   username: string;
@@ -10,7 +10,7 @@ type SubscriptionProps = {
 };
 
 function Subscription({ username, email }: SubscriptionProps) {
-  const [errMsg, setErrMsg] = useState<string>('Something went wrong!');
+  const [errMsg, setErrMsg] = useState<string>('');
   const [isUnsub, setUnsub] = useState<boolean>(false);
 
   const checkFormData = () => {
@@ -61,6 +61,13 @@ function Subscription({ username, email }: SubscriptionProps) {
       });
   };
 
+  const onUnsubCancel = ({ error }: UnsubCancelParam) => {
+    if (error) {
+      setUnsub(false);
+      setErrMsg(error);
+    }
+  };
+
   return (
     <div className="footer-center flex flex-col items-center justify-center w-[150px]">
       <button
@@ -73,9 +80,7 @@ function Subscription({ username, email }: SubscriptionProps) {
 
       {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
 
-      {isUnsub && (
-        <UnsubDialog email={email} onCancel={() => setUnsub(false)} />
-      )}
+      {isUnsub && <UnsubDialog email={email} onCancel={onUnsubCancel} />}
     </div>
   );
 }
