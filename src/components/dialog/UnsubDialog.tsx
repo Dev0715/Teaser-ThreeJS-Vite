@@ -69,6 +69,41 @@ const UnsubDialog = ({
   const unsubscribe = () => {
     const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
     const url = base_url + '/subscriber/unsub/' + email;
+
+    setPending(true);
+
+    axios
+      .post(url, {
+        ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
+      })
+      .then((res) => {
+        setPending(false);
+        setStep(STEP_OTP);
+      })
+      .catch((error) => {
+        console.error(error);
+        onCancel();
+      });
+  };
+
+  const confirmOtp = () => {
+    const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
+    const url = base_url + '/subscriber/unsub';
+    const otp_str = otp.join('');
+
+    setPending(true);
+
+    axios
+      .post(url, {
+        ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
+        subscriberEmail: email,
+        opt: otp_str,
+      })
+      .then((res) => {})
+      .catch((error) => {
+        console.error(error);
+        onCancel();
+      });
   };
 
   const onOK = () => {
