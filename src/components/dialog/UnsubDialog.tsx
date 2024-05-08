@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
+import { DialogCancelParam } from '../Subscription';
 
 const STEP_UNSUBCRIBE = 'step_unsubscribe';
 const STEP_OTP = 'step_otp';
@@ -27,16 +28,12 @@ const BUTTON_TEXT: Record<string, string>[] = [
 
 const NUMBER_OF_OTP_DIGIT = 6;
 
-export type UnsubCancelParam = {
-  error?: string;
-};
-
 const UnsubDialog = ({
   email,
   onCancel,
 }: {
   email: string;
-  onCancel: (params: UnsubCancelParam) => void;
+  onCancel: (params: DialogCancelParam) => void;
 }) => {
   const [isPending, setPending] = useState<boolean>(false);
   const [step, setStep] = useState<string>(STEP_UNSUBCRIBE);
@@ -74,15 +71,17 @@ const UnsubDialog = ({
 
   const unsubscribe = () => {
     const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
-    const url = base_url + '/subscriber/unsub/' + email;
+    const url_unsubscribe = base_url + '/subscriber/unsubscribe';
 
     setPending(true);
 
     axios
-      .post(url, {
+      .post(url_unsubscribe, {
         ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
+        subscriberEmail: email,
       })
       .then((res) => {
+        console.log(res);
         setPending(false);
         setStep(STEP_OTP);
       })
@@ -126,7 +125,7 @@ const UnsubDialog = ({
 
   return (
     <div
-      className="absolute top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-700/50 z-50 rounded-lg"
+      className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-700/50 z-50 rounded-lg"
       role="alert"
     >
       <div className="w-[480px] flex flex-col gap-y-8 px-6 py-6 bg-white rounded-xl">
@@ -137,6 +136,7 @@ const UnsubDialog = ({
             <p>{LINE2_TEXT[step]}</p>
           </div>
         </div>
+
         {step === STEP_OTP && (
           <div className="flex items-center gap-x-4">
             {otp.map((digit, index) => (
@@ -152,6 +152,7 @@ const UnsubDialog = ({
             ))}
           </div>
         )}
+
         <div className="flex gap-x-8 self-center">
           <button
             disabled={isPending}
