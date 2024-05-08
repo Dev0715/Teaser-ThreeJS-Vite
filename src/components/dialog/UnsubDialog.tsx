@@ -34,15 +34,49 @@ const UnsubDialog = ({
   email: string;
   onCancel?: () => void;
 }) => {
-  const [otp, setOtp] = useState<string>('');
+  const [isPending, setPending] = useState<boolean>(false);
+  const [step, setStep] = useState<string>(STEP_UNSUBCRIBE);
 
-  const onOK = () => {
+  const [otp, setOtp] = useState<string[]>(new Array(NUMBER_OF_DIGIT).fill(''));
+  const optRef = useRef(new Array(NUMBER_OF_DIGIT).fill(HTMLInputElement));
+
+  function handleChange(value: string, index: number) {
+    let newArr = [...otp];
+    newArr[index] = value;
+    setOtp(newArr);
+
+    if (value && index < NUMBER_OF_DIGIT - 1) {
+      optRef.current[index + 1].focus();
+    }
+  }
+
+  function handleBackspaceAndEnter(
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number,
+  ) {
+    if (e.key === 'Backspace' && !e.currentTarget.value && index > 0) {
+      optRef.current[index - 1].focus();
+    }
+    if (
+      e.key === 'Enter' &&
+      e.currentTarget.value &&
+      index < NUMBER_OF_DIGIT - 1
+    ) {
+      optRef.current[index + 1].focus();
+    }
+  }
+
+  const unsubscribe = () => {
     const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
     const url = base_url + '/subscriber/unsub/' + email;
+  };
 
-    axios.post(url).then((res) => {
-      console.log(res);
-    });
+  const onOK = () => {
+    if (step === STEP_UNSUBCRIBE) {
+      unsubscribe();
+    } else if (step === STEP_OTP) {
+      confirmOtp();
+    }
   };
 
   return (
