@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { validateEmail } from '@/lib/validateEmail';
 import WarningAlert from './dialog/AlertDialog';
-import UnsubscribeDialog from './dialog/UnsubDialog';
+import UnsubscribeDialog from './dialog/UnSubscriptionDialog';
 import ValidationDialog from './dialog/ValidationDialog';
 
 export type DialogCancelParam = {

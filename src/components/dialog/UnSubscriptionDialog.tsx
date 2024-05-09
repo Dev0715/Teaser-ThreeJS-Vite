@@ -141,7 +141,7 @@ const UnsubscribeDialog = ({
     >
       <div className="w-[480px] flex flex-col gap-y-8 px-6 py-6 bg-white rounded-xl">
         <div className="flex flex-col gap-y-4">
-          <p className="text-xl text-black font-bold">Unsubscription</p>
+          <p className="text-xl text-black font-bold">Un-subscription</p>
           <div className="flex flex-col gap-y-0">
             <p>{LINE1_TEXT[step]}</p>
             <p>{LINE2_TEXT[step]}</p>
