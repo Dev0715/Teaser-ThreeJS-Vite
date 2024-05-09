@@ -18,23 +18,11 @@ body,
 
 @keyframes colors {
   from {
-    text-shadow:
-      0 0 10px #fff,
-      0 0 20px #fff,
-      0 0 30px #05979c,
-      0 0 40px #05979c,
-      0 0 50px #05979c,
-      0 0 60px #05979c,
-      0 0 70px #05979c;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #05979c,
+      0 0 40px #05979c, 0 0 50px #05979c, 0 0 60px #05979c, 0 0 70px #05979c;
   }
   to {
-    text-shadow:
-      0 0 20px #fff,
-      0 0 30px #6ef5fa,
-      0 0 40px #6ef5fa,
-      0 0 50px #6ef5fa,
-      0 0 60px #6ef5fa,
-      0 0 70px #6ef5fa,
-      0 0 80px #6ef5fa;
+    text-shadow: 0 0 20px #fff, 0 0 30px #6ef5fa, 0 0 40px #6ef5fa,
+      0 0 50px #6ef5fa, 0 0 60px #6ef5fa, 0 0 70px #6ef5fa, 0 0 80px #6ef5fa;
   }
 }

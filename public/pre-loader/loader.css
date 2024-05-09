@@ -12,7 +12,7 @@ body {
   opacity: 1;
 }
 
-.loader-container.hide {
+.hide-fade {
   visibility: hidden;
   opacity: 0;
   transition: visibility 1s, opacity 1s ease-out;
@@ -28,9 +28,10 @@ body {
 }
 
 .loader-wrapper path {
-  fill: #bcbbb9;
+  fill: #fff;
   opacity: 0;
-  animation: 20s opacity 1;
+  animation: 2s opacity 1;
+  animation-fill-mode: forwards;
 }
 
 @keyframes opacity {
@@ -41,9 +42,18 @@ body {
     opacity: 0;
   }
   18% {
-    opacity: 1;
+    opacity: 0.24;
   }
-  85% {
+  100% {
+    opacity: 0.24;
+  }
+}
+
+@keyframes opacity-lottie {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }
@@ -54,4 +64,9 @@ body {
 
 .loader-wrapper .part3 {
   animation-delay: 0.8s;
+}
+
+.loader-wrapper.lottie {
+  opacity: 0;
+  animation: 2s opacity-lottie 1 1s forwards;
 }

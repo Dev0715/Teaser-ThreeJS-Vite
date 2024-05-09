@@ -2,6 +2,7 @@ import React from 'react';
 import { Leva } from 'leva';
 
 import Layout from './components/Layout';
+import EnterScreen from './components/EnterScreen';
 import { useAudiate } from './hooks/use-audiate';
 
 export const DELAY_TIME = 3000;
@@ -16,7 +17,7 @@ export default function App() {
   React.useEffect(() => {
     setTimeout(() => {
       const loader = document.getElementById('loader');
-      loader?.classList.add('hide');
+      loader?.classList.add('hide-fade');
     }, DELAY_TIME);
   }, []);
 
@@ -33,6 +34,8 @@ export default function App() {
 
   return (
     <>
+      <EnterScreen />
+
       {/* Debug panel */}
       <Leva hidden={debugValue} />
 
