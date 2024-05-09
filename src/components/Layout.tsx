@@ -12,8 +12,8 @@ type LayoutProps = {
 };
 
 function Layout({ play, onPlay }: LayoutProps) {
-  const [username, setUsername] = useState<string>('Jack Smith');
-  const [email, setEmail] = useState<string>('jacksmith@gmail.com');
+  const [username, setUsername] = useState<string>('Firstname Lastname');
+  const [email, setEmail] = useState<string>('username@domain.com');
 
   return (
     <>
