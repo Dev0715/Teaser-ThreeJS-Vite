@@ -68,7 +68,7 @@ function Track({ url, vertexShader, fragmentShader }: TrackProps) {
   extend({ AnalyzerMaterial });
 
   return (
-    <mesh ref={mesh} scale={[200, 8, 0]} position={[0, 0, 0]}>
+    <mesh ref={mesh} scale={[220, 8, 0]} position={[0, 0, 0]}>
       <planeGeometry />
       <analyzerMaterial side={THREE.DoubleSide} attach="material" />
     </mesh>
