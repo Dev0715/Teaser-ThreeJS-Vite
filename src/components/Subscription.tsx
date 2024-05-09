@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { validateEmail } from '@/lib/validateEmail';
-import WarningAlert from './dialog/WarningAlert';
-import UnsubDialog from './dialog/UnsubDialog';
+import WarningAlert from './dialog/AlertDialog';
+import UnsubscribeDialog from './dialog/UnsubDialog';
 import ValidationDialog from './dialog/ValidationDialog';
 
 export type DialogCancelParam = {
@@ -87,6 +87,7 @@ function Subscription({ username, email }: SubscriptionProps) {
       setMessage(success);
     }
     setUnsubDlg(false);
+    setValidationDlg(false);
   };
 
   return (
@@ -108,7 +109,9 @@ function Subscription({ username, email }: SubscriptionProps) {
         />
       )}
 
-      {isUnsubDlg && <UnsubDialog email={email} onCancel={onDialogCancel} />}
+      {isUnsubDlg && (
+        <UnsubscribeDialog email={email} onCancel={onDialogCancel} />
+      )}
 
       {isValidationDlg && (
         <ValidationDialog email={email} onCancel={onDialogCancel} />
