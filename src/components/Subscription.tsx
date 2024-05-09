@@ -3,7 +3,10 @@ import axios, { AxiosResponse } from 'axios';
 import { validateEmail } from '@/lib/validateEmail';
 import WarningAlert from './dialog/AlertDialog';
 import UnsubscribeDialog from './dialog/UnSubscriptionDialog';
-import ValidationDialog from './dialog/ValidationDialog';
+import ValidationDialog, {
+  STATUS_CREATED,
+  STATUS_INVALIDATED,
+} from './dialog/ValidationDialog';
 
 export type DialogCancelParam = {
   error?: string;
@@ -19,8 +22,8 @@ function Subscription({ username, email }: SubscriptionProps) {
   const [msgTitle, setMsgTitle] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [isPending, setPending] = useState<boolean>(false);
-  const [isUnsubDlg, setUnsubDlg] = useState<boolean>(false);
-  const [isValidationDlg, setValidationDlg] = useState<boolean>(false);
+  const [isUnSubDlg, setUnSubDlg] = useState<boolean>(false);
+  const [validationStatus, setValidationDlg] = useState<string>('');
 
   const checkFormData = () => {
     if (username.split(' ').length !== 2) {
@@ -41,10 +44,11 @@ function Subscription({ username, email }: SubscriptionProps) {
       setMsgTitle('Error');
       setMessage(data.error);
     } else if (data.existing) {
-      setUnsubDlg(true);
-    } else if (data.unvalidated) {
+      setUnSubDlg(true);
+    } else if (data.invalidated) {
+      setValidationDlg(STATUS_INVALIDATED);
     } else if (data.created) {
-      setValidationDlg(true);
+      setValidationDlg(STATUS_CREATED);
     }
   };
 
@@ -86,8 +90,8 @@ function Subscription({ username, email }: SubscriptionProps) {
       setMsgTitle('Success');
       setMessage(success);
     }
-    setUnsubDlg(false);
-    setValidationDlg(false);
+    setUnSubDlg(false);
+    setValidationDlg('');
   };
 
   return (
@@ -98,7 +102,7 @@ function Subscription({ username, email }: SubscriptionProps) {
         className="bg-primary w-[160px] h-[32px] py-1.6 text-[13px] font-bold uppercase leading-normal text-black hover:cursor-pointer z-50 tracking-widest"
         onClick={onSubmit}
       >
-        {`SUBMIT ${isPending ? '...' : ''}`}
+        {`SUBMIT${isPending ? 'TING...' : ''}`}
       </button>
 
       {message && (
@@ -109,12 +113,16 @@ function Subscription({ username, email }: SubscriptionProps) {
         />
       )}
 
-      {isUnsubDlg && (
+      {isUnSubDlg && (
         <UnsubscribeDialog email={email} onCancel={onDialogCancel} />
       )}
 
-      {isValidationDlg && (
-        <ValidationDialog email={email} onCancel={onDialogCancel} />
+      {validationStatus && (
+        <ValidationDialog
+          email={email}
+          validationStatus={validationStatus}
+          onCancel={onDialogCancel}
+        />
       )}
     </div>
   );
