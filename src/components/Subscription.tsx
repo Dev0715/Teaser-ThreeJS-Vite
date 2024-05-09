@@ -59,37 +59,47 @@ function Subscription({ username, email }: SubscriptionProps) {
       subscriberEmail: email,
     };
 
+    setPending(true);
+
     axios
-      .post(url, { ...data })
+      .post(url_new, { ...data })
       .then((res) => {
         handleResponse(res);
+        setPending(false);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         setErrMsg('Internal Server Error!');
+        setPending(false);
       });
   };
 
-  const onUnsubCancel = ({ error }: UnsubCancelParam) => {
+  const onUnsubCancel = ({ error, success }: DialogCancelParam) => {
     if (error) {
-      setUnsub(false);
       setErrMsg(error);
+    } else if (success) {
+      setErrMsg(success);
     }
+    setUnsubDlg(false);
   };
 
   return (
     <div className="footer-center flex flex-col items-center justify-center w-[150px]">
       <button
+        disabled={isPending}
         type="button"
         className="bg-primary w-[160px] h-[32px] py-1.6 text-[13px] font-bold uppercase leading-normal text-black hover:cursor-pointer z-50 tracking-widest"
         onClick={onSubmit}
       >
-        SUBMIT
+        {`SUBMIT ${isPending ? '...' : ''}`}
       </button>
 
       {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
 
-      {isUnsub && <UnsubDialog email={email} onCancel={onUnsubCancel} />}
+      {isUnsubDlg && <UnsubDialog email={email} onCancel={onUnsubCancel} />}
+
+      {isValidationDlg && (
+        <ValidationDialog email={email} onCancel={onUnsubCancel} />
+      )}
     </div>
   );
 }
