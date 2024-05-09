@@ -1,33 +1,7 @@
 import React from 'react';
 
 import Scene1 from './Scene1';
-
-const Divider = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    height="6"
-    viewBox="0 0 470 6"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <g opacity="0.5" preserveAspectRatio="xMinYMid">
-      <path
-        d="M3.26999 5.1901C4.60652 5.1901 5.68997 4.10663 5.68997 2.7701C5.68997 1.43357 4.60652 0.350098 3.26999 0.350098C1.93346 0.350098 0.849976 1.43357 0.849976 2.7701C0.849976 4.10663 1.93346 5.1901 3.26999 5.1901Z"
-        fill="white"
-      />
-      <path
-        d="M466.62 5.1901C467.956 5.1901 469.04 4.10663 469.04 2.7701C469.04 1.43357 467.956 0.350098 466.62 0.350098C465.283 0.350098 464.2 1.43357 464.2 2.7701C464.2 4.10663 465.283 5.1901 466.62 5.1901Z"
-        fill="white"
-      />
-      <path
-        d="M3.5 2.77008H465.74"
-        stroke="white"
-        stroke-width="0.3"
-        stroke-miterlimit="10"
-      />
-    </g>
-  </svg>
-);
+import Divider from './Divider';
 
 const FrequencyBox = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -42,7 +16,7 @@ const FrequencyBox = (props: React.SVGProps<SVGSVGElement>) => (
       opacity="0.2"
       d="M420.9 1.16003H0.589966V14.65H420.9V1.16003Z"
       stroke="white"
-      stroke-miterlimit="10"
+      strokeMiterlimit="10"
     />
     <path d="M14.1 0.850098H0.589966V14.3601H14.1V0.850098Z" fill="#6EF5FA" />
     <path d="M420.41 1.51001H406.9V15.02H420.41V1.51001Z" fill="#6EF5FA" />

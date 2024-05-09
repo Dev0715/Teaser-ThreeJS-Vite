@@ -95,7 +95,7 @@ function Subscription({ username, email }: SubscriptionProps) {
   };
 
   return (
-    <div className="footer-center flex flex-col items-center justify-center w-[150px]">
+    <div className="footer-center flex flex-col items-center justify-center">
       <button
         disabled={isPending}
         type="button"

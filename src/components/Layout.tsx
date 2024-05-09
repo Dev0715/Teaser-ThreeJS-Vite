@@ -6,6 +6,7 @@ import Scene2 from './Scene2';
 import PositionMarker from './PositionMarker';
 import FadeText from './FadeText';
 import Subscription from './Subscription';
+import Divider from './Divider';
 
 type LayoutProps = {
   play: boolean;
@@ -66,42 +67,40 @@ function Layout({ play, onPlay }: LayoutProps) {
             </div>
           </div>
         </div>
-        <div className="footer-bottom flex justify-between items-center w-full mt-4">
-          <div className="footer-left flex justify-between w-[calc((100vw-170px)/2)]">
-            <div className="footer-left-1 flex justify-between w-[170px]">
-              <div className="footer-left-text text-[12px]">
-                <span className="mr-3 pointer-events-none">AUDITORY</span>
-                <span
-                  id="play-on"
-                  className={`px-3 sm:px-[12px] py-0.2 hover:cursor-pointer ${
-                    play ? 'bg-primary text-black' : 'bg-secondary text-white'
-                  }`}
-                  onClick={() => onPlay(!play)}
-                >
-                  ON
-                </span>
-                <span
-                  id="play-off"
-                  className={`ml-[0.5px] px-1 sm:px-[7px] py-0.2 hover:cursor-pointer ${
-                    play ? 'bg-secondary text-white' : 'bg-primary text-black'
-                  }`}
-                  onClick={() => onPlay(!play)}
-                >
-                  OFF
-                </span>
-              </div>
+        <div className="footer-bottom w-full mt-4 grid grid-cols-[auto_1fr_auto_1fr_auto] items-center">
+          <div className="footer-left flex w-[170px]">
+            <div className="footer-left-text text-xs">
+              <span className="mr-3 pointer-events-none">AUDITORY</span>
+              <span
+                id="play-on"
+                className={`px-3 sm:px-[12px] py-0.2 hover:cursor-pointer ${
+                  play ? 'bg-primary text-black' : 'bg-secondary text-white'
+                }`}
+                onClick={() => onPlay(!play)}
+              >
+                ON
+              </span>
+              <span
+                id="play-off"
+                className={`ml-[0.5px] px-1 sm:px-[7px] py-0.2 hover:cursor-pointer ${
+                  play ? 'bg-secondary text-white' : 'bg-primary text-black'
+                }`}
+                onClick={() => onPlay(!play)}
+              >
+                OFF
+              </span>
             </div>
-            <div className="footer-left-svg bg-no-repeat bg-center pt-5 w-1 2xl:mr-5 2xl:w-[calc((100vw-170px)/2-210px)] sm:mr-8 sm:w-[calc((100vw-170px)/2-190px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
           </div>
+
+          <Divider className="footer-left-svg w-full h-[4px]" />
 
           <Subscription username={username} email={email} />
 
-          <div className="footer-right flex justify-between w-[calc((100vw-170px)/2)]">
-            <div className="footer-right-svg bg-no-repeat bg-center pt-5 w-1 2xl:ml-6 2xl:w-[calc((100vw-170px)/2-210px)] sm:ml-8 sm:w-[calc((100vw-170px)/2-190px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
-            <div className="footer-right-svg1 z-50 select-none w-[170px] h-[19px] grid bg-chartBack ml-1">
-              {/* Scene for bars frequency animation */}
-              <Scene2 play={play} />
-            </div>
+          <Divider className="footer-left-svg w-full h-[4px]" />
+
+          <div className="footer-right-svg1 z-50 select-none w-[170px] h-[19px] bg-chartBack">
+            {/* Scene for bars frequency animation */}
+            <Scene2 play={play} />
           </div>
         </div>
       </div>
