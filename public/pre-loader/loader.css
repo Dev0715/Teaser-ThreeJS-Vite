@@ -34,6 +34,14 @@ body {
   animation-fill-mode: forwards;
 }
 
+.loader-wrapper .part2 {
+  animation-delay: 0.5s;
+}
+
+.loader-wrapper .part3 {
+  animation-delay: 0.8s;
+}
+
 @keyframes opacity {
   0% {
     opacity: 0;
@@ -49,6 +57,11 @@ body {
   }
 }
 
+.loader-wrapper.lottie {
+  opacity: 0;
+  animation: 2s opacity-lottie 1 1s forwards;
+}
+
 @keyframes opacity-lottie {
   0% {
     opacity: 0;
@@ -56,17 +69,4 @@ body {
   100% {
     opacity: 1;
   }
-}
-
-.loader-wrapper .part2 {
-  animation-delay: 0.5s;
-}
-
-.loader-wrapper .part3 {
-  animation-delay: 0.8s;
-}
-
-.loader-wrapper.lottie {
-  opacity: 0;
-  animation: 2s opacity-lottie 1 1s forwards;
 }
