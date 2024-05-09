@@ -28,13 +28,12 @@ const BUTTON_TEXT: Record<string, string>[] = [
 
 const NUMBER_OF_OTP_DIGIT = 6;
 
-const UnsubscribeDialog = ({
-  email,
-  onCancel,
-}: {
+type UnsubscribeProps = {
   email: string;
   onCancel: (params: DialogCancelParam) => void;
-}) => {
+};
+
+const UnsubscribeDialog = ({ email, onCancel }: UnsubscribeProps) => {
   const [isPending, setPending] = useState<boolean>(false);
   const [step, setStep] = useState<string>(STEP_UNSUBSCRIBE);
   const [errMsg, setErrMsg] = useState<string>('');
