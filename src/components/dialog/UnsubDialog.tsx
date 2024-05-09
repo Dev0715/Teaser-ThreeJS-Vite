@@ -2,33 +2,33 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { DialogCancelParam } from '../Subscription';
 
-const STEP_UNSUBCRIBE = 'step_unsubscribe';
+const STEP_UNSUBSCRIBE = 'step_unsubscribe';
 const STEP_OTP = 'step_otp';
 
 const LINE1_TEXT: Record<string, string> = {
-  [STEP_UNSUBCRIBE]: 'Email already exists.',
+  [STEP_UNSUBSCRIBE]: 'Email already exists.',
   [STEP_OTP]: 'OTP sent to your email.',
 };
 
 const LINE2_TEXT: Record<string, string> = {
-  [STEP_UNSUBCRIBE]: 'Do you want to unsubscribe from this site?',
+  [STEP_UNSUBSCRIBE]: 'Do you want to unsubscribe from this site?',
   [STEP_OTP]: 'Please input OTP to unsubscribe successfully.',
 };
 
 const BUTTON_TEXT: Record<string, string>[] = [
   {
-    [STEP_UNSUBCRIBE]: 'Unsubscribe',
+    [STEP_UNSUBSCRIBE]: 'Unsubscribe',
     [STEP_OTP]: 'Confirm',
   },
   {
-    [STEP_UNSUBCRIBE]: 'Unsubscribing...',
-    [STEP_OTP]: 'Confirmimg...',
+    [STEP_UNSUBSCRIBE]: 'Unsubscribing...',
+    [STEP_OTP]: 'Confirming...',
   },
 ];
 
 const NUMBER_OF_OTP_DIGIT = 6;
 
-const UnsubDialog = ({
+const UnsubscribeDialog = ({
   email,
   onCancel,
 }: {
@@ -36,7 +36,7 @@ const UnsubDialog = ({
   onCancel: (params: DialogCancelParam) => void;
 }) => {
   const [isPending, setPending] = useState<boolean>(false);
-  const [step, setStep] = useState<string>(STEP_UNSUBCRIBE);
+  const [step, setStep] = useState<string>(STEP_UNSUBSCRIBE);
 
   const [otp, setOtp] = useState<string[]>(
     new Array(NUMBER_OF_OTP_DIGIT).fill(''),
@@ -95,7 +95,7 @@ const UnsubDialog = ({
 
   const confirmOtp = () => {
     const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
-    const url = base_url + '/subscriber/unsub';
+    const url = base_url + '/subscriber/remove';
     const otp_str = otp.join('');
 
     setPending(true);
@@ -104,7 +104,7 @@ const UnsubDialog = ({
       .post(url, {
         ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
         subscriberEmail: email,
-        opt: otp_str,
+        otp: otp_str,
       })
       .then((res) => {})
       .catch((error) => {
@@ -116,7 +116,7 @@ const UnsubDialog = ({
   };
 
   const onOK = () => {
-    if (step === STEP_UNSUBCRIBE) {
+    if (step === STEP_UNSUBSCRIBE) {
       unsubscribe();
     } else if (step === STEP_OTP) {
       confirmOtp();
@@ -174,4 +174,4 @@ const UnsubDialog = ({
   );
 };
 
-export default UnsubDialog;
+export default UnsubscribeDialog;

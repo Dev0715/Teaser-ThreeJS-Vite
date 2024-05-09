@@ -12,7 +12,7 @@ const ValidationDialog = ({
   onCancel: (params: DialogCancelParam) => void;
 }) => {
   const [isPending, setPending] = useState<boolean>(false);
-  const [errMsg, setErrMsg] = useState<string>('OTP is incorrect!');
+  const [errMsg, setErrMsg] = useState<string>('');
 
   const [otp, setOtp] = useState<string[]>(
     new Array(NUMBER_OF_OTP_DIGIT).fill(''),
@@ -58,7 +58,7 @@ const ValidationDialog = ({
       .post(url_validate, {
         ownerEmail: import.meta.env.VITE_SITE_OWNER_EMAIL as string,
         subscriberEmail: email,
-        opt: otp_str,
+        otp: otp_str,
       })
       .then((res) => {
         const data = res.data;
