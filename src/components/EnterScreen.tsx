@@ -1,10 +1,15 @@
 import React from 'react';
 
-export default function EnterScreen() {
+type EnterScreenProps = {
+  onClick?: () => void;
+};
+
+export default function EnterScreen({ onClick }: EnterScreenProps) {
   const [show, setShow] = React.useState(true);
 
   const handleClick = () => {
     setShow(false);
+    onClick?.();
   };
 
   return (

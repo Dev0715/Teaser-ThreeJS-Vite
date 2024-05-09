@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <>
-      <EnterScreen />
+      <EnterScreen onClick={() => handlePlay(true)} />
 
       {/* Debug panel */}
       <Leva hidden={debugValue} />
