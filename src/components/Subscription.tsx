@@ -16,17 +16,20 @@ type SubscriptionProps = {
 };
 
 function Subscription({ username, email }: SubscriptionProps) {
-  const [errMsg, setErrMsg] = useState<string>('');
+  const [msgTitle, setMsgTitle] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const [isPending, setPending] = useState<boolean>(false);
   const [isUnsubDlg, setUnsubDlg] = useState<boolean>(false);
   const [isValidationDlg, setValidationDlg] = useState<boolean>(false);
 
   const checkFormData = () => {
     if (username.split(' ').length !== 2) {
-      setErrMsg('Username should be First name and Last name.');
+      setMsgTitle('Error');
+      setMessage('Username should be First name and Last name.');
       return false;
     } else if (!validateEmail(email)) {
-      setErrMsg('Email you input is incorrect.');
+      setMsgTitle('Error');
+      setMessage('Email you input is incorrect.');
       return false;
     }
     return true;
@@ -35,7 +38,8 @@ function Subscription({ username, email }: SubscriptionProps) {
   const handleResponse = (response: AxiosResponse<any, any>) => {
     const data = response.data;
     if (data.error) {
-      setErrMsg(data.error);
+      setMsgTitle('Error');
+      setMessage(data.error);
     } else if (data.existing) {
       setUnsubDlg(true);
     } else if (data.unvalidated) {
@@ -68,16 +72,19 @@ function Subscription({ username, email }: SubscriptionProps) {
         setPending(false);
       })
       .catch(() => {
-        setErrMsg('Internal Server Error!');
+        setMsgTitle('Error');
+        setMessage('Internal Server Error!');
         setPending(false);
       });
   };
 
-  const onUnsubCancel = ({ error, success }: DialogCancelParam) => {
+  const onDialogCancel = ({ error, success }: DialogCancelParam) => {
     if (error) {
-      setErrMsg(error);
+      setMsgTitle('Error');
+      setMessage(error);
     } else if (success) {
-      setErrMsg(success);
+      setMsgTitle('Success');
+      setMessage(success);
     }
     setUnsubDlg(false);
   };
@@ -93,12 +100,18 @@ function Subscription({ username, email }: SubscriptionProps) {
         {`SUBMIT ${isPending ? '...' : ''}`}
       </button>
 
-      {errMsg && <WarningAlert message={errMsg} setMessage={setErrMsg} />}
+      {message && (
+        <WarningAlert
+          title={msgTitle}
+          message={message}
+          setMessage={setMessage}
+        />
+      )}
 
-      {isUnsubDlg && <UnsubDialog email={email} onCancel={onUnsubCancel} />}
+      {isUnsubDlg && <UnsubDialog email={email} onCancel={onDialogCancel} />}
 
       {isValidationDlg && (
-        <ValidationDialog email={email} onCancel={onUnsubCancel} />
+        <ValidationDialog email={email} onCancel={onDialogCancel} />
       )}
     </div>
   );
