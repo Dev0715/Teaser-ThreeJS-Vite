@@ -22,27 +22,23 @@ function Layout({ play, onPlay }: LayoutProps) {
         {/* Main scene */}
         <Scene />
       </div>
-      <div className="header absolute max-w-full w-full top-[22px] px-[22px] flex justify-between tracking-wider z-50 select-none">
-        <div className="freq-level flex items-center">
-          <div className="freq-level-text text-xs opacity-[0.5]">
-            FREQUENCY LEVEL
-          </div>
-          <div className="freq-level-svg bg-no-repeat bg-center pt-5 2xl:ml-4 xl:ml-5 2xl:w-[calc(31vw-90px)] w-[calc(31vw-120px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
+      <div className="header absolute max-w-full w-full top-[22px] px-[22px] flex items-center justify-between tracking-wider z-50 select-none whitespace-nowrap">
+        <div className="freq-level-text text-xs opacity-[0.5]">
+          FREQUENCY LEVEL
         </div>
-        <div className="freq-line flex">
-          <div className="freq-line-text text-xs whitespace-nowrap">0 Hz</div>
-          <div className="freq-line-svg w-[20vw] h-[16px] mx-2 bg-no-repeat bg-contain bg-center bg-[url('../img/FreqlineBox.svg')]">
+        <div className="freq-level-svg flex-1 bg-no-repeat bg-center 2xl:ml-4 xl:ml-5 h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
+        <div className="freq-line flex items-center">
+          <div className="freq-line-text text-xs">0 Hz</div>
+          <div className="freq-line-svg w-[340px] h-[16px] mx-2 bg-no-repeat bg-contain bg-center bg-[url('../img/FreqlineBox.svg')]">
             {/* Scene for line frequency animation */}
             <Scene1 play={play} />
           </div>
-          <div className="freq-line-text text-xs whitespace-nowrap">432 Hz</div>
+          <div className="freq-line-text text-xs">432 Hz</div>
         </div>
-        <div className="freq-monitor flex w-[31vw]">
-          <div className="freq-monitor-svg bg-no-repeat bg-center pt-5 2xl:mr-4 xl:mr-5 2xl:w-[calc(31vw-90px)] w-[calc(31vw-120px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
-          <div className="freq-monitor-text text-xs">
-            <span className="opacity-[0.5]">MONITOR</span>
-            <span className="light ml-2 px-px py-px">ACTIVE</span>
-          </div>
+        <div className="freq-monitor-svg flex-1 bg-no-repeat bg-center 2xl:mr-4 xl:mr-5 h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
+        <div className="freq-monitor-text text-xs">
+          <span className="opacity-[0.5]">MONITOR</span>
+          <span className="light ml-2 px-px py-px">ACTIVE</span>
         </div>
       </div>
       {/* Center */}
