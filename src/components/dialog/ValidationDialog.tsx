@@ -2,15 +2,27 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { DialogCancelParam } from '../Subscription';
 
+export const STATUS_INVALIDATED = 'invalidated';
+export const STATUS_CREATED = 'created';
+
+const LINE1_TEXT: Record<string, string> = {
+  [STATUS_INVALIDATED]: 'Your email is not validated.',
+  [STATUS_CREATED]: 'Your email was created successfully.',
+};
+
 const NUMBER_OF_OTP_DIGIT = 6;
+
+type ValidationProps = {
+  email: string;
+  validationStatus: string;
+  onCancel: (params: DialogCancelParam) => void;
+};
 
 const ValidationDialog = ({
   email,
+  validationStatus,
   onCancel,
-}: {
-  email: string;
-  onCancel: (params: DialogCancelParam) => void;
-}) => {
+}: ValidationProps) => {
   const [isPending, setPending] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>('');
 
@@ -91,8 +103,8 @@ const ValidationDialog = ({
         <div className="flex flex-col gap-y-4">
           <p className="text-xl text-black font-bold">Validation</p>
           <div className="flex flex-col gap-y-0">
-            <p>We've just sent 6 digit otp to your email.</p>
-            <p>Please input otp to validate your email</p>
+            <p>{LINE1_TEXT[validationStatus]}</p>
+            <p>Please input OTP we sent to your email to validate.</p>
           </div>
         </div>
 
