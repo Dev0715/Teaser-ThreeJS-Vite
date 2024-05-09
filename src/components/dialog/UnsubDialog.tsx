@@ -164,6 +164,8 @@ const UnsubscribeDialog = ({
           </div>
         )}
 
+        {errMsg && <p className="text-red-500 text-sm">{errMsg}</p>}
+
         <div className="flex gap-x-8 self-center">
           <button
             disabled={isPending}
