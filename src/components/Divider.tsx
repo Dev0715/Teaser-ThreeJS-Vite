@@ -3,6 +3,7 @@ import React from 'react';
 export default function Divider(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      width="100%"
       height="6"
       viewBox="0 0 470 6"
       fill="none"
