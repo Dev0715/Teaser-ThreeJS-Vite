@@ -18,7 +18,7 @@ function PositionMarker() {
       {/* Left */}
       <div className="left-node absolute flex flex-row left-10 top-[48%] z-50">
         <div className="left-node-svg w-[30px] h-[30px] bg-no-repeat bg-center mr-5 bg-[url('../img/RightNode.png')]"></div>
-        <div className="left-node-text text-xs">
+        <div className="left-node-text text-sm">
           X:
           <br />
           {posX}
@@ -30,7 +30,7 @@ function PositionMarker() {
 
       {/* Right */}
       <div className="right-node absolute flex flex-row right-10 top-[48%] z-50">
-        <div className="right-node-text text-xs text-right">
+        <div className="right-node-text text-sm text-right">
           Y:
           <br />
           {posY}
