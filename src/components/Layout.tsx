@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+
+import Header from './Header';
 import Scene from './Scene';
-import Scene1 from './Scene1';
 import Scene2 from './Scene2';
 import PositionMarker from './PositionMarker';
 import FadeText from './FadeText';
@@ -22,28 +23,12 @@ function Layout({ play, onPlay }: LayoutProps) {
         {/* Main scene */}
         <Scene />
       </div>
-      <div className="header absolute max-w-full w-full top-[22px] px-[22px] flex items-center justify-between tracking-wider z-50 select-none whitespace-nowrap">
-        <div className="freq-level-text text-xs opacity-[0.5]">
-          FREQUENCY LEVEL
-        </div>
-        <div className="freq-level-svg flex-1 bg-no-repeat bg-center 2xl:ml-4 xl:ml-5 h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
-        <div className="freq-line flex items-center">
-          <div className="freq-line-text text-xs">0 Hz</div>
-          <div className="freq-line-svg w-[340px] h-[16px] mx-2 bg-no-repeat bg-contain bg-center bg-[url('../img/FreqlineBox.svg')]">
-            {/* Scene for line frequency animation */}
-            <Scene1 play={play} />
-          </div>
-          <div className="freq-line-text text-xs">432 Hz</div>
-        </div>
-        <div className="freq-monitor-svg flex-1 bg-no-repeat bg-center 2xl:mr-4 xl:mr-5 h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
-        <div className="freq-monitor-text text-xs">
-          <span className="opacity-[0.5]">MONITOR</span>
-          <span className="light ml-2 px-px py-px">ACTIVE</span>
-        </div>
-      </div>
+
+      {/* Header */}
+      <Header play={play} />
+
       {/* Center */}
       <FadeText />
-
       {/* Footer */}
       <div className="footer absolute max-w-full bottom-[22px] px-[22px] inset-x-0 flex flex-col justify-between items-center tracking-wider z-50">
         <div className="footer-receive flex justify-center w-full font-bold text-white text-xs tracking-widest select-none pointer-events-none">
@@ -120,7 +105,6 @@ function Layout({ play, onPlay }: LayoutProps) {
           </div>
         </div>
       </div>
-
       <PositionMarker />
     </>
   );
