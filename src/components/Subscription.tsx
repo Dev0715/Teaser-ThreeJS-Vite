@@ -34,12 +34,13 @@ function Subscription({ username, email }: SubscriptionProps) {
 
   const handleResponse = (response: AxiosResponse<any, any>) => {
     const data = response.data;
-    console.log(data);
     if (data.error) {
       setErrMsg(data.error);
-      return;
-    } else if (data.existingSubscriber) {
-      setUnsub(true);
+    } else if (data.existing) {
+      setUnsubDlg(true);
+    } else if (data.unvalidated) {
+    } else if (data.created) {
+      setValidationDlg(true);
     }
   };
 
