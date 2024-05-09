@@ -23,24 +23,25 @@ function Layout({ play, onPlay }: LayoutProps) {
         <Scene />
       </div>
       <div className="header absolute max-w-full w-full top-[22px] px-[22px] flex justify-between tracking-wider z-50 select-none">
-        <div className="freq-level flex flex-row w-[31vw]">
-          <div className="freq-level-text text-[13px] opacity-[0.5] w-[160px]">
+        <div className="freq-level flex items-center">
+          <div className="freq-level-text text-xs opacity-[0.5]">
             FREQUENCY LEVEL
           </div>
-          <div className="freq-level-svg bg-no-repeat bg-center pt-5 2xl:ml-4 xl:ml-5 2xl:w-[calc(31vw-90px)] w-[calc(31vw-160px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
+          <div className="freq-level-svg bg-no-repeat bg-center pt-5 2xl:ml-4 xl:ml-5 2xl:w-[calc(31vw-90px)] w-[calc(31vw-120px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
         </div>
-        <div className="freq-line flex flex-row w-[34vw] ml-5 2xl:ml-12 xl:ml-9">
-          <div className="freq-line-svg mr-1 w-[28vw] h-[16px] bg-no-repeat bg-contain bg-center bg-[url('../img/FreqlineBox.svg')]">
+        <div className="freq-line flex">
+          <div className="freq-line-text text-xs whitespace-nowrap">0 Hz</div>
+          <div className="freq-line-svg w-[20vw] h-[16px] mx-2 bg-no-repeat bg-contain bg-center bg-[url('../img/FreqlineBox.svg')]">
             {/* Scene for line frequency animation */}
             <Scene1 play={play} />
           </div>
-          <div className="freq-line-text text-[13px] 2xl:ml-0 ml-1">432 Hz</div>
+          <div className="freq-line-text text-xs whitespace-nowrap">432 Hz</div>
         </div>
-        <div className="freq-monitor flex flex-row w-[31vw]">
-          <div className="freq-monitor-svg bg-no-repeat bg-center pt-5 2xl:mr-4 xl:mr-5 2xl:w-[calc(31vw-90px)] w-[calc(31vw-160px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
-          <div className="freq-monitor-text text-[13px] w-[160px]">
+        <div className="freq-monitor flex w-[31vw]">
+          <div className="freq-monitor-svg bg-no-repeat bg-center pt-5 2xl:mr-4 xl:mr-5 2xl:w-[calc(31vw-90px)] w-[calc(31vw-120px)] h-[4px] bg-contain bg-[url('../img/Nodebarsm.svg')]"></div>
+          <div className="freq-monitor-text text-xs">
             <span className="opacity-[0.5]">MONITOR</span>
-            <span className="light ml-1 px-1 py-0.5">ACTIVE</span>
+            <span className="light ml-2 px-px py-px">ACTIVE</span>
           </div>
         </div>
       </div>
@@ -49,7 +50,7 @@ function Layout({ play, onPlay }: LayoutProps) {
 
       {/* Footer */}
       <div className="footer absolute max-w-full bottom-[22px] px-[22px] inset-x-0 flex flex-col justify-between items-center tracking-wider z-50">
-        <div className="footer-receive flex justify-center w-full font-bold text-white text-[13px] tracking-widest select-none pointer-events-none">
+        <div className="footer-receive flex justify-center w-full font-bold text-white text-xs tracking-widest select-none pointer-events-none">
           RECEIVE FUTURE TRANSMISSIONS
         </div>
         <div className="footer-userdata">

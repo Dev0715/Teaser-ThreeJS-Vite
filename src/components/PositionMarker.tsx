@@ -1,11 +1,11 @@
 import { useMouse, useWindowSize } from '@uidotdev/usehooks';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 function PositionMarker() {
   const [position] = useMouse();
   const { width, height } = useWindowSize();
 
-  const [posX, posY] = useMemo(
+  const [posX, posY] = React.useMemo(
     () => [
       Math.round(position.x - (width || 0) / 2),
       Math.round((height || 0) / 2 - position.y),
