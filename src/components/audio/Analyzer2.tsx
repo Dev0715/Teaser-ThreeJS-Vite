@@ -18,7 +18,7 @@ function Track({
   y = 2500,
   space = 3.6,
   width = 0.01,
-  height = 0.1,
+  height = 0.06,
   obj = new THREE.Object3D(),
   obj2 = new THREE.Object3D(),
   ...props
