@@ -16,8 +16,8 @@ const Analyzer2 = () => {
 function Track({
   url,
   y = 2500,
-  space = 1.5,
-  width = 0.03,
+  space = 3.6,
+  width = 0.01,
   height = 0.1,
   obj = new THREE.Object3D(),
   obj2 = new THREE.Object3D(),
@@ -92,7 +92,7 @@ function Track({
     <group>
       <instancedMesh
         ref={backgroundRef}
-        position={[46, -9, 0]}
+        position={[36, -9, 0]}
         scale={[120, 55, 70]}
         castShadow
         args={[undefined, undefined, data.length]}
@@ -103,7 +103,7 @@ function Track({
       </instancedMesh>
       <instancedMesh
         ref={barsRef}
-        position={[46, -9, 0]}
+        position={[36, -9, 0]}
         scale={[120, 55, 70]}
         castShadow
         args={[undefined, undefined, data.length]}

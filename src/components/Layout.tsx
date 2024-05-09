@@ -30,6 +30,7 @@ function Layout({ play, onPlay }: LayoutProps) {
 
       {/* Center */}
       <FadeText />
+
       {/* Footer */}
       <div className="footer absolute max-w-full bottom-[22px] px-[22px] inset-x-0 flex flex-col justify-between items-center tracking-wider z-50">
         <div className="footer-receive flex justify-center w-full font-bold text-white text-xs tracking-widest select-none pointer-events-none">
@@ -68,7 +69,7 @@ function Layout({ play, onPlay }: LayoutProps) {
           </div>
         </div>
         <div className="footer-bottom w-full mt-4 grid grid-cols-[auto_1fr_auto_1fr_auto] items-center">
-          <div className="footer-left flex w-[170px]">
+          <div className="footer-left flex w-[160px]">
             <div className="footer-left-text text-xs">
               <span className="mr-3 pointer-events-none">AUDITORY</span>
               <span
@@ -98,7 +99,7 @@ function Layout({ play, onPlay }: LayoutProps) {
 
           <Divider className="footer-left-svg ml-4" />
 
-          <div className="footer-right-svg1 z-50 select-none w-[170px] h-[19px] bg-chartBack">
+          <div className="footer-right-svg1 z-50 select-none w-[160px] h-[19px] px-2 bg-chartBack">
             {/* Scene for bars frequency animation */}
             <Scene2 play={play} />
           </div>
