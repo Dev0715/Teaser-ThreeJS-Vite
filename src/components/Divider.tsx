@@ -3,8 +3,6 @@ import React from 'react';
 export default function Divider(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      width="100%"
-      height="6"
       viewBox="0 0 470 6"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +20,7 @@ export default function Divider(props: React.SVGProps<SVGSVGElement>) {
         <path
           d="M3.5 2.77008H465.74"
           stroke="white"
-          stroke-width="0.3"
+          strokeWidth="0.3"
           strokeMiterlimit="10"
         />
       </g>

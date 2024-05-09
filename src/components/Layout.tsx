@@ -93,11 +93,11 @@ function Layout({ play, onPlay }: LayoutProps) {
             </div>
           </div>
 
-          <Divider className="footer-left-svg mr-4" />
+          <Divider className="footer-left-svg mr-4 ml-2" />
 
           <Subscription username={username} email={email} />
 
-          <Divider className="footer-left-svg ml-4" />
+          <Divider className="footer-left-svg ml-4 mr-2" />
 
           <div className="footer-right-svg1 z-50 select-none w-[160px] h-[19px] px-2 bg-input">
             {/* Scene for bars frequency animation */}
