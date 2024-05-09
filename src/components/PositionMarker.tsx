@@ -6,7 +6,10 @@ function PositionMarker() {
   const { width, height } = useWindowSize();
 
   const [posX, posY] = useMemo(
-    () => [position.x - (width || 0) / 2, (height || 0) / 2 - position.y],
+    () => [
+      Math.round(position.x - (width || 0) / 2),
+      Math.round((height || 0) / 2 - position.y),
+    ],
     [position, width, height],
   );
 
