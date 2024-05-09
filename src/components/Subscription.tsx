@@ -19,7 +19,7 @@ function Subscription({ username, email }: SubscriptionProps) {
   const [errMsg, setErrMsg] = useState<string>('');
   const [isPending, setPending] = useState<boolean>(false);
   const [isUnsubDlg, setUnsubDlg] = useState<boolean>(false);
-  const [isValidationDlg, setValidationDlg] = useState<boolean>(true);
+  const [isValidationDlg, setValidationDlg] = useState<boolean>(false);
 
   const checkFormData = () => {
     if (username.split(' ').length !== 2) {
