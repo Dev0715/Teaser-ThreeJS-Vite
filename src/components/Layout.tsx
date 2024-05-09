@@ -99,7 +99,7 @@ function Layout({ play, onPlay }: LayoutProps) {
 
           <Divider className="footer-left-svg ml-4" />
 
-          <div className="footer-right-svg1 z-50 select-none w-[160px] h-[19px] px-2 bg-chartBack">
+          <div className="footer-right-svg1 z-50 select-none w-[160px] h-[19px] px-2 bg-input">
             {/* Scene for bars frequency animation */}
             <Scene2 play={play} />
           </div>
