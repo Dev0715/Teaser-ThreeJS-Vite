@@ -37,6 +37,7 @@ const UnsubscribeDialog = ({
 }) => {
   const [isPending, setPending] = useState<boolean>(false);
   const [step, setStep] = useState<string>(STEP_UNSUBSCRIBE);
+  const [errMsg, setErrMsg] = useState<string>('');
 
   const [otp, setOtp] = useState<string[]>(
     new Array(NUMBER_OF_OTP_DIGIT).fill(''),
@@ -106,7 +107,17 @@ const UnsubscribeDialog = ({
         subscriberEmail: email,
         otp: otp_str,
       })
-      .then((res) => {})
+      .then((res) => {
+        const data = res.data;
+        if (data.error) {
+          setErrMsg(data.error);
+        } else if (data.removed) {
+          onCancel({
+            success: 'Unsubscribed successfully!',
+          });
+        }
+        setPending(false);
+      })
       .catch((error) => {
         console.error(error);
         onCancel({
