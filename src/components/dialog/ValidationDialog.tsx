@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { DialogCancelParam } from '../Subscription';
+import OtpInput, { NUMBER_OF_OTP_DIGIT } from '../OtpInput';
 
 export const STATUS_INVALIDATED = 'invalidated';
 export const STATUS_CREATED = 'created';
@@ -9,8 +10,6 @@ const LINE1_TEXT: Record<string, string> = {
   [STATUS_INVALIDATED]: 'Your email is not validated.',
   [STATUS_CREATED]: 'Your email was created successfully.',
 };
-
-const NUMBER_OF_OTP_DIGIT = 6;
 
 type ValidationProps = {
   email: string;
@@ -29,35 +28,11 @@ const ValidationDialog = ({
   const [otp, setOtp] = useState<string[]>(
     new Array(NUMBER_OF_OTP_DIGIT).fill(''),
   );
-  const optRef = useRef(new Array(NUMBER_OF_OTP_DIGIT).fill(HTMLInputElement));
 
-  function handleChange(value: string, index: number) {
-    let newArr = [...otp];
-    newArr[index] = value;
-    setOtp(newArr);
-
-    if (value && index < NUMBER_OF_OTP_DIGIT - 1) {
-      optRef.current[index + 1].focus();
-    }
-
+  const onOtpChanged = (otp: string[]) => {
+    setOtp(otp);
     setErrMsg('');
-  }
-
-  function handleBackspaceAndEnter(
-    e: React.KeyboardEvent<HTMLInputElement>,
-    index: number,
-  ) {
-    if (e.key === 'Backspace' && !e.currentTarget.value && index > 0) {
-      optRef.current[index - 1].focus();
-    }
-    if (
-      e.key === 'Enter' &&
-      e.currentTarget.value &&
-      index < NUMBER_OF_OTP_DIGIT - 1
-    ) {
-      optRef.current[index + 1].focus();
-    }
-  }
+  };
 
   const confirmOtp = () => {
     const base_url = import.meta.env.VITE_MAILMANJS_API_URL as string;
@@ -108,19 +83,7 @@ const ValidationDialog = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-x-4">
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              value={digit}
-              maxLength={1}
-              className={`border w-12 h-auto text-black p-3 rounded-md block bg-white focus:border-2 focus:outline-none appearance-none`}
-              onChange={(e) => handleChange(e.target.value, index)}
-              onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
-              ref={(reference) => (optRef.current[index] = reference)}
-            />
-          ))}
-        </div>
+        <OtpInput otp={otp} valueChanged={onOtpChanged} />
 
         {errMsg && <p className="text-red-500 text-sm">{errMsg}</p>}
 
